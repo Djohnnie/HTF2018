@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HTF2018.Backend.ChallengeEngine</name>
+    </assembly>
+    <members>
+        <member name="T:HTF2018.Backend.ChallengeEngine.Challenges.Challenge01">
+            <summary>
+            CHALLENGE 01:
+              Identify yourself.
+            </summary>
+        </member>
+        <member name="T:HTF2018.Backend.ChallengeEngine.Challenges.Challenge02">
+            <summary>
+            CHALLENGE 02:
+              Calculate the sum of all given integer values.
+            </summary>
+        </member>
+    </members>
+</doc>

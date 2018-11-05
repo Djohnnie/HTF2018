@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\_-_HTF2018_-_\Backend\HTF2018.Backend\HTF2018.Backend.Api\HTF2018.Backend.Api.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\_-_HTF2018_-_\Backend\HTF2018.Backend\HTF2018.Backend.Api\HTF2018.Backend.Api.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HTF2018.Backend.ChallengeEngine\HTF2018.Backend.ChallengeEngine.csproj" />
+    <ProjectReference Include="..\HTF2018.Backend.Common\HTF2018.Backend.Common.csproj" />
+    <ProjectReference Include="..\HTF2018.Backend.DataAccess\HTF2018.Backend.DataAccess.csproj" />
+    <ProjectReference Include="..\HTF2018.Backend.Logic\HTF2018.Backend.Logic.csproj" />
+  </ItemGroup>
+
+</Project>

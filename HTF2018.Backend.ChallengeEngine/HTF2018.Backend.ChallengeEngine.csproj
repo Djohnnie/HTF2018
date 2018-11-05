@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\_-_HTF2018_-_\Backend\HTF2018.Backend\HTF2018.Backend.ChallengeEngine\HTF2018.Backend.ChallengeEngine.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\_-_HTF2018_-_\Backend\HTF2018.Backend\HTF2018.Backend.ChallengeEngine\HTF2018.Backend.ChallengeEngine.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HTF2018.Backend.Common\HTF2018.Backend.Common.csproj" />
+  </ItemGroup>
+
+</Project>
