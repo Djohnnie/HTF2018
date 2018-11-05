@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HTF2018.Backend.ChallengeEngine\HTF2018.Backend.ChallengeEngine.csproj" />
     <ProjectReference Include="..\HTF2018.Backend.Common\HTF2018.Backend.Common.csproj" />
     <ProjectReference Include="..\HTF2018.Backend.DataAccess\HTF2018.Backend.DataAccess.csproj" />
     <ProjectReference Include="..\HTF2018.Backend.Logic\HTF2018.Backend.Logic.csproj" />

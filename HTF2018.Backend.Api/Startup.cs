@@ -1,6 +1,9 @@
 ﻿using HTF2018.Backend.Api.Middleware;
+using HTF2018.Backend.Api.Swagger;
 using HTF2018.Backend.Common;
+using HTF2018.Backend.DataAccess;
 using HTF2018.Backend.Logic;
+using HTF2018.Backend.Logic.Challenges;
 using HTF2018.Backend.Logic.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
-using HTF2018.Backend.ChallengeEngine;
 
 namespace HTF2018.Backend.Api
 {
@@ -25,8 +27,11 @@ namespace HTF2018.Backend.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<TheArtifactDbContext>();
             services.AddTransient<IChallengeLogic, ChallengeLogic>();
-            services.AddTransient<IChallengeEngine, ChallengeEngine.ChallengeEngine>();
+            services.AddTransient<ITeamLogic, TeamLogic>();
+            services.AddTransient<IChallengeEngine, ChallengeEngine>();
+            services.AddTransient<Challenge01>();
             services.AddScoped<IHtfContext, HtfContext>();
 
             services.AddMvc()
@@ -60,6 +65,7 @@ namespace HTF2018.Backend.Api
                     },
                     TermsOfService = "TermsOfService"
                 });
+                c.OperationFilter<IdentificationOperationFilter>();
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile1));
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile2));
             });
@@ -73,6 +79,7 @@ namespace HTF2018.Backend.Api
             }
 
             app.UseMiddleware<RequestUriMiddleware>();
+            app.UseMiddleware<ThrottlingMiddleware>();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

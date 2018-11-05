@@ -12,4 +12,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HTF2018.Backend.Common\HTF2018.Backend.Common.csproj" />
+  </ItemGroup>
+
 </Project>

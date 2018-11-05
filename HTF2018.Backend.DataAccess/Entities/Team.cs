@@ -7,6 +7,7 @@ namespace HTF2018.Backend.DataAccess.Entities
         public Guid Id { get; set; }
         public Int32 SysId { get; set; }
         public String Name { get; set; }
-        public String PasswordHash { get; set; }
+        public String HashedSecret { get; set; }
+        public String Identification { get; set; }
     }
 }

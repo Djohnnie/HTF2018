@@ -1,14 +1,13 @@
-﻿using System;
-using HTF2018.Backend.ChallengeEngine.Model;
-
-namespace HTF2018.Backend.Logic.Interfaces
+﻿namespace HTF2018.Backend.Logic.Interfaces
 {
     public interface IChallengeLogic
     {
-        Challenge GetFirstChallenge();
+        //Challenge GetFirstChallenge();
 
-        Challenge GetSubsequentChallenge(String challengeCode);
+        //Response ValidateFirstChallenge(Answer answer);
 
-        Response ValidateChallenge(Answer answer);
+        //Challenge GetSubsequentChallenge(String challengeCode);
+
+        //Response ValidateSubsequentChallenge(Answer answer);
     }
 }

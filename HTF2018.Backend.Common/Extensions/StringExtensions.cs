@@ -1,0 +1,23 @@
+﻿using System;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace HTF2018.Backend.Common.Extensions
+{
+    public static class StringExtensions
+    {
+        public static String Base64Encode(this String input)
+        {
+            Byte[] bytesToEncode = Encoding.UTF8.GetBytes(input);
+            return Convert.ToBase64String(bytesToEncode);
+        }
+
+        public static String Md5Hash(this String input)
+        {
+            MD5 md5 = MD5.Create();
+            Byte[] bytesToHash = Encoding.UTF8.GetBytes(input);
+            Byte[] hashedBytes = md5.ComputeHash(bytesToHash);
+            return BitConverter.ToString(hashedBytes).Replace("-", "");
+        }
+    }
+}

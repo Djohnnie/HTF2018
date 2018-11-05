@@ -1,4 +1,5 @@
-﻿using HTF2018.Backend.ChallengeEngine.Model;
+﻿using HTF2018.Backend.Api.Attributes;
+using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,11 +10,11 @@ namespace HTF2018.Backend.Api.Controllers
     [ApiController]
     public class ChallengesController : ControllerBase
     {
-        private readonly IChallengeLogic _challengeLogic;
+        private readonly IChallengeEngine _challengeEngine;
 
-        public ChallengesController(IChallengeLogic challengeLogic)
+        public ChallengesController(IChallengeEngine challengeEngine)
         {
-            _challengeLogic = challengeLogic;
+            _challengeEngine = challengeEngine;
         }
 
         /// <summary>
@@ -23,21 +24,30 @@ namespace HTF2018.Backend.Api.Controllers
         [HttpGet]
         public IActionResult GetFirstChallenge()
         {
-            Challenge challenge = _challengeLogic.GetFirstChallenge();
-            return Ok(challenge);
-        }
-
-        [HttpGet, Route("{challengeCode}")]
-        public IActionResult GetSubsequentChallenge(String challengeCode)
-        {
-            Challenge challenge = _challengeLogic.GetSubsequentChallenge(challengeCode);
+            Challenge challenge = _challengeEngine.GetChallenge(Identifier.Challenge01);
             return Ok(challenge);
         }
 
         [HttpPost]
-        public IActionResult PostChallengeSolution(Answer answer)
+        public IActionResult PostFirstChallengeSolution(Answer answer)
         {
-            Response response = _challengeLogic.ValidateChallenge(answer);
+            Response response = _challengeEngine.ValidateChallenge(answer);
+            return Ok(response);
+        }
+
+        [HttpGet, Route("{challengeCode}")]
+        [HtfIdentification]
+        public IActionResult GetSubsequentChallenge(String challengeCode)
+        {
+            Challenge challenge = _challengeEngine.GetChallenge(challengeCode);
+            return Ok(challenge);
+        }
+
+        [HttpPost, Route("{challengeCode}")]
+        [HtfIdentification]
+        public IActionResult PostSubsequentChallengeSolution(String challengeCode, Answer answer)
+        {
+            Response response = _challengeEngine.ValidateChallenge(answer);
             return Ok(response);
         }
     }

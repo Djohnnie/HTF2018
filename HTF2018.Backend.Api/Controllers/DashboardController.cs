@@ -6,5 +6,6 @@ namespace HTF2018.Backend.Api.Controllers
     [ApiController]
     public class DashboardController : ControllerBase
     {
+
     }
 }

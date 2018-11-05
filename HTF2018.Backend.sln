@@ -5,13 +5,11 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HTF2018.Backend.Api", "HTF2018.Backend.Api\HTF2018.Backend.Api.csproj", "{4E244C5F-5A52-4A20-A73C-0A8CDCB6D4AE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HTF2018.Backend.ChallengeEngine", "HTF2018.Backend.ChallengeEngine\HTF2018.Backend.ChallengeEngine.csproj", "{B587156D-FA98-48DB-9067-6BDDB2573A2D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HTF2018.Backend.DataAccess", "HTF2018.Backend.DataAccess\HTF2018.Backend.DataAccess.csproj", "{4462266D-867A-4B17-9B0E-0CE033EB70B5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HTF2018.Backend.Logic", "HTF2018.Backend.Logic\HTF2018.Backend.Logic.csproj", "{C5E9F3D5-EFCA-4152-B537-37F20A84E4D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTF2018.Backend.Common", "HTF2018.Backend.Common\HTF2018.Backend.Common.csproj", "{980A83B4-1575-4944-8D23-3D07096DF98A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HTF2018.Backend.Common", "HTF2018.Backend.Common\HTF2018.Backend.Common.csproj", "{980A83B4-1575-4944-8D23-3D07096DF98A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{4E244C5F-5A52-4A20-A73C-0A8CDCB6D4AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E244C5F-5A52-4A20-A73C-0A8CDCB6D4AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E244C5F-5A52-4A20-A73C-0A8CDCB6D4AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B587156D-FA98-48DB-9067-6BDDB2573A2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B587156D-FA98-48DB-9067-6BDDB2573A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B587156D-FA98-48DB-9067-6BDDB2573A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B587156D-FA98-48DB-9067-6BDDB2573A2D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4462266D-867A-4B17-9B0E-0CE033EB70B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4462266D-867A-4B17-9B0E-0CE033EB70B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4462266D-867A-4B17-9B0E-0CE033EB70B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
