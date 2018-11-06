@@ -1,13 +1,12 @@
-﻿namespace HTF2018.Backend.Logic.Interfaces
+﻿using HTF2018.Backend.Common.Model;
+using System;
+using System.Threading.Tasks;
+using Challenge = HTF2018.Backend.DataAccess.Entities.Challenge;
+
+namespace HTF2018.Backend.Logic.Interfaces
 {
     public interface IChallengeLogic
     {
-        //Challenge GetFirstChallenge();
-
-        //Response ValidateFirstChallenge(Answer answer);
-
-        //Challenge GetSubsequentChallenge(String challengeCode);
-
-        //Response ValidateSubsequentChallenge(Answer answer);
+        Task<Challenge> CreateChallenge(Guid challengeId, Identifier identifier);
     }
 }

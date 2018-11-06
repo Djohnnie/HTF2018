@@ -31,8 +31,27 @@ namespace HTF2018.Backend.Api
             services.AddTransient<IChallengeLogic, ChallengeLogic>();
             services.AddTransient<ITeamLogic, TeamLogic>();
             services.AddTransient<IChallengeEngine, ChallengeEngine>();
-            services.AddTransient<Challenge01>();
             services.AddScoped<IHtfContext, HtfContext>();
+            services.AddTransient<IChallenge01, Challenge01>();
+            services.AddTransient<IChallenge02, Challenge02>();
+            services.AddTransient<IChallenge03, Challenge03>();
+            services.AddTransient<IChallenge04, Challenge04>();
+            services.AddTransient<IChallenge05, Challenge05>();
+            services.AddTransient<IChallenge06, Challenge06>();
+            services.AddTransient<IChallenge07, Challenge07>();
+            services.AddTransient<IChallenge08, Challenge08>();
+            services.AddTransient<IChallenge09, Challenge09>();
+            services.AddTransient<IChallenge10, Challenge10>();
+            services.AddTransient<IChallenge11, Challenge11>();
+            services.AddTransient<IChallenge12, Challenge12>();
+            services.AddTransient<IChallenge13, Challenge13>();
+            services.AddTransient<IChallenge14, Challenge14>();
+            services.AddTransient<IChallenge15, Challenge15>();
+            services.AddTransient<IChallenge16, Challenge16>();
+            services.AddTransient<IChallenge17, Challenge17>();
+            services.AddTransient<IChallenge18, Challenge18>();
+            services.AddTransient<IChallenge19, Challenge19>();
+            services.AddTransient<IChallenge20, Challenge20>();
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
@@ -43,7 +62,7 @@ namespace HTF2018.Backend.Api
                 });
 
             String xmlFile1 = "HTF2018.Backend.Api.XML";
-            String xmlFile2 = "HTF2018.Backend.ChallengeEngine.XML";
+            String xmlFile2 = "HTF2018.Backend.Common.XML";
 
             services.AddSwaggerGen(c =>
             {
@@ -78,8 +97,10 @@ namespace HTF2018.Backend.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMiddleware<RequestUriMiddleware>();
+            app.UseMiddleware<IdentificationMiddleware>();
             app.UseMiddleware<ThrottlingMiddleware>();
+            app.UseMiddleware<RequestUriMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

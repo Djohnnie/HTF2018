@@ -1,9 +1,38 @@
-﻿using HTF2018.Backend.Logic.Interfaces;
+﻿using HTF2018.Backend.Common.Model;
+using HTF2018.Backend.DataAccess;
+using HTF2018.Backend.Logic.Interfaces;
+using System;
+using System.Threading.Tasks;
+using Challenge = HTF2018.Backend.DataAccess.Entities.Challenge;
 
 namespace HTF2018.Backend.Logic
 {
     public class ChallengeLogic : IChallengeLogic
     {
+        private readonly TheArtifactDbContext _dbContext;
+
+        public ChallengeLogic(TheArtifactDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public async Task<Challenge> CreateChallenge(Guid challengeId, Identifier identifier)
+        {
+            Challenge challenge = new Challenge
+            {
+                Id = challengeId,
+                Identifier = identifier,
+                Team = null,
+                Question = null,
+                Answer = null
+            };
+            await _dbContext.Challenges.AddAsync(challenge);
+            await _dbContext.SaveChangesAsync();
+            return challenge;
+        }
+
+
+
         //private readonly ITeamLogic _teamLogic;
         //private readonly IChallengeEngine _challengeEngine;
 

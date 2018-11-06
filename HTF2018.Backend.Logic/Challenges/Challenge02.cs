@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using HTF2018.Backend.Common;
+﻿using HTF2018.Backend.Common;
 using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Logic.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
@@ -10,11 +11,11 @@ namespace HTF2018.Backend.Logic.Challenges
     /// CHALLENGE 02:
     ///   Calculate the sum of all given integer values.
     /// </summary>
-    public class Challenge02 : IChallenge
+    public class Challenge02 : IChallenge02
     {
-        public Challenge GetChallenge()
+        public Task<Challenge> GetChallenge()
         {
-            return new Challenge
+            return Task.FromResult(new Challenge
             {
                 Id = Guid.NewGuid(),
                 Identifier = Identifier.Challenge01,
@@ -22,10 +23,10 @@ namespace HTF2018.Backend.Logic.Challenges
                 Description = "Calculate the sum of all given integers",
                 Question = BuildQuestion(),
                 Example = BuildExample()
-            };
+            });
         }
 
-        public Response ValidateChallenge(Answer answer, IHtfContext context)
+        public Task<Response> ValidateChallenge(Answer answer, IHtfContext context)
         {
             throw new NotImplementedException();
         }

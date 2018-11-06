@@ -4,7 +4,10 @@ using HTF2018.Backend.DataAccess.Entities;
 using HTF2018.Backend.Logic.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using TeamModel = HTF2018.Backend.Common.Model.Team;
 
 namespace HTF2018.Backend.Logic
 {
@@ -15,6 +18,12 @@ namespace HTF2018.Backend.Logic
         public TeamLogic(TheArtifactDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public Task<List<TeamModel>> GetAllTeams()
+        {
+            return _dbContext.Teams.OrderBy(x => x.Name)
+                .Select(x => new TeamModel { Id = x.Id, Name = x.Name }).ToListAsync();
         }
 
         public Task<Team> FindTeamByName(string name)

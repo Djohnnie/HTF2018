@@ -4,14 +4,16 @@ using HTF2018.Backend.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HTF2018.Backend.DataAccess.Migrations
 {
     [DbContext(typeof(TheArtifactDbContext))]
-    partial class TheArtifactDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181106122515_Changes_To_Team")]
+    partial class Changes_To_Team
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,10 +31,6 @@ namespace HTF2018.Backend.DataAccess.Migrations
                     b.Property<int>("Identifier");
 
                     b.Property<string>("Question");
-
-                    b.Property<DateTime?>("SolvedOn");
-
-                    b.Property<int>("Status");
 
                     b.Property<int>("SysId")
                         .ValueGeneratedOnAdd()

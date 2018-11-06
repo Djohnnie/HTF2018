@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\_-_HTF2018_-_\Backend\HTF2018.Backend\HTF2018.Backend.Api\HTF2018.Backend.Api.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\jhooyberghs\Source\Repos\HTF2018\HTF2018.Backend.Api\HTF2018.Backend.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\_-_HTF2018_-_\Backend\HTF2018.Backend\HTF2018.Backend.Api\HTF2018.Backend.Api.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\jhooyberghs\Source\Repos\HTF2018\HTF2018.Backend.Api\HTF2018.Backend.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

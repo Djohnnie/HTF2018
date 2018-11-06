@@ -8,8 +8,27 @@ namespace HTF2018.Backend.Common.Extensions
     {
         public static String Base64Encode(this String input)
         {
-            Byte[] bytesToEncode = Encoding.UTF8.GetBytes(input);
-            return Convert.ToBase64String(bytesToEncode);
+            try
+            {
+                Byte[] bytesToEncode = Encoding.UTF8.GetBytes(input);
+                return Convert.ToBase64String(bytesToEncode);
+            }
+            catch
+            {
+                return input;
+            }
+        }
+        public static String Base64Decode(this String input)
+        {
+            try
+            {
+                Byte[] decodedBytes = Convert.FromBase64String(input);
+                return Encoding.UTF8.GetString(decodedBytes);
+            }
+            catch
+            {
+                return input;
+            }
         }
 
         public static String Md5Hash(this String input)
@@ -17,7 +36,7 @@ namespace HTF2018.Backend.Common.Extensions
             MD5 md5 = MD5.Create();
             Byte[] bytesToHash = Encoding.UTF8.GetBytes(input);
             Byte[] hashedBytes = md5.ComputeHash(bytesToHash);
-            return BitConverter.ToString(hashedBytes).Replace("-", "");
+            return BitConverter.ToString(hashedBytes).Replace("-", "").ToLowerInvariant();
         }
     }
 }
