@@ -9,5 +9,6 @@ namespace HTF2018.Backend.Logic.Interfaces
     {
         Task<Challenge> GetChallengeById(Guid challengeId);
         Task<Challenge> CreateChallenge(Guid challengeId, Identifier identifier);
+        Task<Challenge> SolveChallenge(Guid challengeId, Guid teamId);
     }
 }

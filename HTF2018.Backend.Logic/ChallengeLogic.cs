@@ -37,6 +37,16 @@ namespace HTF2018.Backend.Logic
             return challenge;
         }
 
+        public async Task<Challenge> SolveChallenge(Guid challengeId, Guid teamId)
+        {
+            var challenge = await _dbContext.Challenges.SingleOrDefaultAsync(x => x.Id == challengeId);
+            challenge.Team = await _dbContext.Teams.SingleOrDefaultAsync(x => x.Id == teamId);
+            challenge.SolvedOn = DateTime.UtcNow;
+            challenge.Status = Status.Successful;
+            await _dbContext.SaveChangesAsync();
+            return challenge;
+        }
+
 
 
         //private readonly ITeamLogic _teamLogic;

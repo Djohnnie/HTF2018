@@ -62,7 +62,7 @@ namespace HTF2018.Backend.Logic
                 throw new AnswerToUnknownChallengeException();
             }
             IChallenge challenge = _challengeLibrary[storedChallenge.Identifier];
-            return await challenge.ValidateChallenge(answer, _context);
+            return await challenge.ValidateChallenge(answer);
         }
 
         private Identifier GetChallengeIdentifierForChallengeCode(String challengeCode)

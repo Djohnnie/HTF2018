@@ -29,6 +29,16 @@ namespace HTF2018.Backend.Api.Middleware
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync("Your answer is submitted for a non-existing challenge!");
             }
+            catch (InvalidAnswerException)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync("Your submitted answer has an invalid markup!");
+            }
+            catch (InvalidTeamException)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync("Your team already exists, but you have provided the wrong secret!");
+            }
         }
     }
 }

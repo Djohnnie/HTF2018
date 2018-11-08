@@ -33,6 +33,8 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected abstract Example BuildExample(Guid challengeId);
 
+        protected abstract void ValidateAnswer(Answer answer);
+
         protected Overview BuildOverview()
         {
             return new Overview

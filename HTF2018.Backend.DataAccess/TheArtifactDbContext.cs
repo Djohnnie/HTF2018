@@ -12,7 +12,7 @@ namespace HTF2018.Backend.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.\SQLDEV;Initial Catalog=htf2018;Persist Security Info=False;Trusted_Connection=True;Connection Timeout=30;");
+            optionsBuilder.UseSqlServer(@"Server=my.djohnnie.be;Database=htf2018;User Id=sa;Password=Gadash2510383211;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

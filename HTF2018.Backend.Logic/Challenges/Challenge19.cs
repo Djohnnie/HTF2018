@@ -13,7 +13,7 @@ namespace HTF2018.Backend.Logic.Challenges
             throw new NotImplementedException();
         }
 
-        public Task<Response> ValidateChallenge(Answer answer, IHtfContext context)
+        public Task<Response> ValidateChallenge(Answer answer)
         {
             throw new NotImplementedException();
         }

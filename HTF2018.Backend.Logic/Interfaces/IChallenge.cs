@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using HTF2018.Backend.Common;
 using HTF2018.Backend.Common.Model;
 
 namespace HTF2018.Backend.Logic.Interfaces
@@ -8,7 +7,7 @@ namespace HTF2018.Backend.Logic.Interfaces
     {
         Task<Challenge> GetChallenge();
 
-        Task<Response> ValidateChallenge(Answer answer, IHtfContext context);
+        Task<Response> ValidateChallenge(Answer answer);
     }
 
     public interface IChallenge01 : IChallenge { }
