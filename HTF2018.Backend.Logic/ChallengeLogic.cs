@@ -1,6 +1,7 @@
 ﻿using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.DataAccess;
 using HTF2018.Backend.Logic.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 using Challenge = HTF2018.Backend.DataAccess.Entities.Challenge;
@@ -14,6 +15,11 @@ namespace HTF2018.Backend.Logic
         public ChallengeLogic(TheArtifactDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public Task<Challenge> GetChallengeById(Guid challengeId)
+        {
+            return _dbContext.Challenges.SingleOrDefaultAsync(x => x.Id == challengeId);
         }
 
         public async Task<Challenge> CreateChallenge(Guid challengeId, Identifier identifier)

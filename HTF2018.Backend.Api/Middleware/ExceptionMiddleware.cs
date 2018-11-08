@@ -24,6 +24,11 @@ namespace HTF2018.Backend.Api.Middleware
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync("Your request does not map to a known Artifact challenge!");
             }
+            catch (AnswerToUnknownChallengeException)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync("Your answer is submitted for a non-existing challenge!");
+            }
         }
     }
 }

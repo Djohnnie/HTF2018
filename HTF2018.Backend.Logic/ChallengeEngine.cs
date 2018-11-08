@@ -54,10 +54,15 @@ namespace HTF2018.Backend.Logic
             return challenge.GetChallenge();
         }
 
-        public Task<Response> ValidateChallenge(Answer answer)
+        public async Task<Response> ValidateChallenge(Answer answer)
         {
-            IChallenge challenge = _challengeLibrary[Identifier.Challenge01];
-            return challenge.ValidateChallenge(answer, _context);
+            var storedChallenge = await _challengeLogic.GetChallengeById(answer.ChallengeId);
+            if (storedChallenge == null)
+            {
+                throw new AnswerToUnknownChallengeException();
+            }
+            IChallenge challenge = _challengeLibrary[storedChallenge.Identifier];
+            return await challenge.ValidateChallenge(answer, _context);
         }
 
         private Identifier GetChallengeIdentifierForChallengeCode(String challengeCode)
