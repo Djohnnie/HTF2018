@@ -38,5 +38,17 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:HTF2018.Backend.Api.Controllers.DashboardController.GetTeamStatus(System.Guid)">
+            <summary>
+            Gets the team-challenges status for a specific team.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HTF2018.Backend.Api.Controllers.DashboardController.GetOverallPendingStatus(System.Guid)">
+            <summary>
+            Gets the team-challenges status for a specific team.
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

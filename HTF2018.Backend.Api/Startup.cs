@@ -30,6 +30,7 @@ namespace HTF2018.Backend.Api
             services.AddDbContext<TheArtifactDbContext>();
             services.AddTransient<IChallengeLogic, ChallengeLogic>();
             services.AddTransient<ITeamLogic, TeamLogic>();
+            services.AddTransient<IDashboardLogic, DashboardLogic>();
             services.AddTransient<IChallengeEngine, ChallengeEngine>();
             services.AddScoped<IHtfContext, HtfContext>();
             services.AddTransient<IChallenge01, Challenge01>();

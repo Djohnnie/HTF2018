@@ -39,6 +39,11 @@ namespace HTF2018.Backend.Api.Middleware
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync("Your team already exists, but you have provided the wrong secret!");
             }
+            catch (UnknownTeamException)
+            {
+                context.Response.StatusCode = 404;
+                await context.Response.WriteAsync("The team specified in this request is unknown!");
+            }
         }
     }
 }
