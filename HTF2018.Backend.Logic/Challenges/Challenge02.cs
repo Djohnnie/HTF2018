@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Team = HTF2018.Backend.DataAccess.Entities.Team;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
@@ -17,49 +16,14 @@ namespace HTF2018.Backend.Logic.Challenges
     public class Challenge02 : ChallengeBase, IChallenge02
     {
         private readonly Random _randomGenerator = new Random();
-        private readonly IHtfContext _htfContext;
-        private readonly IChallengeLogic _challengeLogic;
-        private readonly ITeamLogic _teamLogic;
 
-        public Challenge02(IHtfContext htfContext, IChallengeLogic challengeLogic, ITeamLogic teamLogic, IDashboardLogic dashboardLogic)
-            : base(htfContext, challengeLogic, dashboardLogic)
-        {
-            _htfContext = htfContext;
-            _challengeLogic = challengeLogic;
-            _teamLogic = teamLogic;
-        }
+        public Challenge02(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic)
+            : base(htfContext, teamLogic, challengeLogic, dashboardLogic) { }
 
         public async Task<Challenge> GetChallenge()
         {
             Challenge challenge = await BuildChallenge(Identifier.Challenge02);
             return challenge;
-        }
-
-        public async Task<Response> ValidateChallenge(Answer answer)
-        {
-            ValidateAnswer(answer);
-
-            Team team = await _teamLogic.FindTeamByIdentification(_htfContext.Identification);
-            Answer storedAnswer = await _challengeLogic.GetAnswerByChallengeId(answer.ChallengeId);
-
-            Status status = Status.Unsuccessful;
-            if (CheckAnswer(answer, storedAnswer))
-            {
-                await _challengeLogic.SolveChallenge(answer.ChallengeId, team.Id);
-                status = Status.Successful;
-            }
-            else
-            {
-                await _challengeLogic.FailChallenge(answer.ChallengeId, team.Id);
-            }
-
-            return new Response
-            {
-                Identifier = Identifier.Challenge02,
-                Status = status,
-                Identification = team.Identification,
-                Overview = await BuildOverview(team.Id)
-            };
         }
 
         protected override Question BuildQuestion()

@@ -16,14 +16,14 @@ namespace HTF2018.Backend.Logic.Challenges
     /// </summary>
     public class Challenge01 : ChallengeBase, IChallenge01
     {
-        private readonly IChallengeLogic _challengeLogic;
         private readonly ITeamLogic _teamLogic;
+        private readonly IChallengeLogic _challengeLogic;
 
-        public Challenge01(IHtfContext htfContext, IChallengeLogic challengeLogic, ITeamLogic teamLogic, IDashboardLogic dashboardLogic)
-            : base(htfContext, challengeLogic, dashboardLogic)
+        public Challenge01(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic)
+            : base(htfContext, teamLogic, challengeLogic, dashboardLogic)
         {
-            _challengeLogic = challengeLogic;
             _teamLogic = teamLogic;
+            _challengeLogic = challengeLogic;
         }
 
         public async Task<Challenge> GetChallenge()
@@ -32,7 +32,7 @@ namespace HTF2018.Backend.Logic.Challenges
             return challenge;
         }
 
-        public async Task<Response> ValidateChallenge(Answer answer)
+        public override async Task<Response> ValidateChallenge(Answer answer)
         {
             ValidateAnswer(answer);
 

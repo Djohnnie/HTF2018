@@ -1,47 +1,75 @@
 ﻿using HTF2018.Backend.Common;
+using HTF2018.Backend.Common.Exceptions;
 using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Logic.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
     public class Challenge03 : ChallengeBase, IChallenge03
     {
-        public Challenge03(IHtfContext htfContext, IChallengeLogic challengeLogic, ITeamLogic teamLogic, IDashboardLogic dashboardLogic)
-            : base(htfContext, challengeLogic, dashboardLogic)
-        {
+        public Challenge03(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic)
+            : base(htfContext, teamLogic, challengeLogic, dashboardLogic) { }
 
-        }
-
-        public Task<Challenge> GetChallenge()
+        public async Task<Challenge> GetChallenge()
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Response> ValidateChallenge(Answer answer)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override Answer BuildAnswer(Question question, Guid challengeId)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override Example BuildExample(Guid challengeId)
-        {
-            throw new NotImplementedException();
+            Challenge challenge = await BuildChallenge(Identifier.Challenge03);
+            return challenge;
         }
 
         protected override Question BuildQuestion()
         {
-            throw new NotImplementedException();
+            var question = new Question
+            {
+                InputValues = new List<Value>()
+            };
+
+            // TODO: Add name-data pairs to the InputValues!
+
+            return question;
+        }
+
+        protected override Answer BuildAnswer(Question question, Guid challengeId)
+        {
+            // TODO: Calculate answer based on question!
+
+            return new Answer
+            {
+                ChallengeId = challengeId,
+                Values = new List<Value>
+                {
+                    // TODO: Add name-data pairs containing answers!
+                }
+            };
+        }
+
+        protected override Example BuildExample(Guid challengeId)
+        {
+            Question question = new Question
+            {
+                // TODO: Add name-data pairs containing an example question based on the actual question!
+            };
+
+            return new Example
+            {
+                Question = question,
+                Answer = BuildAnswer(question, challengeId)
+            };
         }
 
         protected override void ValidateAnswer(Answer answer)
         {
-            throw new NotImplementedException();
+            Boolean invalid = false;
+
+            // TODO: Do a basic validation of the answer object!
+            // (Null-checks, are properties correct, but no actual functional checks)
+
+            if (invalid)
+            {
+                throw new InvalidAnswerException();
+            }
         }
     }
 }

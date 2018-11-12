@@ -1,24 +1,53 @@
-﻿using HTF2018.Backend.Common;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using HTF2018.Backend.Common;
 using HTF2018.Backend.Common.Extensions;
 using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Logic.Interfaces;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+using Team = HTF2018.Backend.DataAccess.Entities.Team;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
     public abstract class ChallengeBase
     {
         private readonly IHtfContext _htfContext;
+        private readonly ITeamLogic _teamLogic;
         private readonly IChallengeLogic _challengeLogic;
         private readonly IDashboardLogic _dashboardLogic;
 
-        protected ChallengeBase(IHtfContext htfContext, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic)
+        protected ChallengeBase(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic)
         {
             _htfContext = htfContext;
             _challengeLogic = challengeLogic;
             _dashboardLogic = dashboardLogic;
+        }
+
+        public virtual async Task<Response> ValidateChallenge(Answer answer)
+        {
+            ValidateAnswer(answer);
+
+            Team team = await _teamLogic.FindTeamByIdentification(_htfContext.Identification);
+            Answer storedAnswer = await _challengeLogic.GetAnswerByChallengeId(answer.ChallengeId);
+
+            Status status = Status.Unsuccessful;
+            if (CheckAnswer(answer, storedAnswer))
+            {
+                await _challengeLogic.SolveChallenge(answer.ChallengeId, team.Id);
+                status = Status.Successful;
+            }
+            else
+            {
+                await _challengeLogic.FailChallenge(answer.ChallengeId, team.Id);
+            }
+
+            return new Response
+            {
+                Identifier = Identifier.Challenge02,
+                Status = status,
+                Identification = team.Identification,
+                Overview = await BuildOverview(team.Id)
+            };
         }
 
         protected async Task<Challenge> BuildChallenge(Identifier identifier)
