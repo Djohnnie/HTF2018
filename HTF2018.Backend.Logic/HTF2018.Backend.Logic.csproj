@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HTF2018.Backend.Common\HTF2018.Backend.Common.csproj" />
     <ProjectReference Include="..\HTF2018.Backend.DataAccess\HTF2018.Backend.DataAccess.csproj" />
   </ItemGroup>

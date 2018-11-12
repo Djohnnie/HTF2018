@@ -2,6 +2,7 @@
 using HTF2018.Backend.DataAccess;
 using HTF2018.Backend.Logic.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using Challenge = HTF2018.Backend.DataAccess.Entities.Challenge;
@@ -22,98 +23,49 @@ namespace HTF2018.Backend.Logic
             return _dbContext.Challenges.SingleOrDefaultAsync(x => x.Id == challengeId);
         }
 
-        public async Task<Challenge> CreateChallenge(Guid challengeId, Identifier identifier)
+        public async Task<Answer> GetAnswerByChallengeId(Guid challengeId)
+        {
+            Challenge challenge = await _dbContext.Challenges.SingleOrDefaultAsync(x => x.Id == challengeId);
+            if (challenge != null)
+            {
+                return JsonConvert.DeserializeObject<Answer>(challenge.Answer);
+            }
+            return null;
+        }
+
+        public async Task<Challenge> CreateChallenge(Guid challengeId, Question question, Answer answer, Identifier identifier)
         {
             Challenge challenge = new Challenge
             {
                 Id = challengeId,
                 Identifier = identifier,
                 Team = null,
-                Question = null,
-                Answer = null
+                Question = JsonConvert.SerializeObject(question),
+                Answer = JsonConvert.SerializeObject(answer)
             };
             await _dbContext.Challenges.AddAsync(challenge);
             await _dbContext.SaveChangesAsync();
             return challenge;
         }
 
-        public async Task<Challenge> SolveChallenge(Guid challengeId, Guid teamId)
+        public Task<Challenge> SolveChallenge(Guid challengeId, Guid teamId)
+        {
+            return ChangeChallengeStatus(challengeId, teamId, Status.Successful);
+        }
+
+        public Task<Challenge> FailChallenge(Guid challengeId, Guid teamId)
+        {
+            return ChangeChallengeStatus(challengeId, teamId, Status.Unsuccessful);
+        }
+
+        private async Task<Challenge> ChangeChallengeStatus(Guid challengeId, Guid teamId, Status status)
         {
             var challenge = await _dbContext.Challenges.SingleOrDefaultAsync(x => x.Id == challengeId);
             challenge.Team = await _dbContext.Teams.SingleOrDefaultAsync(x => x.Id == teamId);
             challenge.SolvedOn = DateTime.UtcNow;
-            challenge.Status = Status.Successful;
+            challenge.Status = status;
             await _dbContext.SaveChangesAsync();
             return challenge;
         }
-
-
-
-        //private readonly ITeamLogic _teamLogic;
-        //private readonly IChallengeEngine _challengeEngine;
-
-        //public ChallengeLogic(ITeamLogic teamLogic, IChallengeEngine challengeEngine)
-        //{
-        //    _teamLogic = teamLogic;
-        //    _challengeEngine = challengeEngine;
-        //}
-
-        //public Challenge GetFirstChallenge()
-        //{
-        //    return _challengeEngine.GetChallenge(Identifier.Challenge01);
-        //}
-
-        //public async Task<Response> ValidateFirstChallenge(Answer answer)
-        //{
-        //    if (answer.ChallengeId == Guid.Empty)
-        //    {
-        //        throw new ValidationException("The answer you have provided does not link to a valid challenge!");
-        //    }
-
-        //    if (answer.Values == null || answer.Values.Count == 0)
-        //    {
-        //        throw new ValidationException("You have provided no answer data!");
-        //    }
-
-        //    Value nameValue = answer.Values.SingleOrDefault(x => x.Name == "name");
-        //    if (nameValue == null)
-        //    {
-        //        throw new ValidationException("Your answer does not contain the required 'name' field!");
-        //    }
-
-        //    Value secretValue = answer.Values.SingleOrDefault(x => x.Name == "secret");
-        //    if (secretValue == null)
-        //    {
-        //        throw new ValidationException("Your answer does not contain the required 'secret' field!");
-        //    }
-
-        //    Team team = await _teamLogic.FindTeamByName(nameValue.Data);
-        //    if (team == null)
-        //    {
-        //        team = await _teamLogic.CreateTeam(nameValue.Data, secretValue.Data);
-        //    }
-
-        //    return _challengeEngine.ValidateChallenge(answer);
-        //}
-
-        //public Challenge GetSubsequentChallenge(String challengeCode)
-        //{
-        //    Identifier identifier = GetChallengeIdentifierForChallengeCode(challengeCode);
-        //    return _challengeEngine.GetChallenge(identifier);
-        //}
-
-        //public Response ValidateSubsequentChallenge(Answer answer)
-        //{
-        //    return _challengeEngine.ValidateChallenge(answer);
-        //}
-
-        //private String CalculateChallengeCodeForChallengeIdentifier(Identifier identifier)
-        //{
-        //    MD5 md5 = MD5.Create();
-        //    Byte[] bytesToHash = Encoding.UTF8.GetBytes(identifier.ToString());
-        //    Byte[] hashedBytes = md5.ComputeHash(bytesToHash);
-        //    return BitConverter.ToString(hashedBytes).Replace("-", "");
-        //}
-
     }
 }

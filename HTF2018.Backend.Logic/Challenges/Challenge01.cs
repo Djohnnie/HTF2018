@@ -19,7 +19,8 @@ namespace HTF2018.Backend.Logic.Challenges
         private readonly IChallengeLogic _challengeLogic;
         private readonly ITeamLogic _teamLogic;
 
-        public Challenge01(IHtfContext htfContext, IChallengeLogic challengeLogic, ITeamLogic teamLogic) : base(htfContext)
+        public Challenge01(IHtfContext htfContext, IChallengeLogic challengeLogic, ITeamLogic teamLogic, IDashboardLogic dashboardLogic)
+            : base(htfContext, challengeLogic, dashboardLogic)
         {
             _challengeLogic = challengeLogic;
             _teamLogic = teamLogic;
@@ -27,8 +28,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         public async Task<Challenge> GetChallenge()
         {
-            Challenge challenge = BuildChallenge(Identifier.Challenge01);
-            await _challengeLogic.CreateChallenge(challenge.Id, Identifier.Challenge01);
+            Challenge challenge = await BuildChallenge(Identifier.Challenge01);
             return challenge;
         }
 
@@ -61,7 +61,7 @@ namespace HTF2018.Backend.Logic.Challenges
                 Identifier = Identifier.Challenge01,
                 Status = Status.Successful,
                 Identification = team.Identification,
-                Overview = BuildOverview()
+                Overview = await BuildOverview(team.Id)
             };
         }
 
@@ -77,20 +77,26 @@ namespace HTF2018.Backend.Logic.Challenges
             };
         }
 
+        protected override Answer BuildAnswer(Question question, Guid challengeId)
+        {
+            return new Answer
+            {
+                ChallengeId = challengeId,
+                Values = new List<Value>
+                {
+                    new Value{ Name = "name", Data = "we_will_hack_the_future" },
+                    new Value{ Name = "secret", Data = "twinkle, twinkle, little star!" }
+                }
+            };
+        }
+
         protected override Example BuildExample(Guid challengeId)
         {
+            Question question = BuildQuestion();
             return new Example
             {
-                Question = BuildQuestion(),
-                Answer = new Answer
-                {
-                    ChallengeId = challengeId,
-                    Values = new List<Value>
-                    {
-                        new Value{ Name = "name", Data = "we_will_hack_the_future" },
-                        new Value{ Name = "secret", Data = "twinkle, twinkle, little star!" }
-                    }
-                }
+                Question = question,
+                Answer = BuildAnswer(question, challengeId)
             };
         }
 

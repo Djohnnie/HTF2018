@@ -56,7 +56,7 @@ namespace HTF2018.Backend.Logic
         private async Task<Status> GetChallengeStatus(Identifier identifier)
         {
             Challenge challenge = await _dbContext.Challenges.Where(x => x.Status == Status.Successful).OrderByDescending(x => x.SolvedOn).FirstOrDefaultAsync(x => x.Identifier == identifier);
-            return challenge != null && (identifier == Identifier.Challenge01 || challenge.SolvedOn >= DateTime.UtcNow.Add(TimeSpan.FromMinutes(5))) ? Status.Successful : Status.Unsuccessful;
+            return challenge != null && (identifier == Identifier.Challenge01 || challenge.SolvedOn >= DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(5))) ? Status.Successful : Status.Unsuccessful;
         }
 
         public Task<OverallStatus> GetOverallPendingStatus()
