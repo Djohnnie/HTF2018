@@ -18,10 +18,12 @@ namespace HTF2018.Backend.Logic.Challenges
     {
         private readonly ITeamLogic _teamLogic;
         private readonly IChallengeLogic _challengeLogic;
+        private readonly IHistoryLogic _historyLogic;
 
-        public Challenge01(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic)
-            : base(htfContext, teamLogic, challengeLogic, dashboardLogic)
+        public Challenge01(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
+            : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic)
         {
+            _historyLogic = historyLogic;
             _teamLogic = teamLogic;
             _challengeLogic = challengeLogic;
         }
@@ -53,6 +55,7 @@ namespace HTF2018.Backend.Logic.Challenges
                 else
                 {
                     await _challengeLogic.SolveChallenge(answer.ChallengeId, team.Id);
+                    await _historyLogic.Push(Status.Successful);
                 }
             }
 

@@ -10,8 +10,8 @@ namespace HTF2018.Backend.Logic.Challenges
 {
     public class Challenge08 : ChallengeBase, IChallenge08
     {
-        public Challenge08(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic)
-            : base(htfContext, teamLogic, challengeLogic, dashboardLogic) { }
+        public Challenge08(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
+            : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
         public async Task<Challenge> GetChallenge()
         {

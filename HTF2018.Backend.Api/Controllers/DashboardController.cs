@@ -6,6 +6,7 @@ using HTF2018.Backend.Logic.Interfaces;
 using Team = HTF2018.Backend.Common.Model.Team;
 using TeamStatus = HTF2018.Backend.Common.Model.TeamStatus;
 using OverallStatus = HTF2018.Backend.Common.Model.OverallStatus;
+using History = HTF2018.Backend.Common.Model.History;
 
 namespace HTF2018.Backend.Api.Controllers
 {
@@ -15,11 +16,13 @@ namespace HTF2018.Backend.Api.Controllers
     {
         private readonly ITeamLogic _teamLogic;
         private readonly IDashboardLogic _dashboardLogic;
+        private readonly IHistoryLogic _historyLogic;
 
-        public DashboardController(ITeamLogic teamLogic, IDashboardLogic dashboardLogic)
+        public DashboardController(ITeamLogic teamLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
         {
             _teamLogic = teamLogic;
             _dashboardLogic = dashboardLogic;
+            _historyLogic = historyLogic;
         }
 
         /// <summary>
@@ -53,6 +56,17 @@ namespace HTF2018.Backend.Api.Controllers
         {
             OverallStatus overallStatus = await _dashboardLogic.GetOverallPendingStatus();
             return Ok(overallStatus);
+        }
+
+        /// <summary>
+        /// Gets the pending status history.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, Route("history/status")]
+        public async Task<IActionResult> GetPendingStatusHistory()
+        {
+            History history = await _historyLogic.Pop();
+            return Ok(history);
         }
     }
 }

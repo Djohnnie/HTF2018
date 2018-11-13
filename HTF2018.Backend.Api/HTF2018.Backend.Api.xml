@@ -50,5 +50,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:HTF2018.Backend.Api.Controllers.DashboardController.GetPendingStatusHistory">
+            <summary>
+            Gets the pending status history.
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

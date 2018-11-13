@@ -15,12 +15,17 @@ namespace HTF2018.Backend.Logic.Challenges
         private readonly ITeamLogic _teamLogic;
         private readonly IChallengeLogic _challengeLogic;
         private readonly IDashboardLogic _dashboardLogic;
+        private readonly IHistoryLogic _historyLogic;
 
-        protected ChallengeBase(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic)
+        protected ChallengeBase(
+            IHtfContext htfContext,
+            ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
         {
             _htfContext = htfContext;
+            _teamLogic = teamLogic;
             _challengeLogic = challengeLogic;
             _dashboardLogic = dashboardLogic;
+            _historyLogic = historyLogic;
         }
 
         public virtual async Task<Response> ValidateChallenge(Answer answer)
@@ -34,11 +39,13 @@ namespace HTF2018.Backend.Logic.Challenges
             if (CheckAnswer(answer, storedAnswer))
             {
                 await _challengeLogic.SolveChallenge(answer.ChallengeId, team.Id);
+                await _historyLogic.Push(Status.Successful);
                 status = Status.Successful;
             }
             else
             {
                 await _challengeLogic.FailChallenge(answer.ChallengeId, team.Id);
+                await _historyLogic.Push(Status.Unsuccessful);
             }
 
             return new Response
