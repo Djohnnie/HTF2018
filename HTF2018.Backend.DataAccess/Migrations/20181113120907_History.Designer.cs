@@ -4,14 +4,16 @@ using HTF2018.Backend.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HTF2018.Backend.DataAccess.Migrations
 {
     [DbContext(typeof(TheArtifactDbContext))]
-    partial class TheArtifactDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181113120907_History")]
+    partial class History
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,14 +115,6 @@ namespace HTF2018.Backend.DataAccess.Migrations
 
                     b.HasKey("Id")
                         .HasAnnotation("SqlServer:Clustered", false);
-
-                    b.HasIndex("Identification")
-                        .IsUnique()
-                        .HasFilter("[Identification] IS NOT NULL");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasFilter("[Name] IS NOT NULL");
 
                     b.HasIndex("SysId")
                         .IsUnique()
