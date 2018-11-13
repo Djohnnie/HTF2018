@@ -4,18 +4,29 @@ using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
     public class Challenge04 : ChallengeBase, IChallenge04
     {
+        /// <summary>
+        /// CHALLENGE 03:
+        ///   Decode the following strings.
+        /// </summary>
         public Challenge04(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
+        private readonly Random _randomGenerator = new Random();
+        private readonly List<string> _artefactSentences = new List<string>
+        {
+            "The artifact has landed on a sacred place.",
+            "We chose this location as the one with the biggest impact."
+        };
         public async Task<Challenge> GetChallenge()
         {
-            Challenge challenge = await BuildChallenge(Identifier.Challenge03);
+            var challenge = await BuildChallenge(Identifier.Challenge03);
             return challenge;
         }
 
@@ -26,30 +37,34 @@ namespace HTF2018.Backend.Logic.Challenges
                 InputValues = new List<Value>()
             };
 
-            // TODO: Add name-data pairs to the InputValues!
+            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(_artefactSentences[_randomGenerator.Next(_artefactSentences.Count)]) });
 
             return question;
         }
 
         protected override Answer BuildAnswer(Question question, Guid challengeId)
         {
-            // TODO: Calculate answer based on question!
-
+            var answers = new List<Value>();
+            foreach (var inputValue in question.InputValues)
+            {
+                answers.Add(
+                    new Value { Name = "decoded", Data = Encode(inputValue.Data) });
+            }
             return new Answer
             {
                 ChallengeId = challengeId,
-                Values = new List<Value>
-                {
-                    // TODO: Add name-data pairs containing answers!
-                }
+                Values = answers
             };
         }
 
         protected override Example BuildExample(Guid challengeId)
         {
-            Question question = new Question
+            var question = new Question
             {
-                // TODO: Add name-data pairs containing an example question based on the actual question!
+                InputValues = new List<Value> {
+                    new Value{Name = "encoded", Data = Encode("Artifact")},
+                    new Value{Name = "encoded", Data = Encode("Aliens")}
+                }
             };
 
             return new Example
@@ -61,15 +76,28 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            Boolean invalid = false;
-
-            // TODO: Do a basic validation of the answer object!
-            // (Null-checks, are properties correct, but no actual functional checks)
-
+            var invalid = answer.Values == null;
+            if (answer.Values != null) { invalid = true; }
+            if (!answer.Values.Any(x => x.Name == "decoded")) { invalid = true; }
+            foreach (var answerValue in answer.Values.Where(x => x.Name.Equals("decoded")))
+            {
+                if (string.IsNullOrEmpty(answerValue.Data))
+                    invalid = true;
+            }
             if (invalid)
             {
                 throw new InvalidAnswerException();
             }
+        }
+
+        public static string Encode(string plainText)
+        {
+            return string.Concat(plainText.Where(char.IsLetterOrDigit).Select((c, i) => (i % 5 == 0 && i > 0 ? " " : "") + EncodeChar(c)));
+        }
+
+        private static char EncodeChar(char c)
+        {
+            return char.IsDigit(c) ? c : (char)('z' - char.ToLower(c) + 'a');
         }
     }
 }
