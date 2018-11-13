@@ -13,7 +13,7 @@ namespace HTF2018.Backend.Logic.Challenges
     {
         /// <summary>
         /// CHALLENGE 03:
-        ///   Decode the following strings.
+        ///   The artifact is sending us messages. See if you can decode them!
         /// </summary>
         public Challenge04(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
@@ -22,7 +22,9 @@ namespace HTF2018.Backend.Logic.Challenges
         private readonly List<string> _artefactSentences = new List<string>
         {
             "The artifact has landed on a sacred place.",
-            "We chose this location as the one with the biggest impact."
+            "We chose this location as the one with the biggest impact.",
+            "The humans are trying to decypher our language!",
+            "The artifact is getting breached, adapt!"
         };
         public async Task<Challenge> GetChallenge()
         {
