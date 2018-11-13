@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static System.String;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
@@ -30,7 +31,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         public async Task<Challenge> GetChallenge()
         {
-            Challenge challenge = await BuildChallenge(Identifier.Challenge01);
+            var challenge = await BuildChallenge(Identifier.Challenge01);
             return challenge;
         }
 
@@ -38,8 +39,8 @@ namespace HTF2018.Backend.Logic.Challenges
         {
             ValidateAnswer(answer);
 
-            String teamName = answer.Values.Single(x => x.Name == "name").Data;
-            String teamSecret = answer.Values.Single(x => x.Name == "secret").Data;
+            var teamName = answer.Values.Single(x => x.Name == "name").Data;
+            var teamSecret = answer.Values.Single(x => x.Name == "secret").Data;
             var team = await _teamLogic.FindTeamByName(teamName);
             if (team == null)
             {
@@ -105,13 +106,12 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            Boolean invalid = false;
-            if (answer.Values == null) { invalid = true; }
-            if (answer.Values.Count != 2) { invalid = true; }
+            var invalid = answer.Values == null;
+            if (answer.Values != null && answer.Values.Count != 2) { invalid = true; }
             if (!answer.Values.Any(x => x.Name == "name")) { invalid = true; }
             if (!answer.Values.Any(x => x.Name == "secret")) { invalid = true; }
-            if (String.IsNullOrEmpty(answer.Values.Single(x => x.Name == "name").Data)) { invalid = true; }
-            if (String.IsNullOrEmpty(answer.Values.Single(x => x.Name == "secret").Data)) { invalid = true; }
+            if (IsNullOrEmpty(answer.Values.Single(x => x.Name == "name").Data)) { invalid = true; }
+            if (IsNullOrEmpty(answer.Values.Single(x => x.Name == "secret").Data)) { invalid = true; }
 
             if (invalid)
             {
