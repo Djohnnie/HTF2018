@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static System.String;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
@@ -22,7 +23,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         public async Task<Challenge> GetChallenge()
         {
-            Challenge challenge = await BuildChallenge(Identifier.Challenge02);
+            var challenge = await BuildChallenge(Identifier.Challenge02);
             return challenge;
         }
 
@@ -33,7 +34,7 @@ namespace HTF2018.Backend.Logic.Challenges
                 InputValues = new List<Value>()
             };
 
-            for (int i = 0; i < _randomGenerator.Next(2, 10); i++)
+            for (var i = 0; i < _randomGenerator.Next(2, 10); i++)
             {
                 question.InputValues.Add(new Value { Name = "i", Data = $"{_randomGenerator.Next(1, 100)}" });
             }
@@ -43,7 +44,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override Answer BuildAnswer(Question question, Guid challengeId)
         {
-            int sum = CalculateSum(question.InputValues);
+            var sum = CalculateSum(question.InputValues);
 
             return new Answer
             {
@@ -57,7 +58,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override Example BuildExample(Guid challengeId)
         {
-            Question question = new Question
+            var question = new Question
             {
                 InputValues = new List<Value>
                 {
@@ -76,11 +77,10 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            Boolean invalid = false;
-            if (answer.Values == null) { invalid = true; }
-            if (answer.Values.Count != 1) { invalid = true; }
+            var invalid = answer.Values == null;
+            if (answer.Values != null && answer.Values.Count != 1) { invalid = true; }
             if (!answer.Values.Any(x => x.Name == "sum")) { invalid = true; }
-            if (String.IsNullOrEmpty(answer.Values.Single(x => x.Name == "sum").Data)) { invalid = true; }
+            if (IsNullOrEmpty(answer.Values.Single(x => x.Name == "sum").Data)) { invalid = true; }
 
             if (invalid)
             {
@@ -90,11 +90,11 @@ namespace HTF2018.Backend.Logic.Challenges
 
         private int CalculateSum(List<Value> inputValues)
         {
-            int sum = 0;
+            var sum = 0;
 
-            foreach (Value value in inputValues)
+            foreach (var value in inputValues)
             {
-                int number = Convert.ToInt32(value.Data);
+                var number = Convert.ToInt32(value.Data);
                 sum += number;
             }
 

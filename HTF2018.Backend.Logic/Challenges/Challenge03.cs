@@ -4,18 +4,25 @@ using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
+    /// <summary>
+    /// CHALLENGE 03:
+    ///   Calculate all the prime numbers between the given range.
+    /// </summary>
     public class Challenge03 : ChallengeBase, IChallenge03
     {
+        private readonly Random _randomGenerator = new Random();
         public Challenge03(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
         public async Task<Challenge> GetChallenge()
         {
-            Challenge challenge = await BuildChallenge(Identifier.Challenge03);
+            var challenge = await BuildChallenge(Identifier.Challenge03);
             return challenge;
         }
 
@@ -26,22 +33,22 @@ namespace HTF2018.Backend.Logic.Challenges
                 InputValues = new List<Value>()
             };
 
-            // TODO: Add name-data pairs to the InputValues!
 
+            var primeStart = _randomGenerator.Next(1000, 1000000);
+            var primeRange = _randomGenerator.Next(1000, 5000);
+            question.InputValues.Add(new Value{Name = "start", Data = $"{primeStart}"});
+            question.InputValues.Add(new Value { Name = "end", Data = $"{primeStart+primeRange}" });
             return question;
         }
 
         protected override Answer BuildAnswer(Question question, Guid challengeId)
         {
-            // TODO: Calculate answer based on question!
+            var primes = CalculatePrimes(question.InputValues);
 
             return new Answer
             {
                 ChallengeId = challengeId,
-                Values = new List<Value>
-                {
-                    // TODO: Add name-data pairs containing answers!
-                }
+                Values = primes
             };
         }
 
@@ -49,7 +56,11 @@ namespace HTF2018.Backend.Logic.Challenges
         {
             Question question = new Question
             {
-                // TODO: Add name-data pairs containing an example question based on the actual question!
+                InputValues = new List<Value>
+                {
+                    new Value{Name = "start", Data = "0"},
+                    new Value{Name = "end", Data = "100"}
+                }
             };
 
             return new Example
@@ -61,15 +72,54 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            Boolean invalid = false;
+            var invalid = answer.Values == null;
+            if (answer.Values != null) { invalid = true; }
+            if (!answer.Values.Any(x => x.Name == "prime")) { invalid = true; }
 
-            // TODO: Do a basic validation of the answer object!
-            // (Null-checks, are properties correct, but no actual functional checks)
+            foreach (var answerValue in answer.Values.Where(x=>x.Name.Equals("prime")))
+            {
+                if (string.IsNullOrEmpty(answerValue.Data))
+                    invalid = true;
+            }
 
             if (invalid)
             {
                 throw new InvalidAnswerException();
             }
+        }
+
+        private List<Value> CalculatePrimes(List<Value> inputValues)
+        {
+            var start = Convert.ToInt32(inputValues.Find(e => e.Name.Equals("start")).Data);
+            var end = Convert.ToInt32(inputValues.Find(e => e.Name.Equals("end")).Data);
+            var primes = new List<Value>();
+            for (var i = start; i < end; i++)
+            {
+                if (IsPrime(i))
+                {
+                    primes.Add(new Value{Name = "prime",Data = $"{i}"});
+                }
+            }
+
+            return primes;
+        }
+        private static bool IsPrime(int number)
+        {
+            if ((number & 1) == 0)
+            {
+                return number == 2;
+            }
+
+            for (var i = 3; (i * i) <= number; i += 2)
+            {
+                if ((number % i) == 0)
+                {
+                    return false;
+                }
+
+            }
+
+            return number != 1;
         }
     }
 }
