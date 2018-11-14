@@ -26,7 +26,10 @@ namespace HTF2018.Backend.Logic.Challenges
                 InputValues = new List<Value>()
             };
 
-            // TODO: Add name-data pairs to the InputValues!
+            question.InputValues.Add(new Value { Name = "r", Data = "###S###" });
+            question.InputValues.Add(new Value { Name = "r", Data = "### ###" });
+            question.InputValues.Add(new Value { Name = "r", Data = "### ###" });
+            question.InputValues.Add(new Value { Name = "r", Data = "###F###" });
 
             return question;
         }
@@ -47,9 +50,22 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override Example BuildExample(Guid challengeId)
         {
-            Question question = new Question
+            var question = new Question
             {
-                // TODO: Add name-data pairs containing an example question based on the actual question!
+                InputValues = new List<Value>
+                {
+                    new Value{ Name = "r", Data = "#####S#####" },
+                    new Value{ Name = "r", Data = "##### #####" },
+                    new Value{ Name = "r", Data = "#         #" },
+                    new Value{ Name = "r", Data = "# ####### #" },
+                    new Value{ Name = "r", Data = "#    ###  #" },
+                    new Value{ Name = "r", Data = "#### ### ##" },
+                    new Value{ Name = "r", Data = "#    ###  #" },
+                    new Value{ Name = "r", Data = "# ####### #" },
+                    new Value{ Name = "r", Data = "#         #" },
+                    new Value{ Name = "r", Data = "##### #####" },
+                    new Value{ Name = "r", Data = "#####F#####" }
+                }
             };
 
             return new Example
