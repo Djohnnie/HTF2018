@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using HTF2018.Backend.Common;
+﻿using HTF2018.Backend.Common;
 using HTF2018.Backend.Common.Extensions;
 using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Logic.Interfaces;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Team = HTF2018.Backend.DataAccess.Entities.Team;
 
 namespace HTF2018.Backend.Logic.Challenges
@@ -28,7 +28,7 @@ namespace HTF2018.Backend.Logic.Challenges
             _historyLogic = historyLogic;
         }
 
-        public virtual async Task<Response> ValidateChallenge(Answer answer)
+        public virtual async Task<Response> ValidateChallenge(Answer answer, Identifier identifier)
         {
             ValidateAnswer(answer);
 
@@ -50,7 +50,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
             return new Response
             {
-                Identifier = Identifier.Challenge02,
+                Identifier = identifier,
                 Status = status,
                 Identification = team.Identification,
                 Overview = await BuildOverview(team.Id)
@@ -66,22 +66,22 @@ namespace HTF2018.Backend.Logic.Challenges
                 Identifier = identifier,
                 Title = Challenges.Titles[identifier],
                 Description = Challenges.Descriptions[identifier],
-                Question = BuildQuestion(),
-                Example = BuildExample(challengeId)
+                Question = await BuildQuestion(),
+                Example = await BuildExample(challengeId)
             };
 
-            Answer answer = BuildAnswer(challenge.Question, challengeId);
+            Answer answer = await BuildAnswer(challenge.Question, challengeId);
 
             await _challengeLogic.CreateChallenge(challengeId, challenge.Question, answer, identifier);
 
             return challenge;
         }
 
-        protected abstract Question BuildQuestion();
+        protected abstract Task<Question> BuildQuestion();
 
-        protected abstract Answer BuildAnswer(Question question, Guid challengeId);
+        protected abstract Task<Answer> BuildAnswer(Question question, Guid challengeId);
 
-        protected abstract Example BuildExample(Guid challengeId);
+        protected abstract Task<Example> BuildExample(Guid challengeId);
 
         protected abstract void ValidateAnswer(Answer answer);
 
@@ -134,11 +134,11 @@ namespace HTF2018.Backend.Logic.Challenges
         {
             if (identifier == Identifier.Challenge01)
             {
-                return $"{_htfContext.RequestUri}";
+                return $"{_htfContext.HostUri}/challenges";
             }
             else
             {
-                return $"{_htfContext.RequestUri}/{identifier.ToString().Md5Hash()}";
+                return $"{_htfContext.HostUri}/challenges/{identifier.ToString().Md5Hash()}";
             }
         }
     }

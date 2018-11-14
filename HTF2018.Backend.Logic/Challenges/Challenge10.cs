@@ -12,15 +12,23 @@ using System.Threading.Tasks;
 using ZXing;
 using ZXing.CoreCompat.System.Drawing;
 using ZXing.QrCode;
-using BarcodeReader = ZXing.CoreCompat.System.Drawing.BarcodeReader;
 using static System.String;
+using BarcodeReader = ZXing.CoreCompat.System.Drawing.BarcodeReader;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
     public class Challenge10 : ChallengeBase, IChallenge10
     {
-        public Challenge10(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
-            : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
+        private readonly IHtfContext _htfContext;
+        private readonly IImageLogic _imageLogic;
+
+        public Challenge10(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic,
+            IDashboardLogic dashboardLogic, IHistoryLogic historyLogic, IImageLogic imageLogic)
+            : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic)
+        {
+            _htfContext = htfContext;
+            _imageLogic = imageLogic;
+        }
 
         public async Task<Challenge> GetChallenge()
         {
@@ -28,16 +36,24 @@ namespace HTF2018.Backend.Logic.Challenges
             return challenge;
         }
 
-        protected override Question BuildQuestion()
+        protected override async Task<Question> BuildQuestion()
         {
+            var data = EncodeQrCode($"{Guid.NewGuid()}");
+            var image = await _imageLogic.StoreImage(data);
+
             var question = new Question
             {
-                InputValues = new List<Value>()
+                InputValues = new List<Value>
                 {
                     new Value
                     {
+                        Name = "id",
+                        Data = $"{image.Id}"
+                    },
+                    new Value
+                    {
                         Name = "image",
-                        Data = ToBase64(EncodeQrCode($"{Guid.NewGuid()}"))
+                        Data = $"{_htfContext.HostUri}/images/{image.Id}"
                     }
                 }
             };
@@ -45,9 +61,9 @@ namespace HTF2018.Backend.Logic.Challenges
             return question;
         }
 
-        protected override Answer BuildAnswer(Question question, Guid challengeId)
+        protected override async Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
-            var decoded = GetDecoded(question);
+            var decoded = await GetDecoded(question);
 
             return new Answer
             {
@@ -59,16 +75,24 @@ namespace HTF2018.Backend.Logic.Challenges
             };
         }
 
-        protected override Example BuildExample(Guid challengeId)
+        protected override async Task<Example> BuildExample(Guid challengeId)
         {
+            var data = EncodeQrCode("Your world is ours!!!");
+            var image = await _imageLogic.StoreImage(data);
+
             var question = new Question
             {
                 InputValues = new List<Value>
                 {
                     new Value
                     {
+                        Name = "id",
+                        Data = $"{image.Id}"
+                    },
+                    new Value
+                    {
                         Name = "image",
-                        Data = ToBase64(EncodeQrCode($"{Guid.NewGuid()}"))
+                        Data = $"{_htfContext.HostUri}/images/{image.Id}"
                     }
                 }
             };
@@ -76,7 +100,7 @@ namespace HTF2018.Backend.Logic.Challenges
             return new Example
             {
                 Question = question,
-                Answer = BuildAnswer(question, challengeId)
+                Answer = await BuildAnswer(question, challengeId)
             };
         }
 
@@ -93,19 +117,11 @@ namespace HTF2018.Backend.Logic.Challenges
             }
         }
 
-        private string GetDecoded(Question question)
+        private async Task<string> GetDecoded(Question question)
         {
-            var qrCode = question.InputValues.Single(x => x.Name == "image").Data;
-            return DecodeQrCode(FromBase64(qrCode));
-        }
-
-        private String ToBase64(Byte[] input)
-        {
-            return Convert.ToBase64String(input);
-        }
-        private Byte[] FromBase64(String input)
-        {
-            return Convert.FromBase64String(input);
+            var imageId = question.InputValues.Single(x => x.Name == "id").Data;
+            var image = await _imageLogic.LoadImage(new Guid(imageId));
+            return DecodeQrCode(image.Data);
         }
 
         private Byte[] EncodeQrCode(String input)

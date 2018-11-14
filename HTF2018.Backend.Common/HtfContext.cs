@@ -7,6 +7,8 @@ namespace HTF2018.Backend.Common
     {
         String RequestUri { get; set; }
 
+        String HostUri { get; set; }
+
         Boolean IsIdentified { get; set; }
 
         String Identification { get; set; }
@@ -17,6 +19,8 @@ namespace HTF2018.Backend.Common
     public class HtfContext : IHtfContext
     {
         public String RequestUri { get; set; }
+
+        public String HostUri { get; set; }
 
         public Boolean IsIdentified { get; set; }
 

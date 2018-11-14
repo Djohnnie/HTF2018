@@ -19,7 +19,7 @@ namespace HTF2018.Backend.Logic.Challenges
             return challenge;
         }
 
-        protected override Question BuildQuestion()
+        protected override Task<Question> BuildQuestion()
         {
             var question = new Question
             {
@@ -31,24 +31,24 @@ namespace HTF2018.Backend.Logic.Challenges
             question.InputValues.Add(new Value { Name = "r", Data = "### ###" });
             question.InputValues.Add(new Value { Name = "r", Data = "###F###" });
 
-            return question;
+            return Task.FromResult(question);
         }
 
-        protected override Answer BuildAnswer(Question question, Guid challengeId)
+        protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
             // TODO: Calculate answer based on question!
 
-            return new Answer
+            return Task.FromResult(new Answer
             {
                 ChallengeId = challengeId,
                 Values = new List<Value>
                 {
                     // TODO: Add name-data pairs containing answers!
                 }
-            };
+            });
         }
 
-        protected override Example BuildExample(Guid challengeId)
+        protected override async Task<Example> BuildExample(Guid challengeId)
         {
             var question = new Question
             {
@@ -71,7 +71,7 @@ namespace HTF2018.Backend.Logic.Challenges
             return new Example
             {
                 Question = question,
-                Answer = BuildAnswer(question, challengeId)
+                Answer = await BuildAnswer(question, challengeId)
             };
         }
 
