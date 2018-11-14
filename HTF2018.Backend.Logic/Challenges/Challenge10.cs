@@ -4,7 +4,16 @@ using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using ZXing;
+using ZXing.CoreCompat.System.Drawing;
+using ZXing.QrCode;
+using BarcodeReader = ZXing.CoreCompat.System.Drawing.BarcodeReader;
+using static System.String;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
@@ -15,7 +24,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         public async Task<Challenge> GetChallenge()
         {
-            Challenge challenge = await BuildChallenge(Identifier.Challenge10);
+            var challenge = await BuildChallenge(Identifier.Challenge10);
             return challenge;
         }
 
@@ -24,32 +33,44 @@ namespace HTF2018.Backend.Logic.Challenges
             var question = new Question
             {
                 InputValues = new List<Value>()
+                {
+                    new Value
+                    {
+                        Name = "image",
+                        Data = ToBase64(EncodeQrCode($"{Guid.NewGuid()}"))
+                    }
+                }
             };
-
-            // TODO: Add name-data pairs to the InputValues!
 
             return question;
         }
 
         protected override Answer BuildAnswer(Question question, Guid challengeId)
         {
-            // TODO: Calculate answer based on question!
+            var decoded = GetDecoded(question);
 
             return new Answer
             {
                 ChallengeId = challengeId,
                 Values = new List<Value>
                 {
-                    // TODO: Add name-data pairs containing answers!
+                    new Value{ Name = "decoded", Data = $"{decoded}" }
                 }
             };
         }
 
         protected override Example BuildExample(Guid challengeId)
         {
-            Question question = new Question
+            var question = new Question
             {
-                // TODO: Add name-data pairs containing an example question based on the actual question!
+                InputValues = new List<Value>
+                {
+                    new Value
+                    {
+                        Name = "image",
+                        Data = ToBase64(EncodeQrCode($"{Guid.NewGuid()}"))
+                    }
+                }
             };
 
             return new Example
@@ -61,14 +82,63 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            Boolean invalid = false;
-
-            // TODO: Do a basic validation of the answer object!
-            // (Null-checks, are properties correct, but no actual functional checks)
+            var invalid = answer.Values == null;
+            if (answer.Values != null && answer.Values.Count != 1) { invalid = true; }
+            if (!answer.Values.Any(x => x.Name == "decoded")) { invalid = true; }
+            if (IsNullOrEmpty(answer.Values.Single(x => x.Name == "decoded").Data)) { invalid = true; }
 
             if (invalid)
             {
                 throw new InvalidAnswerException();
+            }
+        }
+
+        private string GetDecoded(Question question)
+        {
+            var qrCode = question.InputValues.Single(x => x.Name == "image").Data;
+            return DecodeQrCode(FromBase64(qrCode));
+        }
+
+        private String ToBase64(Byte[] input)
+        {
+            return Convert.ToBase64String(input);
+        }
+        private Byte[] FromBase64(String input)
+        {
+            return Convert.FromBase64String(input);
+        }
+
+        private Byte[] EncodeQrCode(String input)
+        {
+            var writer = new BarcodeWriter
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = new QrCodeEncodingOptions
+                {
+                    Width = 100,
+                    Height = 100,
+                }
+            };
+
+            var qrCodeImage = writer.Write(input);
+
+            using (var stream = new MemoryStream())
+            {
+                qrCodeImage.Save(stream, ImageFormat.Png);
+                return stream.GetBuffer();
+            }
+        }
+
+        private String DecodeQrCode(Byte[] input)
+        {
+            var reader = new BarcodeReader();
+
+            using (var stream = new MemoryStream(input))
+            {
+                using (var image = (Bitmap)Image.FromStream(stream))
+                {
+                    return reader.Decode(image).Text;
+                }
             }
         }
     }

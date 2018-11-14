@@ -17,7 +17,7 @@ namespace HTF2018.Backend.Logic.Challenges
             { Identifier.Challenge07, "" },
             { Identifier.Challenge08, "" },
             { Identifier.Challenge09, "" },
-            { Identifier.Challenge10, "" },
+            { Identifier.Challenge10, "What is this image?" },
             { Identifier.Challenge11, "" },
             { Identifier.Challenge12, "" },
             { Identifier.Challenge13, "" },
@@ -32,8 +32,8 @@ namespace HTF2018.Backend.Logic.Challenges
         
         public static readonly Dictionary<Identifier, String> Descriptions = new Dictionary<Identifier, String>
         {
-            { Identifier.Challenge01, "Our team of physicists investigated the artifact and found that it contains twenty secrets that need to be unlocked. These secrets are translated into challenges for you to work on. The first challenge is simply initializing the artifact by identifying yourself with our middleware-interface-system." },
-            { Identifier.Challenge02, "Calculate the sum of all given integers." },
+            { Identifier.Challenge01, "Our team of physicists investigated the artifact and found that it contains twenty secrets that need to be unlocked. These secrets are translated into challenges for you to work on. The first challenge is simply initializing the artifact by identifying yourself with our engineer-friendly-middleware-interface-system." },
+            { Identifier.Challenge02, "It seems our basic intelligence is being tested and a simple sum of random integers is what is expected." },
             { Identifier.Challenge03, "" },
             { Identifier.Challenge04, "" },
             { Identifier.Challenge05, "" },
@@ -41,7 +41,7 @@ namespace HTF2018.Backend.Logic.Challenges
             { Identifier.Challenge07, "" },
             { Identifier.Challenge08, "" },
             { Identifier.Challenge09, "" },
-            { Identifier.Challenge10, "" },
+            { Identifier.Challenge10, "The artifact is trying to communicate using modern methods and generates weird black and white images. What do these images represent and what is the underlying message?" },
             { Identifier.Challenge11, "" },
             { Identifier.Challenge12, "" },
             { Identifier.Challenge13, "" },
