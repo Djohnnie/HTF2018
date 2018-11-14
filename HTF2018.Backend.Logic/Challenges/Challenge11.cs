@@ -15,7 +15,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         public async Task<Challenge> GetChallenge()
         {
-            Challenge challenge = await BuildChallenge(Identifier.Challenge03);
+            Challenge challenge = await BuildChallenge(Identifier.Challenge11);
             return challenge;
         }
 

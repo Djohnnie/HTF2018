@@ -12,23 +12,23 @@ namespace HTF2018.Backend.Logic.Challenges
     public class Challenge04 : ChallengeBase, IChallenge04
     {
         /// <summary>
-        /// CHALLENGE 03:
+        /// CHALLENGE 04:
         ///   The artifact is sending us messages. See if you can decode them!
         /// </summary>
         public Challenge04(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
         private readonly Random _randomGenerator = new Random();
-        private readonly List<string> _artefactSentences = new List<string>
+        private readonly List<string> _artifactSentences = new List<string>
         {
             "The artifact has landed on a sacred place.",
             "We chose this location as the one with the biggest impact.",
-            "The humans are trying to decypher our language!",
+            "The humans are trying to decipher our language!",
             "The artifact is getting breached, adapt!"
         };
         public async Task<Challenge> GetChallenge()
         {
-            var challenge = await BuildChallenge(Identifier.Challenge03);
+            var challenge = await BuildChallenge(Identifier.Challenge04);
             return challenge;
         }
 
@@ -39,7 +39,7 @@ namespace HTF2018.Backend.Logic.Challenges
                 InputValues = new List<Value>()
             };
 
-            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(_artefactSentences[_randomGenerator.Next(_artefactSentences.Count)]) });
+            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(_artifactSentences[_randomGenerator.Next(_artifactSentences.Count)]) });
 
             return question;
         }

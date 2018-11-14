@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
-    public class Challenge06 : ChallengeBase, IChallenge04
+    public class Challenge06 : ChallengeBase, IChallenge06
     {
         /// <summary>
         /// CHALLENGE 06:
@@ -20,17 +20,17 @@ namespace HTF2018.Backend.Logic.Challenges
 
         private const string Cipher = "cipher";
         private readonly Random _randomGenerator = new Random();
-        private readonly List<string> _artefactSentences = new List<string>
+        private readonly List<string> _artifactSentences = new List<string>
         {
             //To Change
             "The artifact has landed on a sacred place.",
             "We chose this location as the one with the biggest impact.",
-            "The humans are trying to decypher our language!",
+            "The humans are trying to decipher our language!",
             "The artifact is getting breached, adapt!"
         };
         public async Task<Challenge> GetChallenge()
         {
-            var challenge = await BuildChallenge(Identifier.Challenge03);
+            var challenge = await BuildChallenge(Identifier.Challenge06);
             return challenge;
         }
 
@@ -42,7 +42,7 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 InputValues = new List<Value>
                 {
-                    new Value { Name = "encoded", Data = Encode(_artefactSentences[_randomGenerator.Next(_artefactSentences.Count)],cipher)},
+                    new Value { Name = "encoded", Data = Encode(_artifactSentences[_randomGenerator.Next(_artifactSentences.Count)],cipher)},
                     new Value { Name = Cipher, Data = $"{cipher}"}
                 }
             };
@@ -121,7 +121,5 @@ namespace HTF2018.Backend.Logic.Challenges
             }
             return new string(buffer);
         }
-
-
     }
 }

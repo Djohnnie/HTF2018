@@ -5,7 +5,6 @@ using HTF2018.Backend.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace HTF2018.Backend.Logic.Challenges
@@ -36,8 +35,8 @@ namespace HTF2018.Backend.Logic.Challenges
 
             var primeStart = _randomGenerator.Next(1000, 1000000);
             var primeRange = _randomGenerator.Next(1000, 5000);
-            question.InputValues.Add(new Value{Name = "start", Data = $"{primeStart}"});
-            question.InputValues.Add(new Value { Name = "end", Data = $"{primeStart+primeRange}" });
+            question.InputValues.Add(new Value { Name = "start", Data = $"{primeStart}" });
+            question.InputValues.Add(new Value { Name = "end", Data = $"{primeStart + primeRange}" });
             return question;
         }
 
@@ -76,7 +75,7 @@ namespace HTF2018.Backend.Logic.Challenges
             if (answer.Values != null) { invalid = true; }
             if (!answer.Values.Any(x => x.Name == "prime")) { invalid = true; }
 
-            foreach (var answerValue in answer.Values.Where(x=>x.Name.Equals("prime")))
+            foreach (var answerValue in answer.Values.Where(x => x.Name.Equals("prime")))
             {
                 if (string.IsNullOrEmpty(answerValue.Data))
                     invalid = true;
@@ -97,7 +96,7 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 if (IsPrime(i))
                 {
-                    primes.Add(new Value{Name = "prime",Data = $"{i}"});
+                    primes.Add(new Value { Name = "prime", Data = $"{i}" });
                 }
             }
 
@@ -110,9 +109,9 @@ namespace HTF2018.Backend.Logic.Challenges
                 return number == 2;
             }
 
-            for (var i = 3; (i * i) <= number; i += 2)
+            for (var i = 3; i * i <= number; i += 2)
             {
-                if ((number % i) == 0)
+                if (number % i == 0)
                 {
                     return false;
                 }
