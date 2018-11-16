@@ -9,11 +9,12 @@ namespace HTF2018.Backend.DataAccess
         public DbSet<Challenge> Challenges { get; set; }
         public DbSet<Statistics> Statistics { get; set; }
         public DbSet<History> History { get; set; }
+        public DbSet<Image> Images { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"...");
+            optionsBuilder.UseSqlServer("");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,6 +36,11 @@ namespace HTF2018.Backend.DataAccess
             modelBuilder.Entity<History>().HasKey(x => x.Id).ForSqlServerIsClustered(clustered: false);
             modelBuilder.Entity<History>().HasIndex(x => x.SysId).IsUnique().ForSqlServerIsClustered();
             modelBuilder.Entity<History>().Property(x => x.SysId).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Image>().HasKey(x => x.Id).ForSqlServerIsClustered(clustered: false);
+            modelBuilder.Entity<Image>().HasIndex(x => x.SysId).IsUnique().ForSqlServerIsClustered();
+            modelBuilder.Entity<Image>().Property(x => x.SysId).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Image>().HasIndex(x => x.Checksum).IsUnique();
         }
     }
 }

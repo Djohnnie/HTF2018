@@ -4,14 +4,16 @@ using HTF2018.Backend.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HTF2018.Backend.DataAccess.Migrations
 {
     [DbContext(typeof(TheArtifactDbContext))]
-    partial class TheArtifactDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181114143425_Images_Checksum")]
+    partial class Images_Checksum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

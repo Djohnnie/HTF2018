@@ -7,7 +7,7 @@ namespace HTF2018.Backend.Logic.Interfaces
     {
         Task<Challenge> GetChallenge();
 
-        Task<Response> ValidateChallenge(Answer answer);
+        Task<Response> ValidateChallenge(Answer answer, Identifier identifier);
     }
 
     public interface IChallenge01 : IChallenge { }

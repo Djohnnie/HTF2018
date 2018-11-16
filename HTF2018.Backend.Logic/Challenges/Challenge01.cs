@@ -1,7 +1,7 @@
 ﻿using HTF2018.Backend.Common;
 using HTF2018.Backend.Common.Exceptions;
-using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Common.Extensions;
+using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -35,7 +35,7 @@ namespace HTF2018.Backend.Logic.Challenges
             return challenge;
         }
 
-        public override async Task<Response> ValidateChallenge(Answer answer)
+        public override async Task<Response> ValidateChallenge(Answer answer, Identifier identifier)
         {
             ValidateAnswer(answer);
 
@@ -53,37 +53,35 @@ namespace HTF2018.Backend.Logic.Challenges
                 {
                     throw new InvalidTeamException();
                 }
-                else
-                {
-                    await _challengeLogic.SolveChallenge(answer.ChallengeId, team.Id);
-                    await _historyLogic.Push(Status.Successful);
-                }
+
+                await _challengeLogic.SolveChallenge(answer.ChallengeId, team.Id);
+                await _historyLogic.Push(Status.Successful);
             }
 
             return new Response
             {
-                Identifier = Identifier.Challenge01,
+                Identifier = identifier,
                 Status = Status.Successful,
                 Identification = team.Identification,
                 Overview = await BuildOverview(team.Id)
             };
         }
 
-        protected override Question BuildQuestion()
+        protected override Task<Question> BuildQuestion()
         {
-            return new Question
+            return Task.FromResult(new Question
             {
                 InputValues = new List<Value>
                 {
                     new Value{ Name = "name", Data = "Use this parameter to provide a name for your team." },
                     new Value{ Name = "secret", Data = "Use this parameter to provide a secret for your team to authenticate with." }
                 }
-            };
+            });
         }
 
-        protected override Answer BuildAnswer(Question question, Guid challengeId)
+        protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
-            return new Answer
+            return Task.FromResult(new Answer
             {
                 ChallengeId = challengeId,
                 Values = new List<Value>
@@ -91,16 +89,16 @@ namespace HTF2018.Backend.Logic.Challenges
                     new Value{ Name = "name", Data = "we_will_hack_the_future" },
                     new Value{ Name = "secret", Data = "twinkle, twinkle, little star!" }
                 }
-            };
+            });
         }
 
-        protected override Example BuildExample(Guid challengeId)
+        protected override async Task<Example> BuildExample(Guid challengeId)
         {
-            Question question = BuildQuestion();
+            Question question = await BuildQuestion();
             return new Example
             {
                 Question = question,
-                Answer = BuildAnswer(question, challengeId)
+                Answer = await BuildAnswer(question, challengeId)
             };
         }
 

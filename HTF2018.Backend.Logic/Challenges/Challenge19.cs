@@ -19,43 +19,59 @@ namespace HTF2018.Backend.Logic.Challenges
             return challenge;
         }
 
-        protected override Question BuildQuestion()
+        protected override Task<Question> BuildQuestion()
         {
             var question = new Question
             {
                 InputValues = new List<Value>()
             };
 
-            // TODO: Add name-data pairs to the InputValues!
+            question.InputValues.Add(new Value { Name = "r", Data = "###S###" });
+            question.InputValues.Add(new Value { Name = "r", Data = "### ###" });
+            question.InputValues.Add(new Value { Name = "r", Data = "### ###" });
+            question.InputValues.Add(new Value { Name = "r", Data = "###F###" });
 
-            return question;
+            return Task.FromResult(question);
         }
 
-        protected override Answer BuildAnswer(Question question, Guid challengeId)
+        protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
             // TODO: Calculate answer based on question!
 
-            return new Answer
+            return Task.FromResult(new Answer
             {
                 ChallengeId = challengeId,
                 Values = new List<Value>
                 {
                     // TODO: Add name-data pairs containing answers!
                 }
-            };
+            });
         }
 
-        protected override Example BuildExample(Guid challengeId)
+        protected override async Task<Example> BuildExample(Guid challengeId)
         {
-            Question question = new Question
+            var question = new Question
             {
-                // TODO: Add name-data pairs containing an example question based on the actual question!
+                InputValues = new List<Value>
+                {
+                    new Value{ Name = "r", Data = "#####S#####" },
+                    new Value{ Name = "r", Data = "##### #####" },
+                    new Value{ Name = "r", Data = "#         #" },
+                    new Value{ Name = "r", Data = "# ####### #" },
+                    new Value{ Name = "r", Data = "#    ###  #" },
+                    new Value{ Name = "r", Data = "#### ### ##" },
+                    new Value{ Name = "r", Data = "#    ###  #" },
+                    new Value{ Name = "r", Data = "# ####### #" },
+                    new Value{ Name = "r", Data = "#         #" },
+                    new Value{ Name = "r", Data = "##### #####" },
+                    new Value{ Name = "r", Data = "#####F#####" }
+                }
             };
 
             return new Example
             {
                 Question = question,
-                Answer = BuildAnswer(question, challengeId)
+                Answer = await BuildAnswer(question, challengeId)
             };
         }
 

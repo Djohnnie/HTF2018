@@ -34,7 +34,7 @@ namespace HTF2018.Backend.Logic.Challenges
             return challenge;
         }
 
-        protected override Question BuildQuestion()
+        protected override Task<Question> BuildQuestion()
         {
 
             var cipher = _randomGenerator.Next(1, 27);
@@ -47,10 +47,10 @@ namespace HTF2018.Backend.Logic.Challenges
                 }
             };
 
-            return question;
+            return Task.FromResult(question);
         }
 
-        protected override Answer BuildAnswer(Question question, Guid challengeId)
+        protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
             var answers = new List<Value>();
 
@@ -59,16 +59,16 @@ namespace HTF2018.Backend.Logic.Challenges
             foreach (var inputValue in question.InputValues)
             {
                 answers.Add(
-                    new Value { Name = "decoded", Data = Encode(inputValue.Data,-cipher) });
+                    new Value { Name = "decoded", Data = Encode(inputValue.Data, -cipher) });
             }
-            return new Answer
+            return Task.FromResult(new Answer
             {
                 ChallengeId = challengeId,
                 Values = answers
-            };
+            });
         }
 
-        protected override Example BuildExample(Guid challengeId)
+        protected override async Task<Example> BuildExample(Guid challengeId)
         {
             var question = new Question
             {
@@ -82,7 +82,7 @@ namespace HTF2018.Backend.Logic.Challenges
             return new Example
             {
                 Question = question,
-                Answer = BuildAnswer(question, challengeId)
+                Answer = await BuildAnswer(question, challengeId)
             };
         }
 

@@ -25,7 +25,7 @@ namespace HTF2018.Backend.Logic.Challenges
             return challenge;
         }
 
-        protected override Question BuildQuestion()
+        protected override Task<Question> BuildQuestion()
         {
             var question = new Question
             {
@@ -37,21 +37,21 @@ namespace HTF2018.Backend.Logic.Challenges
             var primeRange = _randomGenerator.Next(1000, 5000);
             question.InputValues.Add(new Value { Name = "start", Data = $"{primeStart}" });
             question.InputValues.Add(new Value { Name = "end", Data = $"{primeStart + primeRange}" });
-            return question;
+            return Task.FromResult(question);
         }
 
-        protected override Answer BuildAnswer(Question question, Guid challengeId)
+        protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
             var primes = CalculatePrimes(question.InputValues);
 
-            return new Answer
+            return Task.FromResult(new Answer
             {
                 ChallengeId = challengeId,
                 Values = primes
-            };
+            });
         }
 
-        protected override Example BuildExample(Guid challengeId)
+        protected override async Task<Example> BuildExample(Guid challengeId)
         {
             Question question = new Question
             {
@@ -65,7 +65,7 @@ namespace HTF2018.Backend.Logic.Challenges
             return new Example
             {
                 Question = question,
-                Answer = BuildAnswer(question, challengeId)
+                Answer = await BuildAnswer(question, challengeId)
             };
         }
 
