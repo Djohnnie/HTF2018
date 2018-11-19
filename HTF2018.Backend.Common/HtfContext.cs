@@ -11,6 +11,8 @@ namespace HTF2018.Backend.Common
 
         Boolean IsIdentified { get; set; }
 
+        Boolean IsIdentifiedAsAdmin { get; set; }
+
         String Identification { get; set; }
 
         Team Team { get; set; }
@@ -23,6 +25,8 @@ namespace HTF2018.Backend.Common
         public String HostUri { get; set; }
 
         public Boolean IsIdentified { get; set; }
+
+        public Boolean IsIdentifiedAsAdmin { get; set; }
 
         public String Identification { get; set; }
 
