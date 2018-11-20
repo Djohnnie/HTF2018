@@ -15,7 +15,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "CONNECTIONSTRING": "Server=my.djohnnie.be;Database=htf2018;User Id=sa;Password=Gadash1985;"
+        "CONNECTIONSTRING": "..."
       }
     },
     "HTF2018.Backend.Api": {
