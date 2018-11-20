@@ -19,6 +19,16 @@ namespace HTF2018.Backend.Api.Middleware
             {
                 await _next(context);
             }
+            catch (NotIdentifiedException)
+            {
+                context.Response.StatusCode = 401;
+                await context.Response.WriteAsync("The Artifact does not know who you are. Please identify!");
+            }
+            catch (NotIdentifiedAsAdminException)
+            {
+                context.Response.StatusCode = 403;
+                await context.Response.WriteAsync("These endpoints are not for regular use!");
+            }
             catch (InvalidChallengeCodeException)
             {
                 context.Response.StatusCode = 404;

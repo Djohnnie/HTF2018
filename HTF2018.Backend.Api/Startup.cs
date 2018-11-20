@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
+using HTF2018.Backend.Api.Filters;
 
 namespace HTF2018.Backend.Api
 {
@@ -55,6 +56,8 @@ namespace HTF2018.Backend.Api
             services.AddTransient<IChallenge18, Challenge18>();
             services.AddTransient<IChallenge19, Challenge19>();
             services.AddTransient<IChallenge20, Challenge20>();
+            services.AddScoped<IdentificationFilter>();
+            services.AddScoped<AdministratorFilter>();
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)

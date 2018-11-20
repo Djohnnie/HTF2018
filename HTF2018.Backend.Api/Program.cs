@@ -12,6 +12,9 @@ namespace HTF2018.Backend.Api
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseUrls("http://*:5000")
+                .UseKestrel()
+                .UseIISIntegration()
                 .UseStartup<Startup>();
     }
 }

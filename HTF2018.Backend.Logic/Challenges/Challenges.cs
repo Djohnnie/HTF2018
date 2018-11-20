@@ -26,10 +26,10 @@ namespace HTF2018.Backend.Logic.Challenges
             { Identifier.Challenge16, "" },
             { Identifier.Challenge17, "" },
             { Identifier.Challenge18, "" },
-            { Identifier.Challenge19, "" },
+            { Identifier.Challenge19, "A maze? Really?" },
             { Identifier.Challenge20, "" }
         };
-        
+
         public static readonly Dictionary<Identifier, String> Descriptions = new Dictionary<Identifier, String>
         {
             { Identifier.Challenge01, "Our team of physicists investigated the artifact and found that it contains twenty secrets that need to be unlocked. These secrets are translated into challenges for you to work on. The first challenge is simply initializing the artifact by identifying yourself with our engineer-friendly-middleware-interface-system." },
@@ -50,7 +50,7 @@ namespace HTF2018.Backend.Logic.Challenges
             { Identifier.Challenge16, "" },
             { Identifier.Challenge17, "" },
             { Identifier.Challenge18, "" },
-            { Identifier.Challenge19, "" },
+            { Identifier.Challenge19, "We are being compared with test subjects like mice and are confronted with a maze. Solve the maze and find the shortest route from start to finish." },
             { Identifier.Challenge20, "" }
         };
     }

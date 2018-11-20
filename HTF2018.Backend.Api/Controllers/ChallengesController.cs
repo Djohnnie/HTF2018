@@ -4,6 +4,7 @@ using HTF2018.Backend.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using HTF2018.Backend.Api.Filters;
 
 namespace HTF2018.Backend.Api.Controllers
 {
@@ -47,7 +48,7 @@ namespace HTF2018.Backend.Api.Controllers
         /// <param name="challengeCode">The challenge code to identify a challenge.</param>
         /// <returns></returns>
         [HttpGet, Route("{challengeCode}")]
-        [HtfIdentification]
+        [HtfIdentification, ServiceFilter(typeof(IdentificationFilter))]
         public async Task<IActionResult> GetSubsequentChallenge(String challengeCode)
         {
             Challenge challenge = await _challengeEngine.GetChallenge(challengeCode);
@@ -61,7 +62,7 @@ namespace HTF2018.Backend.Api.Controllers
         /// <param name="answer">The answer.</param>
         /// <returns></returns>
         [HttpPost, Route("{challengeCode}")]
-        [HtfIdentification]
+        [HtfIdentification, ServiceFilter(typeof(IdentificationFilter))]
         public async Task<IActionResult> PostSubsequentChallengeSolution(String challengeCode, Answer answer)
         {
             Response response = await _challengeEngine.ValidateChallenge(answer);
