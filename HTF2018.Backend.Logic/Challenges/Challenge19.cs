@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HTF2018.Backend.Logic.Challenges
@@ -99,16 +100,49 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
-            // TODO: Calculate answer based on question!
+            var maze = BuildMazeFromQuestion(question.InputValues);
+            SolveMaze(maze);
 
-            return Task.FromResult(new Answer
+            var rows = new string[maze.Height];
+            for (int y = 0; y < maze.Height; y++)
+            {
+                rows[y] = "";
+                for (int x = 0; x < maze.Width; x++)
+                {
+                    switch (maze[x, y].Type)
+                    {
+                        case CellType.Wall:
+                            rows[y] = rows[y] += '#';
+                            break;
+                        case CellType.Road:
+                            rows[y] = rows[y] += maze[x, y].Step.HasValue ? '*' : ' ';
+                            break;
+                        case CellType.Start:
+                            rows[y] = rows[y] += 'S';
+                            break;
+                        case CellType.Finish:
+                            rows[y] = rows[y] += 'F';
+                            break;
+                    }
+                }
+            }
+
+            var answer = new Answer
             {
                 ChallengeId = challengeId,
-                Values = new List<Value>
+                Values = new List<Value>()
+            };
+
+            foreach (var row in rows)
+            {
+                answer.Values.Add(new Value
                 {
-                    // TODO: Add name-data pairs containing answers!
-                }
-            });
+                    Name = "r",
+                    Data = row
+                });
+            }
+
+            return Task.FromResult(answer);
         }
 
         protected override async Task<Example> BuildExample(Guid challengeId)
@@ -121,15 +155,19 @@ namespace HTF2018.Backend.Logic.Challenges
                     new Value{ Name = "r", Data = "##### #####" },
                     new Value{ Name = "r", Data = "#         #" },
                     new Value{ Name = "r", Data = "# ####### #" },
-                    new Value{ Name = "r", Data = "#    ###  #" },
-                    new Value{ Name = "r", Data = "#### ### ##" },
-                    new Value{ Name = "r", Data = "#    ###  #" },
+                    new Value{ Name = "r", Data = "#      #  #" },
+                    new Value{ Name = "r", Data = "###### # ##" },
+                    new Value{ Name = "r", Data = "#      #  #" },
                     new Value{ Name = "r", Data = "# ####### #" },
                     new Value{ Name = "r", Data = "#         #" },
                     new Value{ Name = "r", Data = "##### #####" },
                     new Value{ Name = "r", Data = "#####F#####" }
                 }
             };
+
+            var imageBytes = BuildMazeImage(question.InputValues.Select(x => x.Data).ToArray());
+            var image = await _imageLogic.StoreImage(imageBytes);
+            question.InputValues.Add(new Value { Name = "graphic", Data = $"{_htfContext.HostUri}/images/{image.Id}" });
 
             return new Example
             {
@@ -220,6 +258,199 @@ namespace HTF2018.Backend.Logic.Challenges
                 Image image = Image.FromStream(ms, true);
                 return image;
             }
+        }
+
+        private Maze BuildMazeFromQuestion(List<Value> questionInputValues)
+        {
+            Maze maze = new Maze(questionInputValues[0].Data.Length, questionInputValues.Count - 1);
+            for (int y = 0; y < questionInputValues.Count - 1; y++)
+            {
+                for (int x = 0; x < questionInputValues[0].Data.Length; x++)
+                {
+                    switch (questionInputValues[y].Data[x])
+                    {
+                        case '#':
+                            maze[x, y].Type = CellType.Wall;
+                            break;
+                        case ' ':
+                            maze[x, y].Type = CellType.Road;
+                            break;
+                        case 'S':
+                            maze[x, y].Type = CellType.Start;
+                            break;
+                        case 'F':
+                            maze[x, y].Type = CellType.Finish;
+                            break;
+                    }
+                }
+            }
+            return maze;
+        }
+
+        private void SolveMaze(Maze maze)
+        {
+            var startCell = maze.Cells.SingleOrDefault(x => x.Type == CellType.Start);
+            if (startCell != null)
+            {
+                Step(maze, startCell, step: 1);
+            }
+            var finishCell = maze.Cells.SingleOrDefault(x => x.Type == CellType.Finish);
+            if (finishCell != null)
+            {
+                Backtrack(maze, finishCell);
+            }
+        }
+
+        private void Step(Maze maze, Cell startCell, Int32 step)
+        {
+            Step(maze, new List<Cell> { startCell }, step);
+        }
+
+        private void Step(Maze maze, IEnumerable<Cell> cells, Int32 step)
+        {
+            var finishFound = false;
+            List<Cell> nextCells = new List<Cell>();
+            foreach (var cell in cells)
+            {
+                var neighbourCells = FindNeighbours(maze, cell);
+                var found = neighbourCells.Any(x => x.Type == CellType.Finish);
+                if (found)
+                {
+                    neighbourCells.Single(x => x.Type == CellType.Finish).Step = step;
+                }
+                else
+                {
+                    foreach (var nextCell in neighbourCells)
+                    {
+                        if (nextCell.Step == null || nextCell.Step > step)
+                        {
+                            nextCell.Step = step;
+                            nextCells.Add(nextCell);
+                        }
+                    }
+                }
+                finishFound = finishFound || found;
+            }
+            if (!finishFound && nextCells.Count > 0)
+            {
+                Step(maze, nextCells, step + 1);
+            }
+        }
+
+        private List<Cell> FindNeighbours(Maze maze, Cell cell)
+        {
+            List<Cell> neighbours = new List<Cell>();
+            AddNeighbourCell(maze, neighbours, cell.X - 1, cell.Y);
+            AddNeighbourCell(maze, neighbours, cell.X, cell.Y - 1);
+            AddNeighbourCell(maze, neighbours, cell.X + 1, cell.Y);
+            AddNeighbourCell(maze, neighbours, cell.X, cell.Y + 1);
+            return neighbours;
+        }
+
+        private void AddNeighbourCell(Maze maze, List<Cell> neighbours, Int32 x, Int32 y)
+        {
+            if (x >= 0 && x < maze.Width && y >= 0 && y < maze.Height)
+            {
+                var neighbourCell = maze[x, y];
+                if (neighbourCell != null && (neighbourCell.Type == CellType.Road || neighbourCell.Type == CellType.Finish))
+                {
+                    neighbours.Add(neighbourCell);
+                }
+            }
+        }
+
+        private void Backtrack(Maze maze, Cell cell)
+        {
+            List<Cell> shortestPathCells = new List<Cell>();
+            Backtrack(maze, cell, shortestPathCells);
+            maze.Cells.ForEach(c => { if (!shortestPathCells.Contains(c)) { c.Step = null; } });
+        }
+
+        private void Backtrack(Maze maze, Cell cell, List<Cell> history)
+        {
+            if (cell.Type != CellType.Start)
+            {
+                history.Add(cell);
+                var previousCellInPath = FindPreviousCellInPath(maze, cell);
+                if (previousCellInPath != null)
+                {
+                    Backtrack(maze, previousCellInPath, history);
+                }
+            }
+        }
+
+        private Cell FindPreviousCellInPath(Maze maze, Cell cell)
+        {
+            var neighbourCells = FindNeighbours(maze, cell);
+            var previousCells = neighbourCells.Where(x => x.Step.HasValue && x.Step == cell.Step - 1);
+            var previousCell = previousCells.FirstOrDefault();
+            return previousCell;
+        }
+
+        private class Maze
+        {
+            private readonly List<Cell> _cells = new List<Cell>();
+
+            public Int32 Width { get; set; }
+
+            public Int32 Height { get; set; }
+
+            public Cell this[Int32 x, Int32 y]
+            {
+                get { return _cells.SingleOrDefault(c => c.X == x && c.Y == y); }
+                set
+                {
+                    var cell = _cells.SingleOrDefault(c => c.X == x && c.Y == y);
+                    if (cell == null)
+                    {
+                        _cells.Add(value);
+                    }
+                }
+            }
+
+            public List<Cell> Cells { get { return _cells; } }
+
+            public Maze() { }
+
+            public Maze(Int32 width, Int32 height)
+            {
+                Width = width;
+                Height = height;
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        _cells.Add(new Cell(x, y));
+                    }
+                }
+            }
+        }
+
+        private class Cell
+        {
+            public Int32 X { get; set; }
+
+            public Int32 Y { get; set; }
+
+            public CellType Type { get; set; }
+
+            public Int32? Step { get; set; }
+
+            public Cell() { }
+
+            public Cell(Int32 x, Int32 y)
+            {
+                this.X = x;
+                this.Y = y;
+            }
+        }
+
+        private enum CellType
+        {
+            Wall,
+            Road,
+            Start,
+            Finish
         }
     }
 }
