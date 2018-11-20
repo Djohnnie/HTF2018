@@ -13,7 +13,7 @@ namespace HTF2018.Backend.Logic.Challenges
     {
         /// <summary>
         /// CHALLENGE 05:
-        ///   The artifact is trying to guess ages in on different planets. Can you help out which one it actually means?
+        ///  The artifact is trying to guess ages in on different planets. Can you help out which one it actually means?
         /// </summary>
         private readonly Random _randomGenerator = new Random();
 
