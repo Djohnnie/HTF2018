@@ -16,7 +16,7 @@ namespace HTF2018.Backend.Api.Controllers
             _imageLogic = imageLogic;
         }
 
-        [HttpGet, Route("images/{imageId}")]
+        [HttpGet, Route("{imageId}")]
         public async Task<IActionResult> GetImage(Guid imageId)
         {
             var image = await _imageLogic.LoadImage(imageId);
