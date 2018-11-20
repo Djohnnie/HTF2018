@@ -1,5 +1,6 @@
 ﻿using HTF2018.Backend.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace HTF2018.Backend.DataAccess
 {
@@ -14,7 +15,8 @@ namespace HTF2018.Backend.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("");
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTIONSTRING");
+            optionsBuilder.UseSqlServer(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
