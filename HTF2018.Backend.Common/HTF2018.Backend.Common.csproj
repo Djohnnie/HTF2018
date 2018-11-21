@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\jhooyberghs\Source\Repos\HTF2018\HTF2018.Backend.Common\HTF2018.Backend.Common.xml</DocumentationFile>
+    <DocumentationFile>HTF2018.Backend.Common.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>

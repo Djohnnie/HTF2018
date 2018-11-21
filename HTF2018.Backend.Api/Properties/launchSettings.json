@@ -14,7 +14,9 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "OVERLORD_IDENTIFICATION": "N2YzOTVlOWItOGViMi00ODI5LWI5NDgtNDljYTJkZjY1YjJj",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "CONNECTIONSTRING": "..."
       }
     },
     "HTF2018.Backend.Api": {

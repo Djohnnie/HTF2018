@@ -67,8 +67,8 @@ namespace HTF2018.Backend.Api
                     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 });
 
-            String xmlFile1 = "HTF2018.Backend.Api.XML";
-            String xmlFile2 = "HTF2018.Backend.Common.XML";
+            String xmlFile1 = "HTF2018.Backend.Api.xml";
+            String xmlFile2 = "HTF2018.Backend.Common.xml";
 
             services.AddSwaggerGen(c =>
             {

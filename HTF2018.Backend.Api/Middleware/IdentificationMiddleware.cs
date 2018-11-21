@@ -23,15 +23,16 @@ namespace HTF2018.Backend.Api.Middleware
         {
             if (context.Request.Headers.ContainsKey(IDENTIFICATION_HEADER) && context.Request.Headers[IDENTIFICATION_HEADER].Count == 1)
             {
+                var overlordIdentification = Environment.GetEnvironmentVariable("OVERLORD_IDENTIFICATION");
                 String identification = context.Request.Headers[IDENTIFICATION_HEADER].Single();
                 htfContext.Identification = identification;
+                if(identification == overlordIdentification)
+                {
+                    htfContext.IsIdentifiedAsAdmin = true;
+                }
                 Guid identificationGuid = Guid.Empty;
                 if (Guid.TryParse(identification.Base64Decode(), out identificationGuid))
                 {
-                    if (identificationGuid == new Guid("7f395e9b-8eb2-4829-b948-49ca2df65b2c"))
-                    {
-                        htfContext.IsIdentifiedAsAdmin = true;
-                    }
                     Team team = await teamLogic.FindTeamByIdentification(identification);
                     if (team != null)
                     {

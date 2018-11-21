@@ -19,7 +19,8 @@ namespace HTF2018.Backend.Api.Middleware
 
         public async Task InvokeAsync(HttpContext context, IHtfContext htfContext)
         {
-            if (!String.IsNullOrEmpty(htfContext.Identification))
+            var overlordIdentification = Environment.GetEnvironmentVariable("OVERLORD_IDENTIFICATION");
+            if (!String.IsNullOrEmpty(htfContext.Identification) && htfContext.Identification != overlordIdentification)
             {
                 if (_throttleIndex.ContainsKey(htfContext.Identification))
                 {
