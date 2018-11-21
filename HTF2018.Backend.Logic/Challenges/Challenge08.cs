@@ -8,39 +8,65 @@ using System.Threading.Tasks;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
+    /// <summary>
+    /// CHALLENGE 08:
+    ///   Geocoding
+    /// </summary>
     public class Challenge08 : ChallengeBase, IChallenge08
     {
+        
         public Challenge08(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
+
+        private readonly Random _randomGenerator = new Random();
+        private readonly List<Coordinate> _artifactLocations = new List<Coordinate>
+        {
+            new Coordinate{ Latitude = 0, Longitude = 0}
+        };
         public async Task<Challenge> GetChallenge()
         {
-            Challenge challenge = await BuildChallenge(Identifier.Challenge08);
+            var challenge = await BuildChallenge(Identifier.Challenge08);
             return challenge;
         }
 
         protected override Task<Question> BuildQuestion()
         {
+            var random = _randomGenerator.Next(_artifactLocations.Count);
             var question = new Question
             {
-                InputValues = new List<Value>()
-            };
+                InputValues = new List<Value>
+                {
+                    new Value
+                    {
+                        Name = "double",
+                        Data = $"{_artifactLocations[random].Latitude}"
+                    },new Value
+                    {
+                        Name = "double",
+                        Data = $"{_artifactLocations[random].Longitude}"
+                    },
 
-            // TODO: Add name-data pairs to the InputValues!
+                    //add multiple values to make it more difficult
+                }
+            };
 
             return Task.FromResult(question);
         }
 
         protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
-            // TODO: Calculate answer based on question!
+
+            //var drawingId = int.Parse(question.InputValues);
+
+
 
             return Task.FromResult(new Answer
             {
                 ChallengeId = challengeId,
                 Values = new List<Value>
                 {
-                    // TODO: Add name-data pairs containing answers!
+                    //new Value{Name = "rectangles", Data = $"{Rectangles.Count(_rectangleStrings[drawingId])}"}
                 }
             });
         }
@@ -71,5 +97,11 @@ namespace HTF2018.Backend.Logic.Challenges
                 throw new InvalidAnswerException();
             }
         }
+    }
+
+    public class Coordinate
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }
