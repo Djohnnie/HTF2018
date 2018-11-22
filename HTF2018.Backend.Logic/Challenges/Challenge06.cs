@@ -5,7 +5,9 @@ using HTF2018.Backend.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using ZXing;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
@@ -13,16 +15,14 @@ namespace HTF2018.Backend.Logic.Challenges
     {
         /// <summary>
         /// CHALLENGE 06:
-        ///   The artifact is sending us messages again. See if you can decode them! This time they are sending a number with it, migt it be a key to decipher it?
+        ///  Binary to ASCII
         /// </summary>
         public Challenge06(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
-        private const string Cipher = "cipher";
         private readonly Random _randomGenerator = new Random();
         private readonly List<string> _artifactSentences = new List<string>
         {
-            //To Change
             "The artifact has landed on a sacred place.",
             "We chose this location as the one with the biggest impact.",
             "The humans are trying to decipher our language!",
@@ -36,16 +36,12 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override Task<Question> BuildQuestion()
         {
-
-            var cipher = _randomGenerator.Next(1, 27);
             var question = new Question
             {
-                InputValues = new List<Value>
-                {
-                    new Value { Name = "encoded", Data = Encode(_artifactSentences[_randomGenerator.Next(_artifactSentences.Count)],cipher)},
-                    new Value { Name = Cipher, Data = $"{cipher}"}
-                }
+                InputValues = new List<Value>()
             };
+
+            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(_artifactSentences[_randomGenerator.Next(_artifactSentences.Count)]) });
 
             return Task.FromResult(question);
         }
@@ -53,13 +49,10 @@ namespace HTF2018.Backend.Logic.Challenges
         protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
             var answers = new List<Value>();
-
-            var cipherValue = question.InputValues.Find(e => e.Name.Equals(Cipher));
-            var cipher = Convert.ToInt32(cipherValue.Data);
             foreach (var inputValue in question.InputValues)
             {
                 answers.Add(
-                    new Value { Name = "decoded", Data = Encode(inputValue.Data, -cipher) });
+                    new Value { Name = "decoded", Data = Decode(inputValue.Data) });
             }
             return Task.FromResult(new Answer
             {
@@ -73,9 +66,8 @@ namespace HTF2018.Backend.Logic.Challenges
             var question = new Question
             {
                 InputValues = new List<Value> {
-                    new Value{Name = Cipher, Data = "16"},
-                    new Value{Name = "encoded", Data = Encode("Artifact",16)},
-                    new Value{Name = "encoded", Data = Encode("Aliens",16)}
+                    new Value{Name = "encoded", Data = Encode("Artifact")},
+                    new Value{Name = "encoded", Data = Encode("Aliens")}
                 }
             };
 
@@ -102,24 +94,14 @@ namespace HTF2018.Backend.Logic.Challenges
             }
         }
 
-        private static string Encode(string value, int shift)
+        private string Encode(string text)
         {
-            var buffer = value.ToCharArray();
-            for (var i = 0; i < buffer.Length; i++)
-            {
-                char letter = buffer[i];
-                letter = (char)(letter + shift);
-                if (letter > 'z')
-                {
-                    letter = (char)(letter - 26);
-                }
-                else if (letter < 'a')
-                {
-                    letter = (char)(letter + 26);
-                }
-                buffer[i] = letter;
-            }
-            return new string(buffer);
+            return Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(text));
+        }
+        private string Decode(string bytes)
+        {
+            return Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(bytes));
         }
     }
+
 }
