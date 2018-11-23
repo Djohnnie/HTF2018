@@ -24,7 +24,7 @@ namespace HTF2018.Backend.Logic.Challenges
             { Identifier.Challenge14, "" },
             { Identifier.Challenge15, "Math, Math, You've done that" },
             { Identifier.Challenge16, "Roman Empire" },
-            { Identifier.Challenge17, "" },
+            { Identifier.Challenge17, "Who are your leaders." },
             { Identifier.Challenge18, "Kanto, Johto, Hoenn,..;" },
             { Identifier.Challenge19, "A maze? Really?" },
             { Identifier.Challenge20, "Final piece.." }
@@ -48,7 +48,7 @@ namespace HTF2018.Backend.Logic.Challenges
             { Identifier.Challenge14, "" },
             { Identifier.Challenge15, "Some new mathematical formula u have to solve" },
             { Identifier.Challenge16, "Oh, the artifact seems to unlock. This challenge is a breeze!" },
-            { Identifier.Challenge17, "" },
+            { Identifier.Challenge17, "Who is leading the investigation?" },
             { Identifier.Challenge18, "That rings a bell, Pokemon?" },
             { Identifier.Challenge19, "We are being compared with test subjects like mice and are confronted with a maze. Solve the maze and find the shortest route from start to finish." },
             { Identifier.Challenge20, "The final piece to the puzzle, decode the image and we can see what truly hides in the artifact." }

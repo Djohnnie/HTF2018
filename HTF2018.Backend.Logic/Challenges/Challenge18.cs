@@ -109,12 +109,16 @@ namespace HTF2018.Backend.Logic.Challenges
                 throw new InvalidAnswerException();
             }
 
-            if (!answer.Values.Any(x => x.Name == "#"))
+            if (!answer.Values.Any(x => x.Name == "name"))
+            {
+                throw new InvalidAnswerException();
+            }
+            if (answer.Values.Count(x => x.Name == "name")!=1)
             {
                 throw new InvalidAnswerException();
             }
 
-            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "#").Data))
+            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "name").Data))
             {
                 throw new InvalidAnswerException();
             }

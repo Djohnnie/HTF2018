@@ -4,6 +4,7 @@ using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HTF2018.Backend.Logic.Challenges
@@ -13,43 +14,52 @@ namespace HTF2018.Backend.Logic.Challenges
         public Challenge17(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
+        private readonly string[] _leaders = {"Seppe", "Tim", "Johnny"};
         public async Task<Challenge> GetChallenge()
         {
-            Challenge challenge = await BuildChallenge(Identifier.Challenge17);
+            var challenge = await BuildChallenge(Identifier.Challenge17);
             return challenge;
         }
 
         protected override Task<Question> BuildQuestion()
         {
-            var question = new Question
+            return Task.FromResult(new Question
             {
                 InputValues = new List<Value>()
-            };
-
-            // TODO: Add name-data pairs to the InputValues!
-
-            return Task.FromResult(question);
-        }
-
-        protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
-        {
-            // TODO: Calculate answer based on question!
-
-            return Task.FromResult(new Answer
-            {
-                ChallengeId = challengeId,
-                Values = new List<Value>
                 {
-                    // TODO: Add name-data pairs containing answers!
+                    new Value{Name = "leader", Data = "challenge"}
                 }
             });
         }
 
+        protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
+        {
+            var leaderOfWhat = question.InputValues.Single(e => e.Name.Equals("leader")).Data;
+            var answer = new Answer
+            {
+                ChallengeId = challengeId,
+                Values = new List<Value>()
+            };
+            if (leaderOfWhat.Equals("challenge"))
+            {
+                foreach (var leader in _leaders)
+                {
+                    answer.Values.Add(new Value{Name = "name",Data = leader});
+                }
+            }
+            else
+            {
+                answer.Values.Add(new Value { Name = "name", Data = "Jan" });
+            }
+            return Task.FromResult(answer);
+        }
+
         protected override async Task<Example> BuildExample(Guid challengeId)
         {
-            Question question = new Question
+            var question = new Question
             {
-                // TODO: Add name-data pairs containing an example question based on the actual question!
+              InputValues = new List<Value> {
+                  new Value{Name = "leader", Data = "Hack The Future"}}
             };
 
             return new Example
@@ -61,14 +71,27 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            Boolean invalid = false;
-
-            // TODO: Do a basic validation of the answer object!
-            // (Null-checks, are properties correct, but no actual functional checks)
-
-            if (invalid)
+            if (answer.Values == null)
             {
                 throw new InvalidAnswerException();
+            }
+
+            if (answer.Values != null)
+            {
+                throw new InvalidAnswerException();
+            }
+
+            if (!answer.Values.Any(x => x.Name == "leader"))
+            {
+                throw new InvalidAnswerException();
+            }
+
+            foreach (var value in answer.Values)
+            {
+                if (string.IsNullOrEmpty(value.Data))
+                {
+                    throw new InvalidAnswerException();
+                }
             }
         }
     }
