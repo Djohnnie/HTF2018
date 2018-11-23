@@ -21,7 +21,8 @@ namespace HTF2018.Backend.Logic.Challenges
         private readonly IChallengeLogic _challengeLogic;
         private readonly IHistoryLogic _historyLogic;
 
-        public Challenge01(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
+        public Challenge01(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic,
+            IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic)
         {
             _historyLogic = historyLogic;
@@ -73,8 +74,12 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 InputValues = new List<Value>
                 {
-                    new Value{ Name = "name", Data = "Use this parameter to provide a name for your team." },
-                    new Value{ Name = "secret", Data = "Use this parameter to provide a secret for your team to authenticate with." }
+                    new Value {Name = "name", Data = "Use this parameter to provide a name for your team."},
+                    new Value
+                    {
+                        Name = "secret",
+                        Data = "Use this parameter to provide a secret for your team to authenticate with."
+                    }
                 }
             });
         }
@@ -86,8 +91,8 @@ namespace HTF2018.Backend.Logic.Challenges
                 ChallengeId = challengeId,
                 Values = new List<Value>
                 {
-                    new Value{ Name = "name", Data = "we_will_hack_the_future" },
-                    new Value{ Name = "secret", Data = "twinkle, twinkle, little star!" }
+                    new Value {Name = "name", Data = "we_will_hack_the_future"},
+                    new Value {Name = "secret", Data = "twinkle, twinkle, little star!"}
                 }
             });
         }
@@ -104,14 +109,32 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            var invalid = answer.Values == null;
-            if (answer.Values != null && answer.Values.Count != 2) { invalid = true; }
-            if (!answer.Values.Any(x => x.Name == "name")) { invalid = true; }
-            if (!answer.Values.Any(x => x.Name == "secret")) { invalid = true; }
-            if (IsNullOrEmpty(answer.Values.Single(x => x.Name == "name").Data)) { invalid = true; }
-            if (IsNullOrEmpty(answer.Values.Single(x => x.Name == "secret").Data)) { invalid = true; }
+            if (answer.Values == null)
+            {
+                throw new InvalidAnswerException();
+            }
 
-            if (invalid)
+            if (answer.Values != null && answer.Values.Count != 2)
+            {
+                throw new InvalidAnswerException();
+            }
+
+            if (!answer.Values.Any(x => x.Name == "name"))
+            {
+                throw new InvalidAnswerException();
+            }
+
+            if (!answer.Values.Any(x => x.Name == "secret"))
+            {
+                throw new InvalidAnswerException();
+            }
+
+            if (IsNullOrEmpty(answer.Values.Single(x => x.Name == "name").Data))
+            {
+                throw new InvalidAnswerException();
+            }
+
+            if (IsNullOrEmpty(answer.Values.Single(x => x.Name == "secret").Data))
             {
                 throw new InvalidAnswerException();
             }

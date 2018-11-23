@@ -113,15 +113,25 @@ namespace HTF2018.Backend.Logic.Challenges
         protected override void ValidateAnswer(Answer answer)
         {
             var invalid = answer.Values == null;
-            if (answer.Values != null && answer.Values.Count != 1) { invalid = true; }
-            if (!answer.Values.Any(x => x.Name == "decoded")) { invalid = true; }
-            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "decoded").Data)) { invalid = true; }
-
-            if (invalid)
+            if (answer.Values != null && answer.Values.Count != 1)
+            {
+                throw new InvalidAnswerException();
+            }
+            if (!answer.Values.Any(x => x.Name == "decoded"))
+            {
+                throw new InvalidAnswerException();
+            }
+            if (answer.Values.Count(x => x.Name == "decoded") != 1)
+            {
+                throw new InvalidAnswerException();
+            }
+            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "decoded").Data))
             {
                 throw new InvalidAnswerException();
             }
         }
+
+        #region Helpers
 
         private byte[] BuildAndEncodeImage(string text)
         {
@@ -146,6 +156,9 @@ namespace HTF2018.Backend.Logic.Challenges
                 return SteganographyHelper.ExtractText(bitmap);
             }
         }
+
+        #endregion
+
     }
     
 }

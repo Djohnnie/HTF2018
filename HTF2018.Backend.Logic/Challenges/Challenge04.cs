@@ -71,23 +71,28 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            var invalid = answer.Values == null;
-            if (answer.Values != null) { invalid = true; }
-            if (!answer.Values.Any(x => x.Name == "prime")) { invalid = true; }
-
-            foreach (var answerValue in answer.Values.Where(x => x.Name.Equals("prime")))
+            if (answer.Values == null)
             {
-                if (string.IsNullOrEmpty(answerValue.Data))
-                    invalid = true;
+                throw new InvalidAnswerException();
+            }
+            if (answer.Values != null)
+            {
+                throw new InvalidAnswerException();
+            }
+            if (!answer.Values.Any(x => x.Name == "prime"))
+            {
+                throw new InvalidAnswerException();
             }
 
-            if (invalid)
+            if (answer.Values.Where(x => x.Name.Equals("prime")).Any(answerValue => string.IsNullOrEmpty(answerValue.Data)))
             {
                 throw new InvalidAnswerException();
             }
         }
 
-        private List<Value> CalculatePrimes(List<Value> inputValues)
+        #region Helpers
+
+        private static List<Value> CalculatePrimes(List<Value> inputValues)
         {
             var start = Convert.ToInt32(inputValues.Find(e => e.Name.Equals("start")).Data);
             var end = Convert.ToInt32(inputValues.Find(e => e.Name.Equals("end")).Data);
@@ -120,5 +125,8 @@ namespace HTF2018.Backend.Logic.Challenges
 
             return number != 1;
         }
+
+        #endregion
+
     }
 }

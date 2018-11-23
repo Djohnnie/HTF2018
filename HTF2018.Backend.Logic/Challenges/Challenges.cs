@@ -27,7 +27,7 @@ namespace HTF2018.Backend.Logic.Challenges
             { Identifier.Challenge17, "" },
             { Identifier.Challenge18, "" },
             { Identifier.Challenge19, "A maze? Really?" },
-            { Identifier.Challenge20, "" }
+            { Identifier.Challenge20, "Final piece.." }
         };
 
         public static readonly Dictionary<Identifier, string> Descriptions = new Dictionary<Identifier, string>
@@ -51,7 +51,7 @@ namespace HTF2018.Backend.Logic.Challenges
             { Identifier.Challenge17, "" },
             { Identifier.Challenge18, "" },
             { Identifier.Challenge19, "We are being compared with test subjects like mice and are confronted with a maze. Solve the maze and find the shortest route from start to finish." },
-            { Identifier.Challenge20, "" }
+            { Identifier.Challenge20, "The final piece to the puzzle, decode the image and we can see what truly hides in the artifact." }
         };
     }
 }

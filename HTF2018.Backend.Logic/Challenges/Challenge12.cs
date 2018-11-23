@@ -171,29 +171,25 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            var invalid = answer.Values == null;
+
+
+            if (answer.Values == null)
+            {
+                throw new InvalidAnswerException();
+            }
             if (answer.Values != null)
             {
-                invalid = true;
+                throw new InvalidAnswerException();
             }
-
             if (!answer.Values.Any(x => x.Name == "rectangles"))
             {
-                invalid = true;
+                throw new InvalidAnswerException();
             }
-
             if (answer.Values.Count(x => x.Name == "rectangles") != 1)
             {
-                invalid = true;
+                throw new InvalidAnswerException();
             }
-
-            foreach (var answerValue in answer.Values.Where(x => x.Name.Equals("rectangles")))
-            {
-                if (string.IsNullOrEmpty(answerValue.Data))
-                    invalid = true;
-            }
-
-            if (invalid)
+            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "rectangles").Data))
             {
                 throw new InvalidAnswerException();
             }

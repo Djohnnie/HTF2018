@@ -18,8 +18,11 @@ namespace HTF2018.Backend.Logic.Challenges
     {
         private readonly Random _randomGenerator = new Random();
 
-        public Challenge02(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
-            : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
+        public Challenge02(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic,
+            IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
+            : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic)
+        {
+        }
 
         public async Task<Challenge> GetChallenge()
         {
@@ -36,7 +39,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
             for (var i = 0; i < _randomGenerator.Next(2, 10); i++)
             {
-                question.InputValues.Add(new Value { Name = "i", Data = $"{_randomGenerator.Next(1, 100)}" });
+                question.InputValues.Add(new Value {Name = "i", Data = $"{_randomGenerator.Next(1, 100)}"});
             }
 
             return Task.FromResult(question);
@@ -51,7 +54,7 @@ namespace HTF2018.Backend.Logic.Challenges
                 ChallengeId = challengeId,
                 Values = new List<Value>
                 {
-                    new Value{ Name = "sum", Data = $"{sum}" }
+                    new Value {Name = "sum", Data = $"{sum}"}
                 }
             });
         }
@@ -62,9 +65,9 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 InputValues = new List<Value>
                 {
-                    new Value{ Name = "i", Data = "385" },
-                    new Value{ Name = "i", Data = "8269" },
-                    new Value{ Name = "i", Data = "52" },
+                    new Value {Name = "i", Data = "385"},
+                    new Value {Name = "i", Data = "8269"},
+                    new Value {Name = "i", Data = "52"},
                 }
             };
 
@@ -77,12 +80,22 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            var invalid = answer.Values == null;
-            if (answer.Values != null && answer.Values.Count != 1) { invalid = true; }
-            if (!answer.Values.Any(x => x.Name == "sum")) { invalid = true; }
-            if (IsNullOrEmpty(answer.Values.Single(x => x.Name == "sum").Data)) { invalid = true; }
+            if (answer.Values == null)
+            {
+                throw new InvalidAnswerException();
+            }
 
-            if (invalid)
+            if (answer.Values != null && answer.Values.Count != 1)
+            {
+                throw new InvalidAnswerException();
+            }
+
+            if (!answer.Values.Any(x => x.Name == "sum"))
+            {
+                throw new InvalidAnswerException();
+            }
+
+            if (IsNullOrEmpty(answer.Values.Single(x => x.Name == "sum").Data))
             {
                 throw new InvalidAnswerException();
             }
