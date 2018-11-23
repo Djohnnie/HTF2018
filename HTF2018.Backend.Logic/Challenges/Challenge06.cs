@@ -4,33 +4,18 @@ using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using ZXing;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
     public class Challenge06 : ChallengeBase, IChallenge06
     {
-        /// <summary>
-        /// CHALLENGE 06:
-        ///  Binary to ASCII
-        /// </summary>
         public Challenge06(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
-        private readonly Random _randomGenerator = new Random();
-        private readonly List<string> _artifactSentences = new List<string>
-        {
-            "The artifact has landed on a sacred place.",
-            "We chose this location as the one with the biggest impact.",
-            "The humans are trying to decipher our language!",
-            "The artifact is getting breached, adapt!"
-        };
         public async Task<Challenge> GetChallenge()
         {
-            var challenge = await BuildChallenge(Identifier.Challenge06);
+            Challenge challenge = await BuildChallenge(Identifier.Challenge06);
             return challenge;
         }
 
@@ -41,34 +26,30 @@ namespace HTF2018.Backend.Logic.Challenges
                 InputValues = new List<Value>()
             };
 
-            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(_artifactSentences[_randomGenerator.Next(_artifactSentences.Count)]) });
+            // TODO: Add name-data pairs to the InputValues!
 
             return Task.FromResult(question);
         }
 
         protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
-            var answers = new List<Value>();
-            foreach (var inputValue in question.InputValues)
-            {
-                answers.Add(
-                    new Value { Name = "decoded", Data = Decode(inputValue.Data) });
-            }
+            // TODO: Calculate answer based on question!
+
             return Task.FromResult(new Answer
             {
                 ChallengeId = challengeId,
-                Values = answers
+                Values = new List<Value>
+                {
+                    // TODO: Add name-data pairs containing answers!
+                }
             });
         }
 
         protected override async Task<Example> BuildExample(Guid challengeId)
         {
-            var question = new Question
+            Question question = new Question
             {
-                InputValues = new List<Value> {
-                    new Value{Name = "encoded", Data = Encode("Artifact")},
-                    new Value{Name = "encoded", Data = Encode("Aliens")}
-                }
+                // TODO: Add name-data pairs containing an example question based on the actual question!
             };
 
             return new Example
@@ -80,28 +61,15 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            var invalid = answer.Values == null;
-            if (answer.Values != null) { invalid = true; }
-            if (!answer.Values.Any(x => x.Name == "decoded")) { invalid = true; }
-            foreach (var answerValue in answer.Values.Where(x => x.Name.Equals("decoded")))
-            {
-                if (string.IsNullOrEmpty(answerValue.Data))
-                    invalid = true;
-            }
+            Boolean invalid = false;
+
+            // TODO: Do a basic validation of the answer object!
+            // (Null-checks, are properties correct, but no actual functional checks)
+
             if (invalid)
             {
                 throw new InvalidAnswerException();
             }
         }
-
-        private string Encode(string text)
-        {
-            return Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(text));
-        }
-        private string Decode(string bytes)
-        {
-            return Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(bytes));
-        }
     }
-
 }
