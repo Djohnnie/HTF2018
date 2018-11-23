@@ -67,7 +67,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override async Task<Example> BuildExample(Guid challengeId)
         {
-            Question question = new Question
+            var question = new Question
             {
                 InputValues = new List<Value>
                 {
