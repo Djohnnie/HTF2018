@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 using RestSharp;
 using RestSharp.Serializers;
 
@@ -17,10 +18,13 @@ namespace HTF2018.Backend.Logic.Challenges
     /// </summary>
     public class Challenge13 : ChallengeBase, IChallenge13
     {
+        private readonly IMemoryCache _cache;
+
         public Challenge13(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic,
-            IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
+            IDashboardLogic dashboardLogic, IHistoryLogic historyLogic, IMemoryCache memoryCache)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic)
         {
+            _cache = memoryCache;
             _client = new RestClient("https://api.mapbox.com/geocoding/v5/mapbox.places/");
         }
 
@@ -67,19 +71,23 @@ namespace HTF2018.Backend.Logic.Challenges
         {
             var latitude = question.InputValues.Single(e => e.Name.Equals("latitude")).Data;
             var longitude = question.InputValues.Single(e => e.Name.Equals("longitude")).Data;
-            var request = new RestRequest("{longitude},{latitude}.json?types=poi&access_token={token}");
-            request.AddUrlSegment("longitude", longitude);
-            request.AddUrlSegment("latitude", latitude);
-            request.AddUrlSegment("token", _mapboxToken);
+            if (!_cache.TryGetValue("${latitude}_{longitude}", out CoordinateResponse coordinateResponse))
+            {
+                var request = new RestRequest("{longitude},{latitude}.json?types=poi&access_token={token}");
+                request.AddUrlSegment("longitude", longitude);
+                request.AddUrlSegment("latitude", latitude);
+                request.AddUrlSegment("token", _mapboxToken);
 
-            var response = _client.Execute<CoordinateResponse>(request);
+                var response = _client.Execute<CoordinateResponse>(request);
+                coordinateResponse = response.Data;
+            }
 
             var answer = new Answer
             {
                 ChallengeId = challengeId,
                 Values = new List<Value>()
             };
-            foreach (var feature in response.Data.Features)
+            foreach (var feature in coordinateResponse.Features)
             {
                 answer.Values.Add(new Value
                 {
