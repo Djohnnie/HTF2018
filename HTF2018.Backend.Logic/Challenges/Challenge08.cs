@@ -104,14 +104,27 @@ namespace HTF2018.Backend.Logic.Challenges
                 throw new InvalidAnswerException();
             }
         }
-
-        private string Encode(string text)
+        public string Encode(string text)
         {
-            return Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(text));
+            var binary = "";
+            foreach (var c in text)
+            {
+                binary += Convert.ToString(c, 2).PadLeft(8, '0');
+            }
+            return binary;
         }
-        private string Decode(string bytes)
+        private static string Decode(string bytes)
         {
-            return Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(bytes));
+            var list = new List<byte>();
+
+            for (var i = 0; i < bytes.Length; i += 8)
+            {
+                var t = bytes.Substring(i, 8);
+
+                list.Add(Convert.ToByte(t, 2));
+            }
+
+            return Encoding.ASCII.GetString(list.ToArray());
         }
     }
 
