@@ -12,6 +12,7 @@ namespace HTF2018.Backend.Logic.Challenges
 {
     public class Challenge07 : ChallengeBase, IChallenge07
     {
+
         public Challenge07(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
