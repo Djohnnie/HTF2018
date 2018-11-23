@@ -28,7 +28,7 @@ namespace HTF2018.Backend.Logic.Challenges
             _client = new RestClient("https://api.mapbox.com/geocoding/v5/mapbox.places/");
         }
 
-        private readonly string _mapboxToken = Environment.GetEnvironmentVariable("mapboxkey");
+        private readonly string _mapboxToken = Environment.GetEnvironmentVariable("MAPBOXKEY");
         private readonly RestClient _client;
         private readonly Random _randomGenerator = new Random();
 
