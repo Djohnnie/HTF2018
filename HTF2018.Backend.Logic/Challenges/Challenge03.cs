@@ -9,16 +9,23 @@ using System.Threading.Tasks;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
-    /// <summary>
-    /// CHALLENGE 03:
-    ///   Calculate all the prime numbers between the given range.
-    /// </summary>
     public class Challenge03 : ChallengeBase, IChallenge03
     {
-        private readonly Random _randomGenerator = new Random();
+        /// <summary>
+        /// CHALLENGE 03:
+        ///   The artifact is sending us messages. See if you can decode them!
+        /// </summary>
         public Challenge03(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
+        private readonly Random _randomGenerator = new Random();
+        private readonly List<string> _artifactSentences = new List<string>
+        {
+            "The artifact has landed on a sacred place.",
+            "We chose this location as the one with the biggest impact.",
+            "The humans are trying to decipher our language!",
+            "The artifact is getting breached, adapt!"
+        };
         public async Task<Challenge> GetChallenge()
         {
             var challenge = await BuildChallenge(Identifier.Challenge03);
@@ -32,33 +39,32 @@ namespace HTF2018.Backend.Logic.Challenges
                 InputValues = new List<Value>()
             };
 
+            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(_artifactSentences[_randomGenerator.Next(_artifactSentences.Count)]) });
 
-            var primeStart = _randomGenerator.Next(1000, 1000000);
-            var primeRange = _randomGenerator.Next(1000, 5000);
-            question.InputValues.Add(new Value { Name = "start", Data = $"{primeStart}" });
-            question.InputValues.Add(new Value { Name = "end", Data = $"{primeStart + primeRange}" });
             return Task.FromResult(question);
         }
 
         protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
-            var primes = CalculatePrimes(question.InputValues);
-
+            var answers = new List<Value>();
+            foreach (var inputValue in question.InputValues)
+            {
+                answers.Add(
+                    new Value { Name = "decoded", Data = Encode(inputValue.Data) });
+            }
             return Task.FromResult(new Answer
             {
                 ChallengeId = challengeId,
-                Values = primes
+                Values = answers
             });
         }
 
         protected override async Task<Example> BuildExample(Guid challengeId)
         {
-            Question question = new Question
+            var question = new Question
             {
-                InputValues = new List<Value>
-                {
-                    new Value{Name = "start", Data = "0"},
-                    new Value{Name = "end", Data = "100"}
+                InputValues = new List<Value> {
+                    new Value{Name = "encoded", Data = Encode("Are you trying to crack this?")},
                 }
             };
 
@@ -71,54 +77,36 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            var invalid = answer.Values == null;
-            if (answer.Values != null) { invalid = true; }
-            if (!answer.Values.Any(x => x.Name == "prime")) { invalid = true; }
-
-            foreach (var answerValue in answer.Values.Where(x => x.Name.Equals("prime")))
+            if(answer.Values == null)
             {
-                if (string.IsNullOrEmpty(answerValue.Data))
-                    invalid = true;
+                throw new InvalidAnswerException();
             }
-
-            if (invalid)
+            if (answer.Values != null)
+            {
+                throw new InvalidAnswerException();
+            }
+            if (!answer.Values.Any(x => x.Name == "decoded"))
+            {
+                throw new InvalidAnswerException();
+            }
+            if (answer.Values.Count(x => x.Name == "decoded") != 1)
+            {
+                throw new InvalidAnswerException();
+            }
+            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "decoded").Data))
             {
                 throw new InvalidAnswerException();
             }
         }
 
-        private List<Value> CalculatePrimes(List<Value> inputValues)
+        public static string Encode(string plainText)
         {
-            var start = Convert.ToInt32(inputValues.Find(e => e.Name.Equals("start")).Data);
-            var end = Convert.ToInt32(inputValues.Find(e => e.Name.Equals("end")).Data);
-            var primes = new List<Value>();
-            for (var i = start; i < end; i++)
-            {
-                if (IsPrime(i))
-                {
-                    primes.Add(new Value { Name = "prime", Data = $"{i}" });
-                }
-            }
-
-            return primes;
+            return string.Concat(plainText.Where(char.IsLetterOrDigit).Select((c, i) => (i % 5 == 0 && i > 0 ? " " : "") + EncodeChar(c)));
         }
-        private static bool IsPrime(int number)
+
+        private static char EncodeChar(char c)
         {
-            if ((number & 1) == 0)
-            {
-                return number == 2;
-            }
-
-            for (var i = 3; i * i <= number; i += 2)
-            {
-                if (number % i == 0)
-                {
-                    return false;
-                }
-
-            }
-
-            return number != 1;
+            return char.IsDigit(c) ? c : (char)('z' - char.ToLower(c) + 'a');
         }
     }
 }

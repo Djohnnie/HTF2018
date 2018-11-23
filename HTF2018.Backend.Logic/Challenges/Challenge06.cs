@@ -5,29 +5,16 @@ using HTF2018.Backend.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using ZXing;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
     public class Challenge06 : ChallengeBase, IChallenge06
     {
-        /// <summary>
-        /// CHALLENGE 06:
-        ///  Binary to ASCII
-        /// </summary>
         public Challenge06(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
         private readonly Random _randomGenerator = new Random();
-        private readonly List<string> _artifactSentences = new List<string>
-        {
-            "The artifact has landed on a sacred place.",
-            "We chose this location as the one with the biggest impact.",
-            "The humans are trying to decipher our language!",
-            "The artifact is getting breached, adapt!"
-        };
         public async Task<Challenge> GetChallenge()
         {
             var challenge = await BuildChallenge(Identifier.Challenge06);
@@ -36,28 +23,50 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override Task<Question> BuildQuestion()
         {
+            var startDate = RandomDate();
+            var dayOfTheWeek = _randomGenerator.Next(1, 8);
             var question = new Question
             {
                 InputValues = new List<Value>()
+                {
+                    new Value
+                    {
+                        Name = "startDate",
+                        Data = $"{startDate}"
+                    },
+                    new Value
+                    {
+                        Name = "endDate",
+                        Data = $"{RandomDate(startDate)}"
+                    },
+                    new Value
+                    {
+                        Name = "day",
+                        Data = $"{((DayOfWeek)dayOfTheWeek)}"
+                    }
+                }
             };
-
-            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(_artifactSentences[_randomGenerator.Next(_artifactSentences.Count)]) });
-
             return Task.FromResult(question);
         }
 
         protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
-            var answers = new List<Value>();
-            foreach (var inputValue in question.InputValues)
-            {
-                answers.Add(
-                    new Value { Name = "decoded", Data = Decode(inputValue.Data) });
-            }
+            var startDate =DateTime.Parse(question.InputValues.Single(e => e.Name.Equals("startDate")).Data);
+            var endDate = DateTime.Parse(question.InputValues.Single(e => e.Name.Equals("endDate")).Data);
+
+            var dayOfTheWeekParsed = Enum.TryParse(question.InputValues.Single(e => e.Name.Equals("day")).Data, out DayOfWeek dayOfTheWeek);
+            
             return Task.FromResult(new Answer
             {
                 ChallengeId = challengeId,
-                Values = answers
+                Values = new List<Value>
+                {
+                    new Value
+                    {
+                        Name = "count",
+                        Data = $"{CountDaysBetweenDates(startDate,endDate,dayOfTheWeek)}"
+                    }
+                }
             });
         }
 
@@ -66,8 +75,9 @@ namespace HTF2018.Backend.Logic.Challenges
             var question = new Question
             {
                 InputValues = new List<Value> {
-                    new Value{Name = "encoded", Data = Encode("Artifact")},
-                    new Value{Name = "encoded", Data = Encode("Aliens")}
+                    new Value{Name = "startDate", Data =$"{new DateTime(1994,11,06)}"},
+                    new Value{Name = "endDate", Data =$"{new DateTime(1994,11,25)}"},
+                    new Value{Name = "day", Data =$"{DayOfWeek.Monday}"},
                 }
             };
 
@@ -80,28 +90,52 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            var invalid = answer.Values == null;
-            if (answer.Values != null) { invalid = true; }
-            if (!answer.Values.Any(x => x.Name == "decoded")) { invalid = true; }
-            foreach (var answerValue in answer.Values.Where(x => x.Name.Equals("decoded")))
+            if (answer.Values == null)
             {
-                if (string.IsNullOrEmpty(answerValue.Data))
-                    invalid = true;
+                throw new InvalidAnswerException();
             }
-            if (invalid)
+            if (answer.Values != null)
+            {
+                throw new InvalidAnswerException();
+            }
+            if (!answer.Values.Any(x => x.Name == "count"))
+            {
+                throw new InvalidAnswerException();
+            }
+            if (answer.Values.Count(x => x.Name == "count") != 1)
+            {
+                throw new InvalidAnswerException();
+            }
+            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "count").Data))
             {
                 throw new InvalidAnswerException();
             }
         }
 
-        private string Encode(string text)
+        private DateTime RandomDate(DateTime? after=null)
         {
-            return Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(text));
+            var baseDate = new DateTime(1990, 1, 1);
+            var range = (DateTime.Today - baseDate).Days;
+            if (after.HasValue)
+            {
+                baseDate = after.Value;
+                range = 5000;
+            }
+            return baseDate.AddDays(_randomGenerator.Next(range));
         }
-        private string Decode(string bytes)
+        private int CountDaysBetweenDates(DateTime startDate, DateTime endDate, DayOfWeek weekDay)
         {
-            return Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(bytes));
+            var dayCount = 0;
+
+            for (var dt = startDate; dt < endDate; dt = dt.AddDays(1.0))
+            {
+                if (dt.DayOfWeek == weekDay)
+                {
+                    dayCount++;
+                }
+            }
+
+            return dayCount;
         }
     }
-
 }

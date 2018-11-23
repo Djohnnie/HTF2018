@@ -48,14 +48,14 @@ namespace HTF2018.Backend.Logic.Challenges
                 {
                     new Value {Name = "age", Data = $"{seconds}"},
                     new Value {Name = "planet", Data = planetArray[_randomGenerator.Next(planetArray.Length)]},
-                    new Value {Name = "EarthSolarYear", Data = $"{SpaceAge.EarthSolarYear}"},
-                    new Value {Name = "JupiterYearsPerEarthYear", Data = $"{SpaceAge.JupiterYearsPerEarthYear}"},
-                    new Value {Name = "MarsYearsPerEarthYear", Data = $"{SpaceAge.MarsYearsPerEarthYear}"},
-                    new Value {Name = "MercuryYearsPerEarthYear", Data = $"{SpaceAge.MercuryYearsPerEarthYear}"},
-                    new Value {Name = "NeptuneYearsPerEarthYear", Data = $"{SpaceAge.NeptuneYearsPerEarthYear}"},
-                    new Value {Name = "SaturnYearsPerEarthYear", Data = $"{SpaceAge.SaturnYearsPerEarthYear}"},
-                    new Value {Name = "UranusYearsPerEarthYear", Data = $"{SpaceAge.UranusYearsPerEarthYear}"},
-                    new Value {Name = "VenusYearsPerEarthYear", Data = $"{SpaceAge.VenusYearsPerEarthYear}"},
+                    new Value {Name = "EarthSolarYear", Data = $"{SpaceAgeHelper.EarthSolarYear}"},
+                    new Value {Name = "JupiterYearsPerEarthYear", Data = $"{SpaceAgeHelper.JupiterYearsPerEarthYear}"},
+                    new Value {Name = "MarsYearsPerEarthYear", Data = $"{SpaceAgeHelper.MarsYearsPerEarthYear}"},
+                    new Value {Name = "MercuryYearsPerEarthYear", Data = $"{SpaceAgeHelper.MercuryYearsPerEarthYear}"},
+                    new Value {Name = "NeptuneYearsPerEarthYear", Data = $"{SpaceAgeHelper.NeptuneYearsPerEarthYear}"},
+                    new Value {Name = "SaturnYearsPerEarthYear", Data = $"{SpaceAgeHelper.SaturnYearsPerEarthYear}"},
+                    new Value {Name = "UranusYearsPerEarthYear", Data = $"{SpaceAgeHelper.UranusYearsPerEarthYear}"},
+                    new Value {Name = "VenusYearsPerEarthYear", Data = $"{SpaceAgeHelper.VenusYearsPerEarthYear}"},
                 }
             };
 
@@ -68,7 +68,7 @@ namespace HTF2018.Backend.Logic.Challenges
             var preferredPlanetYears = question.InputValues.Find(e => e.Name.Equals("planet"));
             var ageInSeconds = int.Parse(question.InputValues.Find(e => e.Name.Equals("age")).Data);
             var answer = "";
-            var spaceAge = new SpaceAge(ageInSeconds);
+            var spaceAge = new SpaceAgeHelper(ageInSeconds);
             switch (preferredPlanetYears.Data)
             {
                 case "earth":
@@ -116,14 +116,14 @@ namespace HTF2018.Backend.Logic.Challenges
                 {
                     new Value {Name = "age", Data = "1000000"},
                     new Value {Name = "planet", Data = "earth"},
-                    new Value {Name = "EarthSolarYear", Data = $"{SpaceAge.EarthSolarYear}"},
-                    new Value {Name = "JupiterYearsPerEarthYear", Data = $"{SpaceAge.JupiterYearsPerEarthYear}"},
-                    new Value {Name = "MarsYearsPerEarthYear", Data = $"{SpaceAge.MarsYearsPerEarthYear}"},
-                    new Value {Name = "MercuryYearsPerEarthYear", Data = $"{SpaceAge.MercuryYearsPerEarthYear}"},
-                    new Value {Name = "NeptuneYearsPerEarthYear", Data = $"{SpaceAge.NeptuneYearsPerEarthYear}"},
-                    new Value {Name = "SaturnYearsPerEarthYear", Data = $"{SpaceAge.SaturnYearsPerEarthYear}"},
-                    new Value {Name = "UranusYearsPerEarthYear", Data = $"{SpaceAge.UranusYearsPerEarthYear}"},
-                    new Value {Name = "VenusYearsPerEarthYear", Data = $"{SpaceAge.VenusYearsPerEarthYear}"},
+                    new Value {Name = "EarthSolarYear", Data = $"{SpaceAgeHelper.EarthSolarYear}"},
+                    new Value {Name = "JupiterYearsPerEarthYear", Data = $"{SpaceAgeHelper.JupiterYearsPerEarthYear}"},
+                    new Value {Name = "MarsYearsPerEarthYear", Data = $"{SpaceAgeHelper.MarsYearsPerEarthYear}"},
+                    new Value {Name = "MercuryYearsPerEarthYear", Data = $"{SpaceAgeHelper.MercuryYearsPerEarthYear}"},
+                    new Value {Name = "NeptuneYearsPerEarthYear", Data = $"{SpaceAgeHelper.NeptuneYearsPerEarthYear}"},
+                    new Value {Name = "SaturnYearsPerEarthYear", Data = $"{SpaceAgeHelper.SaturnYearsPerEarthYear}"},
+                    new Value {Name = "UranusYearsPerEarthYear", Data = $"{SpaceAgeHelper.UranusYearsPerEarthYear}"},
+                    new Value {Name = "VenusYearsPerEarthYear", Data = $"{SpaceAgeHelper.VenusYearsPerEarthYear}"},
                 }
             };
 
@@ -136,100 +136,29 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            var invalid = answer.Values == null;
+            if(answer.Values == null)
+            {
+                throw new InvalidAnswerException();
+            }
             if (answer.Values != null)
             {
-                invalid = true;
+                throw new InvalidAnswerException();
             }
 
             if (!answer.Values.Any(x => x.Name == "age"))
             {
-                invalid = true;
+                throw new InvalidAnswerException();
             }
 
             if (answer.Values.Count(x => x.Name == "age") != 1)
             {
-                invalid = true;
+                throw new InvalidAnswerException();
             }
 
-            foreach (var answerValue in answer.Values.Where(x => x.Name.Equals("age")))
-            {
-                if (string.IsNullOrEmpty(answerValue.Data))
-                    invalid = true;
-            }
-
-            if (invalid)
+            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "age").Data))
             {
                 throw new InvalidAnswerException();
             }
-        }
-    }
-
-    public class SpaceAge
-    {
-        #region Constants
-
-        public const double EarthSolarYear = 31557600;
-        public const double MercuryYearsPerEarthYear = 0.2408467;
-        public const double VenusYearsPerEarthYear = 0.61519726;
-        public const double MarsYearsPerEarthYear = 1.8808158;
-        public const double JupiterYearsPerEarthYear = 11.862615;
-        public const double SaturnYearsPerEarthYear = 29.447498;
-        public const double UranusYearsPerEarthYear = 84.016846;
-        public const double NeptuneYearsPerEarthYear = 164.79132;
-
-        #endregion Constants
-
-        public double Seconds { get; private set; }
-
-        public SpaceAge(double seconds)
-        {
-            Seconds = seconds;
-        }
-
-        public double OnEarth()
-        {
-            return GetYears();
-        }
-
-        public double OnMercury()
-        {
-            return GetYears(MercuryYearsPerEarthYear);
-        }
-
-        public double OnVenus()
-        {
-            return GetYears(VenusYearsPerEarthYear);
-        }
-
-        public double OnMars()
-        {
-            return GetYears(MarsYearsPerEarthYear);
-        }
-
-        public double OnJupiter()
-        {
-            return GetYears(JupiterYearsPerEarthYear);
-        }
-
-        public double OnSaturn()
-        {
-            return GetYears(SaturnYearsPerEarthYear);
-        }
-
-        public double OnUranus()
-        {
-            return GetYears(UranusYearsPerEarthYear);
-        }
-
-        public double OnNeptune()
-        {
-            return GetYears(NeptuneYearsPerEarthYear);
-        }
-
-        private double GetYears(double divisor = 1.0)
-        {
-            return Math.Round(Seconds / EarthSolarYear / divisor, 2);
         }
     }
 }
