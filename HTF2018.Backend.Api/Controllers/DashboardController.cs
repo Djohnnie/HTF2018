@@ -57,7 +57,7 @@ namespace HTF2018.Backend.Api.Controllers
         /// <returns></returns>
         [HttpGet, Route("teams/overall/status")]
         [HtfIdentification, ServiceFilter(typeof(AdministratorFilter))]
-        public async Task<IActionResult> GetOverallPendingStatus(Guid teamId)
+        public async Task<IActionResult> GetOverallPendingStatus()
         {
             OverallStatus overallStatus = await _dashboardLogic.GetOverallPendingStatus();
             return Ok(overallStatus);

@@ -1,5 +1,6 @@
 ﻿using HTF2018.Backend.Common.Exceptions;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Threading.Tasks;
 
 namespace HTF2018.Backend.Api.Middleware
@@ -53,6 +54,12 @@ namespace HTF2018.Backend.Api.Middleware
             {
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync("The team specified in this request is unknown!");
+            }
+            catch (Exception ex)
+            {
+                context.Response.StatusCode = 500;
+                Console.WriteLine(ex);
+                await context.Response.WriteAsync("An unknown error has occured!");
             }
         }
     }

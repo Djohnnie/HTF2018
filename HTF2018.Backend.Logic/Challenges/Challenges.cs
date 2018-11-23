@@ -1,5 +1,4 @@
 ﻿using HTF2018.Backend.Common.Model;
-using System;
 using System.Collections.Generic;
 
 namespace HTF2018.Backend.Logic.Challenges
