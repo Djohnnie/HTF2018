@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PokeAPI;
 using RestSharp;
 using RestSharp.Serializers;
 
@@ -21,17 +22,12 @@ namespace HTF2018.Backend.Logic.Challenges
             IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic)
         {
-            _client = new RestClient("https://pokeapi.co/api/v2/ ");
+            _client = new RestClient("https://pokeapi.co/api/v2/pokemon/");
         }
 
         private readonly RestClient _client;
         private readonly Random _randomGenerator = new Random();
-
-        private readonly List<Coordinate> _artifactLocations = new List<Coordinate>
-        {
-            //todo: ADD COORDINATES
-            new Coordinate {Latitude = "51.168716", Longitude = "4.432200",}
-        };
+        
 
         public async Task<Challenge> GetChallenge()
         {
@@ -59,11 +55,11 @@ namespace HTF2018.Backend.Logic.Challenges
         protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
             var pokemonNr = question.InputValues.Single(e => e.Name.Equals("#")).Data;
-            var request = new RestRequest("pokemon/{pokemonNr}");
+            var request = new RestRequest("{pokemonNr}/");
             request.AddUrlSegment("pokemonNr", pokemonNr);
+            _client.UserAgent ="HTF2018 - Lookup";
 
             var response = _client.Execute<Pokemon>(request);
-
 
             return Task.FromResult(new Answer
             {

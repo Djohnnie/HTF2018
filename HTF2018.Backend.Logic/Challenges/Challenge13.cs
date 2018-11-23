@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RestSharp;
+using RestSharp.Serializers;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
@@ -55,9 +56,7 @@ namespace HTF2018.Backend.Logic.Challenges
                     {
                         Name = "longitude",
                         Data = $"{_artifactLocations[random].Longitude}"
-                    },
-
-                    //add multiple values to make it more difficult
+                    }
                 }
             };
 
@@ -78,18 +77,15 @@ namespace HTF2018.Backend.Logic.Challenges
             var answer = new Answer
             {
                 ChallengeId = challengeId,
-                Values = new List<Value>
-                {
-                    
-                }
+                Values = new List<Value>()
             };
-            foreach (var dataFeature in response.Data.features)
+            foreach (var feature in response.Data.Features)
             {
                 answer.Values.Add(new Value
                 {
                     Name = "target",
                     Data =
-                        dataFeature.text
+                        feature.Name
                 });
             }
 
@@ -100,19 +96,19 @@ namespace HTF2018.Backend.Logic.Challenges
         {
             var question = new Question
             {
-               InputValues = new List<Value>
-               {
-                   new Value
-                   {
-                       Name = "latitude",
-                       Data = $"{_artifactLocations[0].Latitude}"
-                   },
-                   new Value
-                   {
-                       Name = "longitude",
-                       Data = $"{_artifactLocations[0].Longitude}"
-                   },
-               }
+                InputValues = new List<Value>
+                {
+                    new Value
+                    {
+                        Name = "latitude",
+                        Data = $"{_artifactLocations[0].Latitude}"
+                    },
+                    new Value
+                    {
+                        Name = "longitude",
+                        Data = $"{_artifactLocations[0].Longitude}"
+                    },
+                }
             };
 
             return new Example
@@ -128,18 +124,20 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 throw new InvalidAnswerException();
             }
+
             if (answer.Values != null)
             {
                 throw new InvalidAnswerException();
             }
+
             if (!answer.Values.Any(x => x.Name == "target"))
             {
                 throw new InvalidAnswerException();
             }
 
-            foreach (var answerValue in answer.Values.Where(e=>e.Name.Equals("target")))
+            foreach (var answerValue in answer.Values.Where(e => e.Name.Equals("target")))
             {
-                if(string.IsNullOrEmpty(answerValue.Data)) throw new InvalidAnswerException();
+                if (string.IsNullOrEmpty(answerValue.Data)) throw new InvalidAnswerException();
             }
         }
     }
@@ -150,46 +148,13 @@ namespace HTF2018.Backend.Logic.Challenges
         public string Longitude { get; set; }
     }
 
-    public class Properties
-    {
-        public string tel { get; set; }
-        public string address { get; set; }
-        public string category { get; set; }
-        public bool landmark { get; set; }
-    }
-
-    public class Geometry
-    {
-        public string type { get; set; }
-        public List<double> coordinates { get; set; }
-    }
-
-    public class Context
-    {
-        public string id { get; set; }
-        public string text { get; set; }
-        public string wikidata { get; set; }
-        public string short_code { get; set; }
-    }
-
     public class Feature
     {
-        public string id { get; set; }
-        public string type { get; set; }
-        public List<string> place_type { get; set; }
-        public int relevance { get; set; }
-        public Properties properties { get; set; }
-        public string text { get; set; }
-        public string place_name { get; set; }
-        public List<double> center { get; set; }
-        public Geometry geometry { get; set; }
-        public List<Context> context { get; set; }
+        [SerializeAs(Name = "text")] public string Name { get; set; }
     }
 
     public class CoordinateResponse
     {
-        public string type { get; set; }
-        public List<double> query { get; set; }
-        public List<Feature> features { get; set; }
+        [SerializeAs(Name = "features")] public List<Feature> Features { get; set; }
     }
 }
