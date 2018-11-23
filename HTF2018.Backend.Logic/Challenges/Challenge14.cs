@@ -4,6 +4,7 @@ using HTF2018.Backend.Common.Model;
 using HTF2018.Backend.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HTF2018.Backend.Logic.Challenges
@@ -13,43 +14,62 @@ namespace HTF2018.Backend.Logic.Challenges
         public Challenge14(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
+        private readonly Dictionary<string,string> _challengesWithCompanies = new Dictionary<string, string>
+        {
+            {".NET", "Involed"},
+            {"Javascript", "Involved" },
+            {"BI", "Agiliz" },
+            {"Java", "c4j" },
+            {"Blockchain", "TheLedger" },
+            {"Mobile", "Cozmos" },
+            {"Security", "Nynox" },
+            {"SAP", "Flexso" },
+            {"IT Decathlon", "To The point" },
+            {"IoT & AI", "Craftworkz" },
+            {"Big Data", "Big Industries" },
+            {"Geosolutions", "GEO Solutions" },
+            {"Hackaton", "Cronos" },
+        };
+        private readonly Random _randomGenerator = new Random();
         public async Task<Challenge> GetChallenge()
         {
-            Challenge challenge = await BuildChallenge(Identifier.Challenge14);
+            var challenge = await BuildChallenge(Identifier.Challenge14);
             return challenge;
         }
 
         protected override Task<Question> BuildQuestion()
         {
-            var question = new Question
+            var keys = Enumerable.ToList(_challengesWithCompanies.Values);
+            return Task.FromResult(new Question
             {
                 InputValues = new List<Value>()
-            };
-
-            // TODO: Add name-data pairs to the InputValues!
-
-            return Task.FromResult(question);
-        }
-
-        protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
-        {
-            // TODO: Calculate answer based on question!
-
-            return Task.FromResult(new Answer
-            {
-                ChallengeId = challengeId,
-                Values = new List<Value>
                 {
-                    // TODO: Add name-data pairs containing answers!
+                    new Value{Name = "challenge", Data = $"{keys[_randomGenerator.Next(keys.Count-1)]}"}
                 }
             });
         }
 
+        protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
+        {
+            var challenge = question.InputValues.Single(e => e.Name.Equals("challenge")).Data;
+            var answer = new Answer
+            {
+                ChallengeId = challengeId,
+                Values = new List<Value>
+                {
+                    new Value{Name = "special ops", Data = _challengesWithCompanies[challenge].ToLower()}
+                }
+            };
+
+            return Task.FromResult(answer);
+        }
+
         protected override async Task<Example> BuildExample(Guid challengeId)
         {
-            Question question = new Question
+            var question = new Question
             {
-                // TODO: Add name-data pairs containing an example question based on the actual question!
+                InputValues = new List<Value> {
+                  new Value{Name = "challenge", Data ="Hackaton"}}
             };
 
             return new Example
@@ -61,15 +81,30 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            Boolean invalid = false;
-
-            // TODO: Do a basic validation of the answer object!
-            // (Null-checks, are properties correct, but no actual functional checks)
-
-            if (invalid)
+            if (answer.Values == null)
             {
                 throw new InvalidAnswerException();
             }
+
+            if (answer.Values != null)
+            {
+                throw new InvalidAnswerException();
+            }
+
+            if (!answer.Values.Any(x => x.Name == "special ops"))
+            {
+                throw new InvalidAnswerException();
+            }
+            if (answer.Values.Count(x => x.Name == "special ops") != 1)
+            {
+                throw new InvalidAnswerException();
+            }
+            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "special ops").Data))
+            {
+                throw new InvalidAnswerException();
+            }
+
+
         }
     }
 }
