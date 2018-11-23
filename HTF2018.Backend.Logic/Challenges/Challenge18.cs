@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PokeAPI;
+using Microsoft.Extensions.Caching.Memory;
 using RestSharp;
 using RestSharp.Serializers;
 
@@ -18,10 +18,13 @@ namespace HTF2018.Backend.Logic.Challenges
     /// </summary>
     public class Challenge18 : ChallengeBase, IChallenge18
     {
+        private readonly IMemoryCache _cache;
+
         public Challenge18(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic,
-            IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
+            IDashboardLogic dashboardLogic, IHistoryLogic historyLogic, IMemoryCache memoryCache)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic)
         {
+            _cache = memoryCache;
             _client = new RestClient("https://pokeapi.co/api/v2/pokemon/");
         }
 
@@ -55,11 +58,21 @@ namespace HTF2018.Backend.Logic.Challenges
         protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
             var pokemonNr = question.InputValues.Single(e => e.Name.Equals("#")).Data;
-            var request = new RestRequest("{pokemonNr}/");
-            request.AddUrlSegment("pokemonNr", pokemonNr);
-            _client.UserAgent ="HTF2018 - Lookup";
+            if (!_cache.TryGetValue($"pokemon_{pokemonNr}", out Pokemon pokemon))
+            {
 
-            var response = _client.Execute<Pokemon>(request);
+                var request = new RestRequest("{pokemonNr}/");
+                request.AddUrlSegment("pokemonNr", pokemonNr);
+                _client.UserAgent = "HTF2018 - Lookup";
+
+                var response = _client.Execute<Pokemon>(request);
+                pokemon = response.Data;
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromDays(1));
+                
+                _cache.Set($"pokemon_{pokemonNr}", pokemon, cacheEntryOptions);
+            }
+            
 
             return Task.FromResult(new Answer
             {
@@ -69,8 +82,7 @@ namespace HTF2018.Backend.Logic.Challenges
                     new Value
                     {
                         Name = "name",
-                        Data =
-                            response.Data.Name
+                        Data = pokemon.Name
                     }
                 }
             });
@@ -109,12 +121,16 @@ namespace HTF2018.Backend.Logic.Challenges
                 throw new InvalidAnswerException();
             }
 
-            if (!answer.Values.Any(x => x.Name == "#"))
+            if (!answer.Values.Any(x => x.Name == "name"))
+            {
+                throw new InvalidAnswerException();
+            }
+            if (answer.Values.Count(x => x.Name == "name")!=1)
             {
                 throw new InvalidAnswerException();
             }
 
-            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "#").Data))
+            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "name").Data))
             {
                 throw new InvalidAnswerException();
             }

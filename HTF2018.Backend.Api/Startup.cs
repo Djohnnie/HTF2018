@@ -28,6 +28,7 @@ namespace HTF2018.Backend.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
             services.AddDbContext<TheArtifactDbContext>();
             services.AddTransient<IChallengeLogic, ChallengeLogic>();
             services.AddTransient<ITeamLogic, TeamLogic>();
