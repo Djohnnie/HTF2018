@@ -104,6 +104,7 @@ namespace HTF2018.Backend.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<RequestLoggingMiddleware>();
             app.UseMiddleware<IdentificationMiddleware>();
             app.UseMiddleware<ThrottlingMiddleware>();
             app.UseMiddleware<RequestUriMiddleware>();
