@@ -46,8 +46,8 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 InputValues = new List<Value>
                 {
-                    new Value {Name = "age", Data = $"{seconds}"},
-                    new Value {Name = "planet", Data = planetArray[_randomGenerator.Next(planetArray.Length)]},
+                    new Value {Name = "ageInUniversalSeconds", Data = $"{seconds}"},
+                    new Value {Name = "destinationPlanet", Data = planetArray[_randomGenerator.Next(planetArray.Length)]},
                     new Value {Name = "EarthSolarYear", Data = $"{SpaceAgeHelper.EarthSolarYear}"},
                     new Value {Name = "JupiterYearsPerEarthYear", Data = $"{SpaceAgeHelper.JupiterYearsPerEarthYear}"},
                     new Value {Name = "MarsYearsPerEarthYear", Data = $"{SpaceAgeHelper.MarsYearsPerEarthYear}"},
@@ -65,8 +65,8 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
-            var preferredPlanetYears = question.InputValues.Find(e => e.Name.Equals("planet"));
-            var ageInSeconds = int.Parse(question.InputValues.Find(e => e.Name.Equals("age")).Data);
+            var preferredPlanetYears = question.InputValues.Find(e => e.Name.Equals("destinationPlanet"));
+            var ageInSeconds = int.Parse(question.InputValues.Find(e => e.Name.Equals("ageInUniversalSeconds")).Data);
             var answer = "";
             var spaceAge = new SpaceAgeHelper(ageInSeconds);
             switch (preferredPlanetYears.Data)
@@ -97,13 +97,12 @@ namespace HTF2018.Backend.Logic.Challenges
                     break;
             }
 
-            answer = answer + " years";
             return Task.FromResult(new Answer
             {
                 ChallengeId = challengeId,
                 Values = new List<Value>
                 {
-                    new Value {Name = "age", Data = answer}
+                    new Value {Name = "ageInYears", Data = answer}
                 }
             });
         }
@@ -114,8 +113,8 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 InputValues = new List<Value>
                 {
-                    new Value {Name = "age", Data = "1000000"},
-                    new Value {Name = "planet", Data = "earth"},
+                    new Value {Name = "ageInUniversalSeconds", Data = "10000000000"},
+                    new Value {Name = "destinationPlanet", Data = "earth"},
                     new Value {Name = "EarthSolarYear", Data = $"{SpaceAgeHelper.EarthSolarYear}"},
                     new Value {Name = "JupiterYearsPerEarthYear", Data = $"{SpaceAgeHelper.JupiterYearsPerEarthYear}"},
                     new Value {Name = "MarsYearsPerEarthYear", Data = $"{SpaceAgeHelper.MarsYearsPerEarthYear}"},

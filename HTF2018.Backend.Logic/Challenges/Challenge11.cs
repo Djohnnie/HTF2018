@@ -56,7 +56,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
             var cipherValue = question.InputValues.Find(e => e.Name.Equals(Cipher));
             var cipher = Convert.ToInt32(cipherValue.Data);
-            foreach (var inputValue in question.InputValues)
+            foreach (var inputValue in question.InputValues.Where(e=>e.Name=="encoded"))
             {
                 answers.Add(
                     new Value { Name = "decoded", Data = Encode(inputValue.Data, -cipher) });

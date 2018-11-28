@@ -28,7 +28,7 @@ namespace HTF2018.Backend.Logic.Challenges
             {"IoT & AI", "Craftworkz" },
             {"Big Data", "Big Industries" },
             {"Geosolutions", "GEO Solutions" },
-            {"Hackaton", "Cronos" },
+            {"Hackaton", "Cronos" }
         };
         private readonly Random _randomGenerator = new Random();
         public async Task<Challenge> GetChallenge()
@@ -39,10 +39,10 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override Task<Question> BuildQuestion()
         {
-            var keys = Enumerable.ToList(_challengesWithCompanies.Values);
+            var keys = _challengesWithCompanies.Keys.ToList();
             return Task.FromResult(new Question
             {
-                InputValues = new List<Value>()
+                InputValues = new List<Value>
                 {
                     new Value{Name = "challenge", Data = $"{keys[_randomGenerator.Next(keys.Count-1)]}"}
                 }
