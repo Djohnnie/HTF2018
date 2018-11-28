@@ -42,7 +42,7 @@ namespace HTF2018.Backend.Logic.Challenges
                     new Value
                     {
                         Name = "day",
-                        Data = $"{((DayOfWeek)dayOfTheWeek)}"
+                        Data = $"{(DayOfWeek)dayOfTheWeek}"
                     }
                 }
             };

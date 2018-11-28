@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HTF2018.Backend.Logic.Challenges.Helpers;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
@@ -25,7 +24,7 @@ namespace HTF2018.Backend.Logic.Challenges
         protected override Task<Question> BuildQuestion()
         {
             var number = _randomGenerator.Next(1, 4000);
-            var value = (_randomGenerator.Next(100) < 51) ? $"{number}" : ToRoman(number);
+            var value = _randomGenerator.Next(100) < 51 ? $"{number}" : ToRoman(number);
             var question = new Question
             {
                 InputValues = new List<Value>()

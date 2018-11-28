@@ -10,7 +10,7 @@ namespace HTF2018.Backend.Logic.Challenges
             { Identifier.Challenge01, "Identify yourself!" },
             { Identifier.Challenge02, "A simple challenge to get started!" },
             { Identifier.Challenge03, "Cipherific!" },
-            { Identifier.Challenge04, "Let's get it more difficult!" },
+            { Identifier.Challenge04, "Let's make it more difficult!" },
             { Identifier.Challenge05, "Age, Time, ..?" },
             { Identifier.Challenge06, "Monday, Tuesday,.." },
             { Identifier.Challenge07, "Do you care about exceptions?" },
@@ -26,7 +26,7 @@ namespace HTF2018.Backend.Logic.Challenges
             { Identifier.Challenge17, "Who are your leaders." },
             { Identifier.Challenge18, "Kanto, Johto, Hoenn,..;" },
             { Identifier.Challenge19, "A maze? Really?" },
-            { Identifier.Challenge20, "Final piece.." }
+            { Identifier.Challenge20, "The Final Piece.." }
         };
 
         public static readonly Dictionary<Identifier, string> Descriptions = new Dictionary<Identifier, string>

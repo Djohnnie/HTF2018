@@ -90,7 +90,7 @@ namespace HTF2018.Backend.Logic.Challenges
                 throw new InvalidAnswerException();
             }
 
-            if (!answer.Values.Any(x => x.Name == "sum"))
+            if (answer.Values.All(x => x.Name != "sum"))
             {
                 throw new InvalidAnswerException();
             }

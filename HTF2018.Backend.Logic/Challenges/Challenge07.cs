@@ -26,7 +26,7 @@ namespace HTF2018.Backend.Logic.Challenges
         protected override Task<Question> BuildQuestion()
         {
             var number = _randomGenerator.Next(int.MaxValue);
-            var value = (_randomGenerator.Next(100) < 51) ? $"{number}" : NumberToEnglish.ChangeNumericToWords(number);
+            var value = _randomGenerator.Next(100) < 51 ? $"{number}" : NumberToEnglish.ChangeNumericToWords(number);
            var question = new Question
             {
                 InputValues = new List<Value>()

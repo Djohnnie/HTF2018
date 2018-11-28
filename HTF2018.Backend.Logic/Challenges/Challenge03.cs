@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HTF2018.Backend.Logic.Challenges.Helpers;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
@@ -19,13 +20,7 @@ namespace HTF2018.Backend.Logic.Challenges
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
         private readonly Random _randomGenerator = new Random();
-        private readonly List<string> _artifactSentences = new List<string>
-        {
-            "The artifact has landed on a sacred place.",
-            "We chose this location as the one with the biggest impact.",
-            "The humans are trying to decipher our language!",
-            "The artifact is being breached, adapt!",
-        };
+       
         public async Task<Challenge> GetChallenge()
         {
             var challenge = await BuildChallenge(Identifier.Challenge03);
@@ -39,7 +34,7 @@ namespace HTF2018.Backend.Logic.Challenges
                 InputValues = new List<Value>()
             };
 
-            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(_artifactSentences[_randomGenerator.Next(_artifactSentences.Count)]) });
+            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(RandomStrings.ArtifactSentences[_randomGenerator.Next(RandomStrings.ArtifactSentences.Count)]) });
 
             return Task.FromResult(question);
         }
@@ -85,7 +80,7 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 throw new InvalidAnswerException();
             }
-            if (!answer.Values.Any(x => x.Name == "decoded"))
+            if (answer.Values.All(x => x.Name != "decoded"))
             {
                 throw new InvalidAnswerException();
             }
@@ -99,14 +94,14 @@ namespace HTF2018.Backend.Logic.Challenges
             }
         }
 
-        public static string Encode(string plainText)
+        private static string Encode(string plainText)
         {
-            return string.Concat(plainText.Where(char.IsLetterOrDigit).Select(EncodeChar));
+            return string.Concat(plainText.Where(c=> char.IsLetterOrDigit(c)||char.IsWhiteSpace(c)).Select(EncodeChar));
         }
 
         private static char EncodeChar(char c)
         {
-            return char.IsDigit(c) ? c : (char)('z' - char.ToLower(c) + 'a');
+            return char.IsWhiteSpace(c) ? c : char.IsDigit(c) ? c : (char)('z' - char.ToLower(c) + 'a');
         }
     }
 }
