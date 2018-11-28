@@ -8,6 +8,7 @@
             <summary>
             Gets the first challenge.
             </summary>
+            <remarks>This will be your starting point. Request the first challenge and get started with unlocking the artifact!</remarks>
             <returns></returns>
         </member>
         <member name="M:HTF2018.Backend.Api.Controllers.ChallengesController.PostFirstChallengeSolution(HTF2018.Backend.Common.Model.Answer)">
@@ -15,6 +16,7 @@
             Posts the solution for the first challenge.
             </summary>
             <param name="answer">The answer.</param>
+            <remarks>After you have requested the first challenge, use this endpoint to POST your answer. Use the example data to format your answer correctly!</remarks>
             <returns></returns>
         </member>
         <member name="M:HTF2018.Backend.Api.Controllers.ChallengesController.GetSubsequentChallenge(System.String)">
@@ -22,6 +24,7 @@
             Gets any of the subsequent challenges identified by a challenge code.
             </summary>
             <param name="challengeCode">The challenge code to identify a challenge.</param>
+            <remarks>If you have successfully answered the first challenge, you will receive the information needed to request a subsequent challenge with that response.</remarks>
             <returns></returns>
         </member>
         <member name="M:HTF2018.Backend.Api.Controllers.ChallengesController.PostSubsequentChallengeSolution(System.String,HTF2018.Backend.Common.Model.Answer)">
@@ -30,6 +33,7 @@
             </summary>
             <param name="challengeCode">The challenge code to identify a challenge.</param>
             <param name="answer">The answer.</param>
+            <remarks>After you have requested a challenge, use this endpoint to POST your answer. Use the example data to format your answer correctly!</remarks>
             <returns></returns>
         </member>
         <member name="M:HTF2018.Backend.Api.Controllers.DashboardController.GetAllTeams">

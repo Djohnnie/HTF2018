@@ -78,12 +78,6 @@ namespace HTF2018.Backend.Api
                     Version = "v2018.1",
                     Title = "HTF2018: The Artifact",
                     Description = "This page provides some documentation on the available endpoints for the Hack The Future 2018 .NET Challenge.",
-                    Contact = new Contact
-                    {
-                        Email = "johnny.hooyberghs@involved-it.be",
-                        Name = "Johnny Hooyberghs",
-                        Url = "mailto://johnny.hooyberghs@involved-it.be"
-                    }
                 });
                 c.OperationFilter<IdentificationOperationFilter>();
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile1));
