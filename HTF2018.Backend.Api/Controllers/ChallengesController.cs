@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using HTF2018.Backend.Api.Filters;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace HTF2018.Backend.Api.Controllers
 {
@@ -24,6 +25,7 @@ namespace HTF2018.Backend.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [SwaggerResponse(200, Type = typeof(Challenge))]
         public async Task<IActionResult> GetFirstChallenge()
         {
             Challenge challenge = await _challengeEngine.GetChallenge(Identifier.Challenge01);
@@ -36,6 +38,7 @@ namespace HTF2018.Backend.Api.Controllers
         /// <param name="answer">The answer.</param>
         /// <returns></returns>
         [HttpPost]
+        [SwaggerResponse(200, Type = typeof(Response))]
         public async Task<IActionResult> PostFirstChallengeSolution(Answer answer)
         {
             Response response = await _challengeEngine.ValidateChallenge(answer);
@@ -49,6 +52,7 @@ namespace HTF2018.Backend.Api.Controllers
         /// <returns></returns>
         [HttpGet, Route("{challengeCode}")]
         [HtfIdentification, ServiceFilter(typeof(IdentificationFilter))]
+        [SwaggerResponse(200, Type = typeof(Challenge))]
         public async Task<IActionResult> GetSubsequentChallenge(String challengeCode)
         {
             Challenge challenge = await _challengeEngine.GetChallenge(challengeCode);
@@ -63,6 +67,7 @@ namespace HTF2018.Backend.Api.Controllers
         /// <returns></returns>
         [HttpPost, Route("{challengeCode}")]
         [HtfIdentification, ServiceFilter(typeof(IdentificationFilter))]
+        [SwaggerResponse(200, Type = typeof(Response))]
         public async Task<IActionResult> PostSubsequentChallengeSolution(String challengeCode, Answer answer)
         {
             Response response = await _challengeEngine.ValidateChallenge(answer);

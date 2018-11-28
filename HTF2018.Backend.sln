@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Backend", "1. Backend", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Example", "2. Example", "{F63DD90C-7E9C-41A3-B6C4-D0DCC11D02D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTF2018.Backend.Example", "HTF2018.Backend.Example\HTF2018.Backend.Example.csproj", "{BCBF5512-0BFC-48CF-B5CA-5909DE789F11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HTF2018.Backend.Example", "HTF2018.Backend.Example\HTF2018.Backend.Example.csproj", "{BCBF5512-0BFC-48CF-B5CA-5909DE789F11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
