@@ -34,8 +34,12 @@ namespace HTF2018.Backend.Logic.Challenges
 
         private readonly List<Coordinate> _artifactLocations = new List<Coordinate>
         {
-            //todo: ADD COORDINATES
-            new Coordinate {Latitude = "51.168716", Longitude = "4.432200",}
+            new Coordinate {Latitude = "51.168716", Longitude = "4.432200"},
+            new Coordinate{Latitude = "51.142513", Longitude = "4.442339"},
+            new Coordinate{Latitude = "51.203465", Longitude = "4.494959"},
+            new Coordinate{Latitude = "51.059353",Longitude = "4.514054"},
+            new Coordinate{Latitude = "51.186176",Longitude = "4.480791"},
+            new Coordinate{Latitude = "51.198418",Longitude = "4.490397"},
         };
 
         public async Task<Challenge> GetChallenge()
@@ -92,8 +96,7 @@ namespace HTF2018.Backend.Logic.Challenges
                 answer.Values.Add(new Value
                 {
                     Name = "target",
-                    Data =
-                        feature.Name
+                    Data = feature.text
                 });
             }
 
@@ -157,8 +160,8 @@ namespace HTF2018.Backend.Logic.Challenges
     }
 
     public class Feature
-    {
-        [SerializeAs(Name = "text")] public string Name { get; set; }
+    {public string text { get; set; }
+        [SerializeAs(Name = "place_name")] public string PlaceName { get; set; }
     }
 
     public class CoordinateResponse

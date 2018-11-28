@@ -24,7 +24,7 @@ namespace HTF2018.Backend.Logic.Challenges
             "The artifact has landed on a sacred place.",
             "We chose this location as the one with the biggest impact.",
             "The humans are trying to decipher our language!",
-            "The artifact is getting breached, adapt!"
+            "The artifact is being breached, adapt!",
         };
         public async Task<Challenge> GetChallenge()
         {
@@ -101,7 +101,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         public static string Encode(string plainText)
         {
-            return string.Concat(plainText.Where(char.IsLetterOrDigit).Select((c, i) => (i % 5 == 0 && i > 0 ? " " : "") + EncodeChar(c)));
+            return string.Concat(plainText.Where(char.IsLetterOrDigit).Select(EncodeChar));
         }
 
         private static char EncodeChar(char c)
