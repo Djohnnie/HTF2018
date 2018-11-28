@@ -14,7 +14,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "OVERLORD_IDENTIFICATION": "N2YzOTVlOWItOGViMi00ODI5LWI5NDgtNDljYTJkZjY1YjJj",
+        "OVERLORD_IDENTIFICATION": "...",
         "MAPBOXKEY": "...",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "CONNECTIONSTRING": "..."

@@ -116,6 +116,12 @@ namespace HTF2018.Backend.Api
                 c.SwaggerEndpoint("/swagger/v2018/swagger.json", "HTF2018: The Artifact");
             });
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ServeUnknownFileTypes = true,
+                DefaultContentType = "text/plain"
+            });
             app.UseMvc();
         }
     }
