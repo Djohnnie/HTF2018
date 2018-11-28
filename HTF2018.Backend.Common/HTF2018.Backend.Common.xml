@@ -4,5 +4,240 @@
         <name>HTF2018.Backend.Common</name>
     </assembly>
     <members>
+        <member name="T:HTF2018.Backend.Common.Model.Answer">
+            <summary>
+            This object represents an answer containing all the provided data.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Answer.ChallengeId">
+            <summary>
+            The unique identifier for the challenge you are providing an answer for.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Answer.Values">
+            <summary>
+            The data you need to provide to solve the challenge question.
+            </summary>
+        </member>
+        <member name="T:HTF2018.Backend.Common.Model.Challenge">
+            <summary>
+            This object represents a challenge for you to solve.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Challenge.Id">
+            <summary>
+            The unique identifier for this started challenge. If you request a challenge multiple times, this identifier changes.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Challenge.Identifier">
+            <summary>
+            The identifier for this challenge. If you request a challenge multiple times, it remains unchanged.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Challenge.Title">
+            <summary>
+            The title for this challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Challenge.Description">
+            <summary>
+            The description for this challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Challenge.Question">
+            <summary>
+            The actual question for this challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Challenge.Example">
+            <summary>
+            An example containing sample question and answer.
+            </summary>
+        </member>
+        <member name="T:HTF2018.Backend.Common.Model.Example">
+            <summary>
+            This object represents an example challenge for you to learn from.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Example.Question">
+            <summary>
+            The example question that is applicable to a specific challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Example.Answer">
+            <summary>
+            The example answer that is applicable to a specific challenge and is calculated based on the example question.
+            </summary>
+        </member>
+        <member name="T:HTF2018.Backend.Common.Model.Overview">
+            <summary>
+            This object represents a list of all challenge statusses for your team.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge01">
+            <summary>
+            The progress of your first challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge02">
+            <summary>
+            The progress of your second challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge03">
+            <summary>
+            The progress of your third challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge04">
+            <summary>
+            The progress of your fourth challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge05">
+            <summary>
+            The progress of your fifth challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge06">
+            <summary>
+            The progress of your sixth challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge07">
+            <summary>
+            The progress of your seventh challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge08">
+            <summary>
+            The progress of your eight challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge09">
+            <summary>
+            The progress of your ninth challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge10">
+            <summary>
+            The progress of your tenth challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge11">
+            <summary>
+            The progress of your eleventh challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge12">
+            <summary>
+            The progress of your twelved challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge13">
+            <summary>
+            The progress of your thirdteenth challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge14">
+            <summary>
+            The progress of your fourteenth challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge15">
+            <summary>
+            The progress of your fiftteenth challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge16">
+            <summary>
+            The progress of your sixteenth challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge17">
+            <summary>
+            The progress of your seventeenth challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge18">
+            <summary>
+            The progress of your eightteenth challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge19">
+            <summary>
+            The progress of your nineteenth challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Overview.Challenge20">
+            <summary>
+            The progress of your twentieth challenge.
+            </summary>
+        </member>
+        <member name="T:HTF2018.Backend.Common.Model.Progress">
+            <summary>
+            This object represents the status for a specific challenge. It also includes a link to the endpoint to GET and POST challenge data.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Progress.Status">
+            <summary>
+            The status for this specific challenge.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Progress.Entry">
+            <summary>
+            A link to the endpoint you should use to communicate with this challenge.
+            </summary>
+        </member>
+        <member name="T:HTF2018.Backend.Common.Model.Question">
+            <summary>
+            This object represents a question containing all the needed data.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Question.InputValues">
+            <summary>
+            The data you need to solve the challenge question.
+            </summary>
+        </member>
+        <member name="T:HTF2018.Backend.Common.Model.Response">
+            <summary>
+            This object represents a unified response for all challenges you try to solve.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Response.Identifier">
+            <summary>
+            The identifier for the challenge you have tried to solve.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Response.Status">
+            <summary>
+            The status of the challenge you have tried to solve. Now you know if your attempt was successful or not.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Response.Identification">
+            <summary>
+            Your personal identification relayed to you.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Response.Overview">
+            <summary>
+            Your personal overview of all challenges.
+            </summary>
+        </member>
+        <member name="T:HTF2018.Backend.Common.Model.Value">
+            <summary>
+            This object represents a key-value pair where the key is named "Name" and the value is named "Data".
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Value.Name">
+            <summary>
+            The key-part of this key-value pair.
+            </summary>
+        </member>
+        <member name="P:HTF2018.Backend.Common.Model.Value.Data">
+            <summary>
+            The value-part of this key-value pair.
+            </summary>
+        </member>
     </members>
 </doc>
