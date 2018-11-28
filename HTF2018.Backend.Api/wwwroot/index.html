@@ -1,25 +1,257 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | HackTheFutureDashboard</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
-    <script src="TemplateData/UnityProgress.js"></script>  
-    <script src="Build/UnityLoader.js"></script>
-    <script>
-      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/web.json", {onProgress: UnityProgress});
-    </script>
-  </head>
-  <body>
-    <div class="webgl-content">
-      <div id="gameContainer" style="width: 960px; height: 600px"></div>
-      <div class="footer">
-        <div class="webgl-logo"></div>
-        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
-        <div class="title">HackTheFutureDashboard</div>
-      </div>
-    </div>
-  </body>
+<html>
+<head>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<title>Hack The Future 2018 | Experience Driven Hackathon</title>
+<link href='https://www.hackthefuture.be/favicon.ico' rel='icon'>
+<link href='https://www.hackthefuture.be/apple-icon-57x57.png' rel='apple-touch-icon' sizes='57x57'>
+<link href='https://www.hackthefuture.be/apple-icon-60x60.png' rel='apple-touch-icon' sizes='60x60'>
+<link href='https://www.hackthefuture.be/apple-icon-72x72.png' rel='apple-touch-icon' sizes='72x72'>
+<link href='https://www.hackthefuture.be/apple-icon-76x76.png' rel='apple-touch-icon' sizes='76x76'>
+<link href='https://www.hackthefuture.be/apple-icon-114x114.png' rel='apple-touch-icon' sizes='114x114'>
+<link href='https://www.hackthefuture.be/apple-icon-120x120.png' rel='apple-touch-icon' sizes='120x120'>
+<link href='https://www.hackthefuture.be/apple-icon-144x144.png' rel='apple-touch-icon' sizes='144x144'>
+<link href='https://www.hackthefuture.be/apple-icon-152x152.png' rel='apple-touch-icon' sizes='152x152'>
+<link href='https://www.hackthefuture.be/apple-icon-180x180.png' rel='apple-touch-icon' sizes='180x180'>
+<link href='https://www.hackthefuture.be/android-icon-192x192.png' rel='icon' sizes='192x192' type='image/png'>
+<link href='https://www.hackthefuture.be/favicon-32x32.png' rel='icon' sizes='32x32' type='image/png'>
+<link href='https://www.hackthefuture.be/favicon-96x96.png' rel='icon' sizes='96x96' type='image/png'>
+<link href='https://www.hackthefuture.be/favicon-16x16.png' rel='icon' sizes='16x16' type='image/png'>
+<link href='https://www.hackthefuture.be/manifest.json' rel='manifest'>
+<link rel="stylesheet" media="all" href="https://www.hackthefuture.be/assets/application-e876cf070c2e49ac6b19ca32733919fef7f0852a402431df289912c46d9abecb.css" />
+
+</head>
+<body>
+<div id='navbar'>
+<img id="nav-logo-min" src="https://www.hackthefuture.be/assets/logo-764e60771299d6d85b2f83563694713acf72ce15b4ebc202ae283a1cf18fbd5d.svg" alt="Logo" />
+<i id="nav-toggle" class="fa fa-bars"></i>
+</div>
+<aside id='main-nav-outer'>
+<div id='main-nav'>
+<a href="/"><img id="nav-logo" class="index" src="https://www.hackthefuture.be/assets/logo-764e60771299d6d85b2f83563694713acf72ce15b4ebc202ae283a1cf18fbd5d.svg" alt="Logo" />
+</a><ul class='pages'>
+<a class="active" href="/"><li>
+<span>Home</span>
+</li>
+</a><a href="/artifact.html"><li>
+<span>The Artifact</span>
+</li>
+</a><a href="/swagger"><li>
+<span>Swagger</span>
+</li>
+</a></ul>
+<div class='delimiter'></div>
+<div class='anchors'>
+<ul class='index'>
+<a id="masthead-link" href="#about-anchor"><li>Get Started</li>
+</a><a id="about-link" href="#artifact-anchor"><li>Challenges</li>
+</a><a id="artifact-link" href="#prizes-anchor"><li>Your plan of attack!</li>
+</a></ul>
+</div>
+</div>
+</aside>
+
+<main>
+<div id='fade'></div>
+<div id='index'>
+<div id='masthead-anchor'></div>
+<section id='masthead'>
+<div class='vertical-align'>
+<img class="nebula-bg" src="https://www.hackthefuture.be/assets/bg/nebula_bg-21bce574204ee524ac050fbbb18b8df8e446e241d0d37c7eb12825a5300e47b5.png" alt="Nebula bg" />
+<img class="nebula-bg-2" src="https://www.hackthefuture.be/assets/bg/nebula_bg-21bce574204ee524ac050fbbb18b8df8e446e241d0d37c7eb12825a5300e47b5.png" alt="Nebula bg" />
+<div id='video-bg-wrapper'>
+<video autoplay="autoplay" muted="muted" loop="loop" type="video/mp4" src="https://www.hackthefuture.be/assets/artifact-69582f19fb693ee02999679c9374816a10391f9df48a5a0965a86449b80415f3.mp4"></video>
+<div class='dimming-v'></div>
+<div class='dimming-h'></div>
+</div>
+<div class='container'>
+<div class='offset'>
+<p class='highlight'>
+Proudly presenting the
+<br class='visible-sm'>
+<span class='cyan'>5th&nbsp;edition</span>
+of hack the future
+</p>
+<h1><span class='big'>The Artifact</span><br>
+A Hackathon for students
+<br class='visible-sm'>
+in their last year of education
+</h1>
+<a class="btn outline" data-fancybox="trailer-index" href="https://player.vimeo.com/video/287129189">Watch Trailer</a>
+<h3>
+<time>28 - 29 November</time>
+<i class="fa fa-circle"></i>
+Fort V - Edegem
+</h3>
+</div>
+</div>
+</div>
+</section>
+<div id='about-anchor'></div>
+<section id='about'>
+<img class="nebula-bg" src="https://www.hackthefuture.be/assets/bg/nebula_bg-21bce574204ee524ac050fbbb18b8df8e446e241d0d37c7eb12825a5300e47b5.png" alt="Nebula bg" />
+<img class="galaxy-bg" src="https://www.hackthefuture.be/assets/bg/galaxy_bg-b486756d8f973656dc01f2d37d5e00c8da2187fbb5df5ce13e19c52306072e91.png" alt="Galaxy bg" />
+<img class="galaxy-bg-2" src="https://www.hackthefuture.be/assets/bg/galaxy_bg-b486756d8f973656dc01f2d37d5e00c8da2187fbb5df5ce13e19c52306072e91.png" alt="Galaxy bg" />
+<img id="about-bg" src="https://www.hackthefuture.be/assets/bg/index_about_bg-e495ae762f57393453d030f25dbcb883f11f60833ba8bf2253917c118bfce81f.svg" alt="Index about bg" />
+<div class='container'>
+<div class='offset'>
+<div class='narrow'>
+
+<div class='description-text'>
+<h3>Get Started!</h3>
+<div class='centered-text'>
+<p>Technically, this challenge is about communicating with an HTTP webservice using .NET code and
+    writing your own application in. You need to write .NET client code to
+    call an existing HTTP webservice to solve challenges.
+    Additionaly you need to work on a dashboard in a UI technology of your choice.</p>
+</div>
+</div>
+<ul id='key-points'>
+<li>
+<span>EPIC</span>
+<br>
+location
+</li>
+<li>
+<span class='plus'>3</span>
+<br>
+Awesome <br> special ops
+</li>
+<li>
+<span>20</span>
+<br>
+Mindblowing<br> challenges to solve
+</li>
+<li>
+<span>Involved</span>
+<br>
+An epic<br> company
+</li>
+</ul>
+<div class='clearfix'></div>
+</div>
+</div>
+</div>
+</section>
+<div id='artifact-anchor'></div>
+<section id='artifact'>
+<img class="nebula-bg" src="https://www.hackthefuture.be/assets/bg/nebula_bg-21bce574204ee524ac050fbbb18b8df8e446e241d0d37c7eb12825a5300e47b5.png" alt="Nebula bg" />
+<img class="nebula-bg-2" src="https://www.hackthefuture.be/assets/bg/nebula_bg-21bce574204ee524ac050fbbb18b8df8e446e241d0d37c7eb12825a5300e47b5.png" alt="Nebula bg" />
+<div class='container'>
+<div class='offset'>
+<img id="artifact-circles-bg" src="https://www.hackthefuture.be/assets/bg/index_artifact_circles_bg-e4df5a7ba242a2e79f2b609a7b04aaf2d57fb30f165244f6ab8084471ace1bdc.svg" alt="Index artifact circles bg" />
+<img id="artifact-bg" src="https://www.hackthefuture.be/assets/bg/index_artifact_bg-92846cf79ae2dbb0fa5457f5a366573707bc97c42e2ab4b26aa8027352ab7f7b.png" alt="Index artifact bg" />
+<h3>
+<span class='artifact-typed'></span>
+</h3>
+<div class='clearfix'></div>
+<img id="artifact-core" src="https://www.hackthefuture.be/assets/artifact_core-80da3e203c18a6b980b9446c1379c27e9f0729353c9266c140f8136faddaabc2.svg" alt="Artifact core" />
+<h2>Challenges!</h2>
+<div id='artifact-text'>
+<p>Your job is to solve all the challenges that the artefact gives and create a dashboard that resembles your answers and progress on the challenges.
+    Some challenges are easy, some are not but don't worry there are special ops to help you!
+  </p>
+</div>
+<div class='questions'>
+<div class='vertical-line'></div>
+<img src="https://www.hackthefuture.be/assets/icons/question_particles_icon-04332dac5663c9ae6cd1a3cbbf9734377a9754e01a767299f225dc20d644e00b.svg" alt="Question particles icon" />
+<p>What is its function? What’s inside? Will we like it?<br> Unravel the mystery!</p>
+</div>
+</div>
+</div>
+</section>
+<div id='prizes-anchor'></div>
+<section id='prizes'>
+<img class="galaxy-bg" src="https://www.hackthefuture.be/assets/bg/galaxy_bg-b486756d8f973656dc01f2d37d5e00c8da2187fbb5df5ce13e19c52306072e91.png" alt="Galaxy bg" />
+<img class="nebula-bg" src="https://www.hackthefuture.be/assets/bg/nebula_bg-21bce574204ee524ac050fbbb18b8df8e446e241d0d37c7eb12825a5300e47b5.png" alt="Nebula bg" />
+<img class="nebula-bg-2" src="https://www.hackthefuture.be/assets/bg/nebula_bg-21bce574204ee524ac050fbbb18b8df8e446e241d0d37c7eb12825a5300e47b5.png" alt="Nebula bg" />
+<div class='container'>
+<div class='offset'>
+<div class='description-text'>
+<div class='left'>
+<h2>GO GO GO</h2>
+</div>
+<div class='right'>
+<p>Our suggested plan of attack is:</p>
+</div>
+<div class='clearfix'></div>
+</div>
+<div class='prizes-list'>
+<div class='prize'>
+<div class='left'>
+<div class='horizontal-line'></div>
+<img class="icon" src="https://www.hackthefuture.be/assets/icons/prize_1-ad5b00fa357d72dfec52879d4c92ed6e655bd1ffbfcb40ed91694d840f5f9ae1.svg" alt="Prize 1" />
+</div>
+<div class='right'>
+<h3>Register</h3>
+<div class='clearfix'></div>
+<p class='description'>Pick a Team name and register on the api!</p>
+<div class='clearfix'></div>
+</div>
+<div class='clearfix'></div>
+</div>
+<div class='prize'>
+<div class='left'>
+<div class='horizontal-line'></div>
+<img class="icon" src="https://www.hackthefuture.be/assets/icons/prize_2-4878fe1b8603f387a83dc0839963fbd9841661c2c60821ca878bf0b25eaf5a6b.svg" alt="Prize 2" />
+</div>
+<div class='right'>
+<h3>Start</h3>
+<div class='clearfix'></div>
+<p class='description'>Create a project that is able to process the request you have to send.<br />Deploy, or locally run your ASP.NET WebAPI<br />Explore the challenges<br />Extend your project to also have a POST ability on the challenge endpoint.</p>
+<div class='clearfix'></div>
+</div>
+<div class='clearfix'></div>
+</div>
+<div class='prize'>
+<div class='left'>
+<div class='horizontal-line'></div>
+<img class="icon" src="https://www.hackthefuture.be/assets/icons/prize_3-7ca8790b94763f95c94d9f6c3c5dd1b52c81217c3d8d611eae78d83c3b4797a2.svg" alt="Prize 3" />
+</div>
+<div class='right'>
+<h3>Solve</h3>
+<div class='clearfix'></div>
+<p class='description'>Get Started with solving challenges! If you can't find an answer, move on! There are 20 challenges! <br/>do-while until you are satisfied with your server code.<br/>Create a dashboard to show the progress of your artefact. The prettier the better!</p>
+<div class='clearfix'></div>
+</div>
+<div class='clearfix'></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<div id='schedule-faq-anchor'></div>
+
+
+</div>
+
+<footer id='footer'>
+<div class='container'>
+<div class='offset'>
+<p id='creds'>
+HACK THE FUTURE 2018 - .NET CHALLENGE is hosted by <a href="https://www.involved-it.be/" target="_blank">Involved</a>.
+</p>
+<div class='clearfix'></div>
+<div class='delimiter'></div>
+<h4 id='hashtag'>#hackthefuture18</h4>
+<div id='social'>
+<a target="_blank" href="https://twitter.com/hackthefuture18"><img src="https://www.hackthefuture.be//assets/twitter_logo-d3810f570a6d83ed6e51fd9c521a9010080066f2a0df05d08bfb900d1cfe4ecd.svg" alt="Twitter logo" /></a>
+<a target="_blank" href="https://www.facebook.com/hackthefuture.cronos"><img src="https://www.hackthefuture.be//assets/facebook_logo-6ad8cd952d902de3f417bb185176b8dc47176c4ed3c0ecf756506e80ae7a195f.svg" alt="Facebook logo" /></a>
+<a target="_blank" href="https://www.instagram.com/hack_the_future_18/"><img src="https://www.hackthefuture.be//assets/instagram_logo-57e5e57fcd910e743e8dc03a6cb90332dc6941a024fd264b08233c86759a43dc.svg" alt="Instagram logo" /></a>
+</div>
+</div>
+</div>
+</footer>
+
+</main>
+<script src='//maps.google.com/maps/api/js?key=AIzaSyD9BaT5NaxrnUBkC-Xw3iQZMsZ9RpWGi2s'></script>
+<script src='//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js'></script>
+<script src='//code.jquery.com/jquery-3.3.1.min.js'></script>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.4.0/jquery.fancybox.min.css' rel='stylesheet'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.4.0/jquery.fancybox.min.js'></script>
+<div id='cursor-glow'></div>
+<script src="https://www.hackthefuture.be/assets/application-d0d67e32dfa4cb9121dbc4e99a4d095cd194c80654ce41a06194a433f17facfe.js"></script>
+
+</body>
 </html>
