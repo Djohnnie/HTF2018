@@ -162,12 +162,20 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override async Task<Example> BuildExample(Guid challengeId)
         {
+            var drawing = _rectangleStrings[3];
             var question = new Question
             {
-                InputValues = new List<Value> {
-                    new Value{Name = "drawing", Data = Join(Environment.NewLine, _rectangleStrings[3])},
-                }
+                InputValues = new List<Value>()
             };
+
+            foreach (var line in drawing)
+            {
+                question.InputValues.Add(new Value { Name = "d", Data = line });
+            }
+
+            var imageBytes = BuildDrawingImage(drawing);
+            var image = await _imageLogic.StoreImage(imageBytes);
+            question.InputValues.Add(new Value { Name = "graphic", Data = $"{_htfContext.HostUri}/images/{image.Id}" });
 
             return new Example
             {
