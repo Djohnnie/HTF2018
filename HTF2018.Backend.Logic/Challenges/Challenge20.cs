@@ -113,8 +113,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            var invalid = answer.Values == null;
-            if (answer.Values != null && answer.Values.Count != 1)
+            if (answer.Values == null && answer.Values.Count != 1)
             {
                 throw new InvalidAnswerException();
             }
