@@ -75,8 +75,8 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 throw new InvalidAnswerException();
             }
-
             if (!answer.Values.Any(x => x.Name == "name"))
+
             {
                 throw new InvalidAnswerException();
             }

@@ -75,11 +75,7 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 throw new InvalidAnswerException();
             }
-            if (answer.Values != null)
-            {
-                throw new InvalidAnswerException();
-            }
-            if (!answer.Values.Any(x => x.Name == "prime"))
+            if (answer.Values.All(x => x.Name != "prime"))
             {
                 throw new InvalidAnswerException();
             }
