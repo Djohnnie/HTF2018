@@ -85,12 +85,12 @@ namespace HTF2018.Backend.Logic.Challenges
                 throw new InvalidAnswerException();
             }
 
-            if (answer.Values != null && answer.Values.Count != 1)
+            if (answer.Values.Count != 0)
             {
                 throw new InvalidAnswerException();
             }
 
-            if (answer.Values.All(x => x.Name != "sum"))
+            if (answer.Values.Any(x => x.Name != "sum"))
             {
                 throw new InvalidAnswerException();
             }
