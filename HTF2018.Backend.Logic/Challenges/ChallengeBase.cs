@@ -93,9 +93,8 @@ namespace HTF2018.Backend.Logic.Challenges
             // All keys should exist and all values should be equal.
             foreach (Value storedValue in storedAnswer.Values)
             {
-                Value value = answer.Values.SingleOrDefault(x => x.Name == storedValue.Name);
+                Value value = answer.Values.SingleOrDefault(x => x.Name == storedValue.Name && x.Data == storedValue.Data);
                 if (value == null) { result = false; break; }
-                if (storedValue.Data != value.Data) { result = false; break; }
             }
 
             return result;
