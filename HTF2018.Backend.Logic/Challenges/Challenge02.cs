@@ -85,7 +85,7 @@ namespace HTF2018.Backend.Logic.Challenges
                 throw new InvalidAnswerException();
             }
 
-            if (answer.Values.Count != 0)
+            if (answer.Values.Count == 0)
             {
                 throw new InvalidAnswerException();
             }

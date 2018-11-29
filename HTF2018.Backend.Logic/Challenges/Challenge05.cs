@@ -142,17 +142,17 @@ namespace HTF2018.Backend.Logic.Challenges
                 throw new InvalidAnswerException();
             }
 
-            if (!answer.Values.Any(x => x.Name == "age"))
+            if (!answer.Values.Any(x => x.Name == "ageInYears"))
             {
                 throw new InvalidAnswerException();
             }
 
-            if (answer.Values.Count(x => x.Name == "age") != 1)
+            if (answer.Values.Count(x => x.Name == "ageInYears") != 1)
             {
                 throw new InvalidAnswerException();
             }
 
-            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "age").Data))
+            if (string.IsNullOrEmpty(answer.Values.Single(x => x.Name == "ageInYears").Data))
             {
                 throw new InvalidAnswerException();
             }
