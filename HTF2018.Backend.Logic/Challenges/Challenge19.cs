@@ -206,15 +206,12 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override void ValidateAnswer(Answer answer)
         {
-            Boolean invalid = false;
-
-            // TODO: Do a basic validation of the answer object!
-            // (Null-checks, are properties correct, but no actual functional checks)
-
-            if (invalid)
-            {
+            if(answer.Values == null)
                 throw new InvalidAnswerException();
-            }
+                
+            if (answer.Values != null && answer.Values.Count > 0)
+                throw new InvalidAnswerException();
+            
         }
 
         #region Helpers

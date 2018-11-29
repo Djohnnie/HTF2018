@@ -41,6 +41,8 @@ namespace HTF2018.Backend.Logic.Challenges
                 }
             }
 
+            seconds = seconds * 1000;
+
             var planetArray = new[] {"earth", "jupiter", "venus", "uranus", "saturn", "neptune", "mercury", "mars"};
             var question = new Question
             {
@@ -66,7 +68,7 @@ namespace HTF2018.Backend.Logic.Challenges
         protected override Task<Answer> BuildAnswer(Question question, Guid challengeId)
         {
             var preferredPlanetYears = question.InputValues.Find(e => e.Name.Equals("destinationPlanet"));
-            var ageInSeconds = int.Parse(question.InputValues.Find(e => e.Name.Equals("ageInUniversalSeconds")).Data);
+            var ageInSeconds = long.Parse(question.InputValues.Find(e => e.Name.Equals("ageInUniversalSeconds")).Data);
             var answer = "";
             var spaceAge = new SpaceAgeHelper(ageInSeconds);
             switch (preferredPlanetYears.Data)

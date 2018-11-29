@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HTF2018.Backend.Logic.Challenges.Helpers;
 
 namespace HTF2018.Backend.Logic.Challenges
 {
@@ -20,14 +21,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         private const string Cipher = "cipher";
         private readonly Random _randomGenerator = new Random();
-        private readonly List<string> _artifactSentences = new List<string>
-        {
-            //To Change
-            "The artifact has landed on a sacred place.",
-            "We chose this location as the one with the biggest impact.",
-            "The humans are trying to decipher our language!",
-            "The artifact is getting breached, adapt!"
-        };
+       
         public async Task<Challenge> GetChallenge()
         {
             var challenge = await BuildChallenge(Identifier.Challenge11);
@@ -42,7 +36,7 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 InputValues = new List<Value>
                 {
-                    new Value { Name = "encoded", Data = Encode(_artifactSentences[_randomGenerator.Next(_artifactSentences.Count)],cipher)},
+                    new Value { Name = "encoded", Data = Encode(RandomStrings.ArtifactSentences[_randomGenerator.Next(RandomStrings.ArtifactSentences.Count)],cipher)},
                     new Value { Name = Cipher, Data = $"{cipher}"}
                 }
             };

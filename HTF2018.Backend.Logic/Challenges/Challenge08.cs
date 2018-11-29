@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HTF2018.Backend.Logic.Challenges.Helpers;
 using ZXing;
 
 namespace HTF2018.Backend.Logic.Challenges
@@ -23,14 +24,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         private readonly Random _randomGenerator = new Random();
 
-        // TODO: Add strings to decode
-        private readonly List<string> _artifactSentences = new List<string>
-        {
-            "The artifact has landed on a sacred place.",
-            "We chose this location as the one with the biggest impact.",
-            "The humans are trying to decipher our language!",
-            "The artifact is getting breached, adapt!"
-        };
+      
         public async Task<Challenge> GetChallenge()
         {
             var challenge = await BuildChallenge(Identifier.Challenge08);
@@ -44,7 +38,8 @@ namespace HTF2018.Backend.Logic.Challenges
                 InputValues = new List<Value>()
             };
 
-            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(_artifactSentences[_randomGenerator.Next(_artifactSentences.Count)]) });
+            
+            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(RandomStrings.ArtifactSentences[_randomGenerator.Next(RandomStrings.ArtifactSentences.Count)]) });
 
             return Task.FromResult(question);
         }

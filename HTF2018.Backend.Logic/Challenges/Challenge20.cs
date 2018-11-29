@@ -45,7 +45,8 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override async Task<Question> BuildQuestion()
         {
-            var data = BuildAndEncodeImage($"{Guid.NewGuid()}");
+            
+            var data = BuildAndEncodeImage($"{RandomStrings.ArtifactSentences[_randomGenerator.Next(RandomStrings.ArtifactSentences.Count)]}");
             var image = await _imageLogic.StoreImage(data);
 
             var question = new Question

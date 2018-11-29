@@ -9,6 +9,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using HTF2018.Backend.Logic.Challenges.Helpers;
 using ZXing;
 using ZXing.CoreCompat.System.Drawing;
 using ZXing.QrCode;
@@ -30,6 +31,7 @@ namespace HTF2018.Backend.Logic.Challenges
             _imageLogic = imageLogic;
         }
 
+        private readonly Random _randomGenerator = new Random();
         public async Task<Challenge> GetChallenge()
         {
             var challenge = await BuildChallenge(Identifier.Challenge10);
@@ -38,7 +40,7 @@ namespace HTF2018.Backend.Logic.Challenges
 
         protected override async Task<Question> BuildQuestion()
         {
-            var data = EncodeQrCode($"{Guid.NewGuid()}");
+            var data = EncodeQrCode($"{RandomStrings.ArtifactSentences[_randomGenerator.Next(RandomStrings.ArtifactSentences.Count)]}");
             var image = await _imageLogic.StoreImage(data);
 
             var question = new Question
