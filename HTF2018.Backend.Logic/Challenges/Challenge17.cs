@@ -14,7 +14,7 @@ namespace HTF2018.Backend.Logic.Challenges
         public Challenge17(IHtfContext htfContext, ITeamLogic teamLogic, IChallengeLogic challengeLogic, IDashboardLogic dashboardLogic, IHistoryLogic historyLogic)
             : base(htfContext, teamLogic, challengeLogic, dashboardLogic, historyLogic) { }
 
-        private readonly string[] _leaders = {"Seppe", "Tim", "Johnny"};
+        private readonly string[] _leaders = { "Seppe", "Tim", "Johnny" };
         public async Task<Challenge> GetChallenge()
         {
             var challenge = await BuildChallenge(Identifier.Challenge17);
@@ -44,7 +44,7 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 foreach (var leader in _leaders)
                 {
-                    answer.Values.Add(new Value{Name = "name",Data = leader});
+                    answer.Values.Add(new Value { Name = "name", Data = leader });
                 }
             }
             else
@@ -58,7 +58,7 @@ namespace HTF2018.Backend.Logic.Challenges
         {
             var question = new Question
             {
-              InputValues = new List<Value> {
+                InputValues = new List<Value> {
                   new Value{Name = "leader", Data = "Hack The Future"}}
             };
 
@@ -76,12 +76,7 @@ namespace HTF2018.Backend.Logic.Challenges
                 throw new InvalidAnswerException();
             }
 
-            if (answer.Values != null)
-            {
-                throw new InvalidAnswerException();
-            }
-
-            if (!answer.Values.Any(x => x.Name == "leader"))
+            if (!answer.Values.Any(x => x.Name == "name"))
             {
                 throw new InvalidAnswerException();
             }
