@@ -8,7 +8,7 @@ namespace HTF2018.Backend.Api.Middleware
 {
     public class ThrottlingMiddleware
     {
-        private TimeSpan THROTTLE_SPAN = TimeSpan.FromSeconds(10);
+        private readonly TimeSpan THROTTLE_SPAN = TimeSpan.FromSeconds(1);
         private readonly Dictionary<String, DateTime> _throttleIndex = new Dictionary<string, DateTime>();
         private readonly RequestDelegate _next;
 

@@ -24,13 +24,12 @@ namespace HTF2018.Backend.Logic.Challenges
         protected override Task<Question> BuildQuestion()
         {
             var number = _randomGenerator.Next(1, 4000);
-            var value = _randomGenerator.Next(100) < 51 ? $"{number}" : ToRoman(number);
             var question = new Question
             {
                 InputValues = new List<Value>()
             };
 
-            question.InputValues.Add(new Value { Name = "number", Data = value });
+            question.InputValues.Add(new Value { Name = "number", Data = $"{number}" });
 
             return Task.FromResult(question);
         }
@@ -39,7 +38,7 @@ namespace HTF2018.Backend.Logic.Challenges
         {
 
             var number = question.InputValues.Single(e => e.Name.Equals("number")).Data;
-            var value = int.TryParse(number, out var result) ? ToRoman(result) : $"{RomanToInteger(number)}";
+            var parsedValue = int.Parse(number)
             return Task.FromResult(new Answer
             {
                 ChallengeId = challengeId,
@@ -48,7 +47,7 @@ namespace HTF2018.Backend.Logic.Challenges
                     new Value
                     {
                         Name = "number",
-                        Data = $"{value}"
+                        Data = $"{ToRoman(parsedValue)}"
 
                     }
                 }
