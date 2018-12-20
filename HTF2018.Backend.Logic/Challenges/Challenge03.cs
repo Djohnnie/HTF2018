@@ -34,7 +34,7 @@ namespace HTF2018.Backend.Logic.Challenges
                 InputValues = new List<Value>()
             };
 
-            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(RandomStrings.ArtifactSentences[_randomGenerator.Next(RandomStrings.ArtifactSentences.Count)]) });
+            question.InputValues.Add(new Value { Name = "encoded", Data = Encode(RandomStrings.ArtifactSentencesWithoutNumbers[_randomGenerator.Next(RandomStrings.ArtifactSentencesWithoutNumbers.Count)]) });
 
             return Task.FromResult(question);
         }

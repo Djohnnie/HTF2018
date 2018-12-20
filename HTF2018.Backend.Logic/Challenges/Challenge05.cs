@@ -48,6 +48,7 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 InputValues = new List<Value>
                 {
+                    new Value {Name="Rule", Data = "Round to 2 numbers behind comma"},
                     new Value {Name = "ageInUniversalSeconds", Data = $"{seconds}"},
                     new Value {Name = "destinationPlanet", Data = planetArray[_randomGenerator.Next(planetArray.Length)]},
                     new Value {Name = "EarthSolarYear", Data = $"{SpaceAgeHelper.EarthSolarYear}"},
