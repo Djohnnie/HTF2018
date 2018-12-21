@@ -36,7 +36,7 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 InputValues = new List<Value>
                 {
-                    new Value { Name = "encoded", Data = Encode(RandomStrings.ArtifactSentences[_randomGenerator.Next(RandomStrings.ArtifactSentences.Count)],cipher)},
+                    new Value { Name = "encoded", Data = Encode(RandomStrings.ArtifactSentencesWithoutNumbers[_randomGenerator.Next(RandomStrings.ArtifactSentencesWithoutNumbers.Count)].ToLower(),cipher)},
                     new Value { Name = Cipher, Data = $"{cipher}"}
                 }
             };
@@ -68,8 +68,8 @@ namespace HTF2018.Backend.Logic.Challenges
             {
                 InputValues = new List<Value> {
                     new Value{Name = Cipher, Data = "16"},
-                    new Value{Name = "encoded", Data = Encode("Artifact",16)},
-                    new Value{Name = "encoded", Data = Encode("Aliens",16)}
+                    new Value{Name = "encoded", Data = Encode("artifact",16)},
+                    new Value{Name = "encoded", Data = Encode("aliens",16)}
                 }
             };
 
@@ -105,6 +105,7 @@ namespace HTF2018.Backend.Logic.Challenges
             var buffer = value.ToCharArray();
             for (var i = 0; i < buffer.Length; i++)
             {
+                if(buffer[i]==' ') continue;
                 char letter = buffer[i];
                 letter = (char)(letter + shift);
                 if (letter > 'z')
