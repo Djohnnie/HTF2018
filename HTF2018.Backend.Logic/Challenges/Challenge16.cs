@@ -38,7 +38,7 @@ namespace HTF2018.Backend.Logic.Challenges
         {
 
             var number = question.InputValues.Single(e => e.Name.Equals("number")).Data;
-            var parsedValue = int.Parse(number)
+            var parsedValue = int.Parse(number);
             return Task.FromResult(new Answer
             {
                 ChallengeId = challengeId,

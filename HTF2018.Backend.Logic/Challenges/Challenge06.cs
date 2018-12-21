@@ -24,10 +24,10 @@ namespace HTF2018.Backend.Logic.Challenges
         protected override Task<Question> BuildQuestion()
         {
             var startDate = RandomDate();
-            var dayOfTheWeek = _randomGenerator.Next(1, 8);
+            var dayOfTheWeek = _randomGenerator.Next(7);
             var question = new Question
             {
-                InputValues = new List<Value>()
+                InputValues = new List<Value>
                 {
                     new Value
                     {
